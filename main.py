@@ -1,7 +1,6 @@
 # encoding Utf-8
 import sys
 import configparser
-from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import *
 
 from gui import *
@@ -9,7 +8,6 @@ from planwork import *
 from fenbushi import *
 from info import *
 from xunluoluxian import *
-
 
 # 全局变量定义
 global get_directory_path

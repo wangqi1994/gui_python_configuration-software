@@ -24,6 +24,7 @@ class MainWin(QMainWindow, Ui_MainWindow):
     # 打开文件夹选择页面，选择生成文件保存路径
     def openFile(self):
         global get_directory_path
+        # 获取选择的文件路径
         get_directory_path = QFileDialog.getExistingDirectory(self, "选取指定文件夹", "C:/")
 
 
@@ -38,23 +39,22 @@ class info(QMainWindow, Ui_info):
 
     # 保存机器人基本信息的Button响应函数
     def save_info(self):
-
         # 将输入的数据暂时存储到临时变量中
-        server_ip = self.server_ip.text()
-        host_mac = self.host_mac.text()
-        robot_mac = self.robot_mac.text()
-        mincharge = self.mincharge.text()
-        maxcharge = self.maxcharge.text()
-        right_eye_port = self.right_eye_port.text()
-        left_eye_port = self.left_eye_port.text()
-        deluge_gun_port = self.deluge_gun_port.text()
-        fenbushi_port = self.fenbushi_port.text()
-        yuanhongwai_port = self.yuanhongwai_port.text()
-        duojizhuban_port = self.duojizhuban_port.text()
-        wddy_port = self.wddy_port.text()
-        appserverip = self.appserverip.text()
-        camera_ip = self.camera_ip.text()
-        x = self.autocharge_x.text()
+        server_ip = self.server_ip.text()  # 小车IP
+        host_mac = self.host_mac.text()  # 工控机物理地址
+        robot_mac = self.robot_mac.text()  # 小车物理地址
+        mincharge = self.mincharge.text()  # 小车最低电量
+        maxcharge = self.maxcharge.text()  # 小车最大电量
+        right_eye_port = self.right_eye_port.text()  # 右侧传感器串口
+        left_eye_port = self.left_eye_port.text()  # 左侧传感器串口
+        deluge_gun_port = self.deluge_gun_port.text()  # 水平转动端口
+        fenbushi_port = self.fenbushi_port.text()  # 分布式传感器串口
+        yuanhongwai_port = self.yuanhongwai_port.text()  # 远红外摄像头串口
+        duojizhuban_port = self.duojizhuban_port.text()  # 舵机主板串口
+        wddy_port = self.wddy_port.text()  # 温度电压串口
+        appserverip = self.appserverip.text()  # 后台手机APP端IP
+        camera_ip = self.camera_ip.text()  # 摄像机IP
+        x = self.autocharge_x.text()  # 充电点坐标
         y = self.autocharge_y.text()
         yaw = self.autocharge_yaw.text()
 
@@ -94,21 +94,24 @@ class fenbushi(QMainWindow, Ui_fenbushi):
 
 
     def add(self):
+        # 获取分布式传感器的数量
         fbs_num = self.fensbushi_num.text()
-        print(fbs_num)
+        # 存储分布式传感器本身位置和对应位置
         self.fenbushi_list = []
         self.fenbushi_lists = []
-
+        # 生成对应数量的输入框
         for i in range(int(fbs_num)):
             self.fenbushi_list.append(0)
             self.fenbushi_list[i] = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
-            self.fenbushi_list[i].setGeometry(QtCore.QRect(30, 40+30*i, 101, 20))
+            self.fenbushi_list[i].setGeometry(QtCore.QRect(30, 40+30*i, 120, 20))
             self.fenbushi_list[i].setObjectName("fenbushi_location")
+            self.fenbushi_list[i].setPlaceholderText("填写示例：x,y,yaw")
             self.fenbushi_list[i].setVisible(True)
             self.fenbushi_lists.append(0)
             self.fenbushi_lists[i] = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
-            self.fenbushi_lists[i].setGeometry(QtCore.QRect(140, 40+30*i, 161, 21))
+            self.fenbushi_lists[i].setGeometry(QtCore.QRect(170, 40+30*i, 450, 21))
             self.fenbushi_lists[i].setObjectName("fenbushi_locations")
+            self.fenbushi_lists[i].setPlaceholderText("填写示例：x1,y1,yaw1;x2,y2,yaw")
             self.fenbushi_lists[i].setVisible(True)
 
         return self.fenbushi_lists, self.fenbushi_list

@@ -101,12 +101,14 @@ class fenbushi(QMainWindow, Ui_fenbushi):
         self.fenbushi_lists = []
         # 生成对应数量的输入框
         for i in range(int(fbs_num)):
+            # 分布式传感器本身位置输入框
             self.fenbushi_list.append(0)
             self.fenbushi_list[i] = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
             self.fenbushi_list[i].setGeometry(QtCore.QRect(30, 40+30*i, 120, 20))
             self.fenbushi_list[i].setObjectName("fenbushi_location")
             self.fenbushi_list[i].setPlaceholderText("填写示例：x,y,yaw")
             self.fenbushi_list[i].setVisible(True)
+            # 分布式传感器对应位置输入框
             self.fenbushi_lists.append(0)
             self.fenbushi_lists[i] = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
             self.fenbushi_lists[i].setGeometry(QtCore.QRect(170, 40+30*i, 450, 21))
@@ -119,7 +121,10 @@ class fenbushi(QMainWindow, Ui_fenbushi):
 
     # 保存机器人分布式传感器信息的Button响应函数
     def save_fenbushi(self):
+
+        # 获取分布式传感器的数量
         fbs_num = self.fensbushi_num.text()
+        # 获取保存位置
         global get_directory_path
         # 打开文件，将数据信息写入文档中
         robot_fenbushi = open(get_directory_path + "/" + "fenbushi" + ".conf", "w+")
@@ -137,20 +142,18 @@ class planwork(QMainWindow, Ui_planwork):
     """
     计划任务窗口类
     """
-
     def __init__(self, parent=None):
         super(planwork, self).__init__(parent)
         self.setupUi(self)
 
 
-
-
-
     def add_plan(self):
+        # 获取巡逻路线存储位置
         global get_directory_path
         xunluo = configparser.ConfigParser()
         xunluo.read(get_directory_path +"/" + "xunluoluxian" + ".conf")
         sections = xunluo.sections()
+        # 存储巡逻路线名称及对应巡逻点
         self.namelist = []
         self.poilist = []
         for i in sections:
@@ -158,15 +161,13 @@ class planwork(QMainWindow, Ui_planwork):
             self.namelist.append(name)
             poi = xunluo[i]["xunluoluxian_poi"]
             self.poilist.append(poi)
-
-
+        # 获取现有表格中行数
         rownum = self.plan_showtable.rowCount()
-        print(rownum)
-
+        # 新增空白行数据
         self.plan_showtable.setRowCount(rownum+1)
         # 在新增的一行中添加编辑按钮
         self.editButton = QPushButton("编辑")
-        self.editButton.setDown(True)  # 默认为按下的状态
+        self.editButton.setDown(False)  # 默认为未按的状态
         self.editButton.setStyleSheet('QPushButton{margin:3px};')
         self.plan_showtable.setCellWidget(rownum, 0, self.editButton)
 
@@ -199,6 +200,7 @@ class planwork(QMainWindow, Ui_planwork):
 
     # 保存机器人计划任务的Button响应函数
     def save_planwork(self):
+        # 获取保存文件位置
         global get_directory_path
         # 创建对应存储列表
         self.plan_edit = []
@@ -209,13 +211,14 @@ class planwork(QMainWindow, Ui_planwork):
         self.plan_xunluo = []
         # 打开文件，将数据信息写入文档中
         robot_planwork = open(get_directory_path + "/" + "planworkfile" + ".conf", "w+")
-        # robot_planwork.truncate()
+        # 提取表格中数据并存储到文件对应位置
         for i in range(self.plan_showtable.rowCount()):
             # 操作
             self.plan_edit.append(i)
             print(self.plan_edit)
 
-            # 一定要判断非空，否则会出现报错
+            # 表格中单元格一定要判断非空，否则会出现报错
+
             # 任务名称
             if (self.plan_showtable.item(i, 1) != None):
                 p_name = self.plan_showtable.item(i, 1).text()
@@ -232,33 +235,28 @@ class planwork(QMainWindow, Ui_planwork):
                 elif str(p_pattern) == '时间频率':
                     self.plan_pattern.append(str(1))
                 print(p_pattern)
-                # self.plan_pattern.append(p_pattern)
                 print(self.plan_pattern)
 
             # 开始时间
             if (self.plan_showtable.cellWidget(i, 3) != None):
                 p_stime = self.plan_showtable.cellWidget(i, 3).text()
-                # print(p_name)
                 self.plan_starttime.append(p_stime)
                 print(self.plan_starttime)
 
             # 结束时间、时间间隔
             if (self.plan_showtable.cellWidget(i, 4) != None):
                 p_etime = self.plan_showtable.cellWidget(i, 4).text()
-                # print(p_name)
                 self.plan_endtime.append(p_etime)
                 print(self.plan_endtime)
 
             # 巡逻路线
             if (self.plan_showtable.cellWidget(i, 5) != None):
                 p_xunluo = self.plan_showtable.cellWidget(i, 5).currentText()
-                # print(p_name)
                 print(len(self.namelist), p_xunluo)
 
                 for j in range(len(self.namelist)):
                     if p_xunluo == self.namelist[j]:
                         self.plan_xunluo.append(self.poilist[j])
-                # self.plan_xunluo.append(p_xunluo)
                 print(self.plan_xunluo)
 
             # 将数据信息写入文档中
@@ -280,9 +278,6 @@ class xunluoluxian(QWidget, Ui_xunluoluxian):
     def __init__(self, parent=None):
         super(xunluoluxian, self).__init__(parent)
         self.setupUi(self)
-
-
-
 
         # 创建对应路线名称和点的列表
         self.xunluoluxian_name = []
@@ -319,7 +314,9 @@ class xunluoluxian(QWidget, Ui_xunluoluxian):
 
     # 保存机器人巡逻路线的Button响应函数
     def save_xunluoluxian(self):
+        # 获取巡逻路线数量
         xllx_num = len(self.xunluoluxian_name)
+        # 获取文件存储位置
         global get_directory_path
         # 打开文件，将数据信息写入文档中
         robot_xunluoluxian = open(get_directory_path + "/" + "xunluoluxian" + ".conf", "w+")
@@ -328,7 +325,7 @@ class xunluoluxian(QWidget, Ui_xunluoluxian):
             robot_xunluoluxian.write("xunluoluxian_name = " + self.xunluoluxian_name[i].text() + "\n")
             robot_xunluoluxian.write("xunluoluxian_poi = " + self.xunluoluxian_point[i].text()+"\n\n")
             print(self.xunluoluxian_name[i].text(), self.xunluoluxian_point[i].text())
-        # # 关闭fenbushi文件
+        # # 关闭巡逻路线文件
         robot_xunluoluxian.close()
 
 

@@ -39,7 +39,7 @@ class Ui_fenbushi(object):
         self.fensbushi_loc.setGeometry(QtCore.QRect(30, 10, 111, 16))
         self.fensbushi_loc.setObjectName("fensbushi_loc")
         self.fenbushi_loc2 = QtWidgets.QLabel(self.scrollAreaWidgetContents)
-        self.fenbushi_loc2.setGeometry(QtCore.QRect(140, 10, 161, 16))
+        self.fenbushi_loc2.setGeometry(QtCore.QRect(170, 10, 161, 16))
         self.fenbushi_loc2.setObjectName("fenbushi_loc2")
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
         self.ok_fenbushinum = QtWidgets.QPushButton(self.centralwidget)

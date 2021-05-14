@@ -1,7 +1,9 @@
 # encoding Utf-8
 import sys
+import cv2
 import configparser
 from PyQt5.QtWidgets import *
+from PyQt5.QtGui import QImage
 
 from gui import *
 from planwork import *
@@ -19,6 +21,15 @@ class MainWin(QMainWindow, Ui_MainWindow):
     def __init__(self, parent=None):
         super(MainWin, self).__init__(parent)
         self.setupUi(self)
+
+        # 图片路径
+        img_path = "image_sy.jpg"
+
+        # 加载图片,并自定义图片展示尺寸
+        image = QtGui.QPixmap(img_path).scaled(400, 400)
+        # 显示图片
+        self.pic_show_label.setPixmap(image)
+
     # 打开文件夹选择页面，选择生成文件保存路径
     def openFile(self):
         global get_directory_path

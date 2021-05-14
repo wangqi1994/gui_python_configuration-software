@@ -1,9 +1,7 @@
 # encoding Utf-8
 import sys
-import cv2
 import configparser
 from PyQt5.QtWidgets import *
-from PyQt5.QtGui import QImage
 
 from gui import *
 from planwork import *

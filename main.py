@@ -126,6 +126,8 @@ class fenbushi(QMainWindow, Ui_fenbushi):
         return self.fenbushi_lists, self.fenbushi_list
 
 
+
+
     # 保存机器人分布式传感器信息的Button响应函数
     def save_fenbushi(self):
 
@@ -299,6 +301,7 @@ class xunluoluxian(QWidget, Ui_xunluoluxian):
         self.xunluoluxian_p = QtWidgets.QLineEdit(self.scrollArea)
         self.xunluoluxian_p.setGeometry(QtCore.QRect(120, 40, 320, 20))
         self.xunluoluxian_p.setObjectName("xunluoluxian_point")
+        self.xunluoluxian_p.setPlaceholderText("示例：x1,y1,yaw1;x2,y2,yaw2")
         self.xunluoluxian_p.setVisible(True)
         self.xunluoluxian_point.append(self.xunluoluxian_p)
 
@@ -314,10 +317,11 @@ class xunluoluxian(QWidget, Ui_xunluoluxian):
         self.xunluoluxian_p = QtWidgets.QLineEdit(self.scrollArea)
         self.xunluoluxian_p.setGeometry(QtCore.QRect(120, self.xunluoluxian_point[len(self.xunluoluxian_point)-1].y()+30, 320, 20))
         self.xunluoluxian_p.setObjectName("xunluoluxian_point")
+        self.xunluoluxian_p.setPlaceholderText("示例：x1,y1,yaw1;x2,y2,yaw2")
         self.xunluoluxian_p.setVisible(True)
         self.xunluoluxian_point.append(self.xunluoluxian_p)
         self.name_num = len(self.xunluoluxian_name)
-        print(self.xunluoluxian_name,len(self.xunluoluxian_name), self.name_num)
+        print(self.xunluoluxian_name, len(self.xunluoluxian_name), self.name_num)
 
     # 保存机器人巡逻路线的Button响应函数
     def save_xunluoluxian(self):

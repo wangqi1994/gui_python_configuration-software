@@ -98,32 +98,37 @@ class fenbushi(QMainWindow, Ui_fenbushi):
     def __init__(self, parent=None):
         super(fenbushi, self).__init__(parent)
         self.setupUi(self)
+        self.hint_fenbushi.setVisible(False)
 
 
     def add(self):
         # 获取分布式传感器的数量
         fbs_num = self.fensbushi_num.text()
-        # 存储分布式传感器本身位置和对应位置
-        self.fenbushi_list = []
-        self.fenbushi_lists = []
-        # 生成对应数量的输入框
-        for i in range(int(fbs_num)):
-            # 分布式传感器本身位置输入框
-            self.fenbushi_list.append(0)
-            self.fenbushi_list[i] = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
-            self.fenbushi_list[i].setGeometry(QtCore.QRect(30, 40+30*i, 120, 20))
-            self.fenbushi_list[i].setObjectName("fenbushi_location")
-            self.fenbushi_list[i].setPlaceholderText("填写示例：x,y,yaw")
-            self.fenbushi_list[i].setVisible(True)
-            # 分布式传感器对应位置输入框
-            self.fenbushi_lists.append(0)
-            self.fenbushi_lists[i] = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
-            self.fenbushi_lists[i].setGeometry(QtCore.QRect(170, 40+30*i, 450, 21))
-            self.fenbushi_lists[i].setObjectName("fenbushi_locations")
-            self.fenbushi_lists[i].setPlaceholderText("填写示例：x1,y1,yaw1;x2,y2,yaw")
-            self.fenbushi_lists[i].setVisible(True)
+        print(fbs_num)
+        if int(fbs_num) <= 15:
+            # 存储分布式传感器本身位置和对应位置
+            self.fenbushi_list = []
+            self.fenbushi_lists = []
+            # 生成对应数量的输入框
+            for i in range(int(fbs_num)):
+                # 分布式传感器本身位置输入框
+                self.fenbushi_list.append(0)
+                self.fenbushi_list[i] = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
+                self.fenbushi_list[i].setGeometry(QtCore.QRect(30, 40+30*i, 120, 20))
+                self.fenbushi_list[i].setObjectName("fenbushi_location")
+                self.fenbushi_list[i].setPlaceholderText("填写示例：x,y,yaw")
+                self.fenbushi_list[i].setVisible(True)
+                # 分布式传感器对应位置输入框
+                self.fenbushi_lists.append(0)
+                self.fenbushi_lists[i] = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
+                self.fenbushi_lists[i].setGeometry(QtCore.QRect(170, 40+30*i, 450, 21))
+                self.fenbushi_lists[i].setObjectName("fenbushi_locations")
+                self.fenbushi_lists[i].setPlaceholderText("填写示例：x1,y1,yaw1;x2,y2,yaw")
+                self.fenbushi_lists[i].setVisible(True)
 
-        return self.fenbushi_lists, self.fenbushi_list
+            return self.fenbushi_lists, self.fenbushi_list
+        else:
+            self.hint_fenbushi.setVisible(True)
 
 
 

@@ -106,6 +106,15 @@ class fenbushi(QMainWindow, Ui_fenbushi):
         # 存储分布式传感器本身位置和对应位置
         self.fenbushi_list = []
         self.fenbushi_lists = []
+        # # 尝试滚动条
+        # self.horizontalLayoutWidget = QtWidgets.QWidget(self.centralwidget)
+        # self.horizontalLayoutWidget.setGeometry(QtCore.QRect(50, 80, 709, 399))
+        # self.horizontalLayoutWidget.setObjectName("horizontalLayoutWidget")
+        # self.horizontalLayout = QtWidgets.QHBoxLayout(self.horizontalLayoutWidget)
+        # self.horizontalLayout.setSizeConstraint(QtWidgets.QLayout.SetDefaultConstraint)
+        # self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
+        # self.horizontalLayout.setSpacing(9)
+        # self.horizontalLayout.setObjectName("horizontalLayout")
         # 生成对应数量的输入框
         for i in range(int(fbs_num)):
             # 分布式传感器本身位置输入框

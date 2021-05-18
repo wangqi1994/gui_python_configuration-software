@@ -180,10 +180,10 @@ class planwork(QMainWindow, Ui_planwork):
         # 新增空白行数据
         self.plan_showtable.setRowCount(rownum+1)
 
-        misson_name = "任务"+str(rownum)
-        mmm= QTableWidgetItem(misson_name)
-        self.plan_showtable.setItem(rownum, 1, mmm)
-
+        # 新增任务名称设置默认值
+        misson_name_init = "mission"+str(rownum+1)
+        m_name_init= QTableWidgetItem(misson_name_init)
+        self.plan_showtable.setItem(rownum, 1, m_name_init)
 
         # 在新增的一行中添加编辑按钮
         self.editButton = QPushButton("编辑")
@@ -306,6 +306,7 @@ class xunluoluxian(QWidget, Ui_xunluoluxian):
         self.xunluoluxian_n = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
         self.xunluoluxian_n.setGeometry(QtCore.QRect(20, 40, 80, 20))
         self.xunluoluxian_n.setObjectName("xunluoluxian_name")
+        self.xunluoluxian_n.setText("巡逻路线")
         self.xunluoluxian_n.setVisible(True)
         self.xunluoluxian_name.append(self.xunluoluxian_n)
         # 添加路线点的QLinEdit控件
@@ -322,6 +323,7 @@ class xunluoluxian(QWidget, Ui_xunluoluxian):
         self.xunluoluxian_n = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
         self.xunluoluxian_n.setGeometry(QtCore.QRect(20, self.xunluoluxian_name[len(self.xunluoluxian_name)-1].y()+30, 80, 20))
         self.xunluoluxian_n.setObjectName("xunluoluxian_name")
+        self.xunluoluxian_n.setText("巡逻路线")
         self.xunluoluxian_n.setVisible(True)
         self.xunluoluxian_name.append(self.xunluoluxian_n)
         # 点击按钮添加路线点的QLinEdit控件

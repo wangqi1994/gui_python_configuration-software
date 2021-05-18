@@ -179,6 +179,12 @@ class planwork(QMainWindow, Ui_planwork):
         rownum = self.plan_showtable.rowCount()
         # 新增空白行数据
         self.plan_showtable.setRowCount(rownum+1)
+
+        misson_name = "任务"+str(rownum)
+        mmm= QTableWidgetItem(misson_name)
+        self.plan_showtable.setItem(rownum, 1, mmm)
+
+
         # 在新增的一行中添加编辑按钮
         self.editButton = QPushButton("编辑")
         self.editButton.setDown(False)  # 默认为未按的状态
@@ -245,9 +251,9 @@ class planwork(QMainWindow, Ui_planwork):
                 p_pattern = self.plan_showtable.cellWidget(i, 2).currentText()
 
                 if str(p_pattern) == '时间段':
-                    self.plan_pattern.append(str(0))
-                elif str(p_pattern) == '时间频率':
                     self.plan_pattern.append(str(1))
+                elif str(p_pattern) == '时间频率':
+                    self.plan_pattern.append(str(0))
                 print(p_pattern)
                 print(self.plan_pattern)
 
@@ -275,7 +281,7 @@ class planwork(QMainWindow, Ui_planwork):
 
             # 将数据信息写入文档中
             robot_planwork.write("["+self.plan_name[i]+"] \n")
-            robot_planwork.write("# 巡逻模式:\n pattern = " + self.plan_pattern[i] + "\n")
+            robot_planwork.write("# 巡逻模式:\n plan_work_flag = " + self.plan_pattern[i] + "\n")
             robot_planwork.write("# 开始时间:\n starttime = " + self.plan_starttime[i] + "\n")
             robot_planwork.write("# 结束时间:\n endtime = " + self.plan_endtime[i] + "\n")
             robot_planwork.write("# 巡逻点:\n poilist = " + self.plan_xunluo[i] + "\n\n")

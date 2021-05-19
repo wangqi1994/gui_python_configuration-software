@@ -168,11 +168,11 @@
    </property>
    <widget class="QMenu" name="menuFiles">
     <property name="title">
-     <string>Files</string>
+     <string>文件</string>
     </property>
     <widget class="QMenu" name="menuNew">
      <property name="title">
-      <string>New</string>
+      <string>新建</string>
      </property>
      <addaction name="actionRobot_info"/>
      <addaction name="actionFenbushi"/>
@@ -187,27 +187,27 @@
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionOpen">
    <property name="text">
-    <string>Open</string>
+    <string>打开</string>
    </property>
   </action>
   <action name="actionSave">
    <property name="text">
-    <string>Save</string>
+    <string>保存</string>
    </property>
   </action>
   <action name="actionRobot_info">
    <property name="text">
-    <string>Robot_info</string>
+    <string>机器人基本信息</string>
    </property>
   </action>
   <action name="actionFenbushi">
    <property name="text">
-    <string>Fenbushi</string>
+    <string>分布式传感器</string>
    </property>
   </action>
   <action name="actionPlanwork">
    <property name="text">
-    <string>Planwork</string>
+    <string>计划任务</string>
    </property>
   </action>
  </widget>

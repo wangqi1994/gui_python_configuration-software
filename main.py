@@ -283,7 +283,7 @@ class planwork(QMainWindow, Ui_planwork):
             robot_planwork.write("["+self.plan_name[i]+"] \n")
             robot_planwork.write("# 巡逻模式:\n plan_work_flag = " + self.plan_pattern[i] + "\n")
             robot_planwork.write("# 开始时间:\n starttime = " + self.plan_starttime[i] + "\n")
-            robot_planwork.write("# 结束时间:\n endtime = " + self.plan_endtime[i] + "\n")
+            robot_planwork.write("# 结束时间/时间间隔:\n endtime = " + self.plan_endtime[i] + "\n")
             robot_planwork.write("# 巡逻点:\n poilist = " + self.plan_xunluo[i] + "\n\n")
         # 关闭planworkfile文件
         robot_planwork.close()

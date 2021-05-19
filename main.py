@@ -306,7 +306,8 @@ class xunluoluxian(QWidget, Ui_xunluoluxian):
         self.xunluoluxian_n = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
         self.xunluoluxian_n.setGeometry(QtCore.QRect(20, 40, 80, 20))
         self.xunluoluxian_n.setObjectName("xunluoluxian_name")
-        self.xunluoluxian_n.setText("巡逻路线")
+        num = len(self.xunluoluxian_name)
+        self.xunluoluxian_n.setText("巡逻路线"+str(num))
         self.xunluoluxian_n.setVisible(True)
         self.xunluoluxian_name.append(self.xunluoluxian_n)
         # 添加路线点的QLinEdit控件
@@ -323,7 +324,8 @@ class xunluoluxian(QWidget, Ui_xunluoluxian):
         self.xunluoluxian_n = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
         self.xunluoluxian_n.setGeometry(QtCore.QRect(20, self.xunluoluxian_name[len(self.xunluoluxian_name)-1].y()+30, 80, 20))
         self.xunluoluxian_n.setObjectName("xunluoluxian_name")
-        self.xunluoluxian_n.setText("巡逻路线")
+        num = len(self.xunluoluxian_name)
+        self.xunluoluxian_n.setText("巡逻路线"+str(num))
         self.xunluoluxian_n.setVisible(True)
         self.xunluoluxian_name.append(self.xunluoluxian_n)
         # 点击按钮添加路线点的QLinEdit控件

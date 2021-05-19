@@ -26,7 +26,8 @@ class Ui_MainWindow(object):
         self.label.setAlignment(QtCore.Qt.AlignCenter)
         self.label.setObjectName("label")
         self.pic_show_label = QtWidgets.QLabel(self.centralwidget)
-        self.pic_show_label.setGeometry(QtCore.QRect(200, 200, 400, 400))
+        self.pic_show_label.setGeometry(QtCore.QRect(200, 150, 400, 400))
+        self.pic_show_label.setText("")
         self.pic_show_label.setObjectName("pic_show_label")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
@@ -65,7 +66,6 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "创能机器人配置软件"))
         self.label.setText(_translate("MainWindow", "创能机器人配置软件"))
-        self.pic_show_label.setText(_translate("MainWindow", "1"))
         self.menuFiles.setTitle(_translate("MainWindow", "文件"))
         self.menuNew.setTitle(_translate("MainWindow", "新建"))
         self.actionRobot_info.setText(_translate("MainWindow", "机器人基本信息"))

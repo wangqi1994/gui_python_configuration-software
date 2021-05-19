@@ -1,4 +1,10 @@
-# encoding Utf-8
+# -*- coding: utf-8 -*-
+# @Time    : 2021/5/10 18:29
+# @Author  : Luc-wang
+# @Email   :
+# @File    : main.py
+# @Software: PyCharm
+
 import sys
 import configparser
 from PyQt5.QtWidgets import *
@@ -27,6 +33,7 @@ class MainWin(QMainWindow, Ui_MainWindow):
         image = QtGui.QPixmap(img_path).scaled(400, 400)
         # 显示图片
         self.pic_show_label.setPixmap(image)
+        # self.pic_show_label.setScaledContents(True)
 
     # 打开文件夹选择页面，选择生成文件保存路径
     def openFile(self):

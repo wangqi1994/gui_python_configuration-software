@@ -42,13 +42,13 @@
     <property name="geometry">
      <rect>
       <x>200</x>
-      <y>200</y>
+      <y>150</y>
       <width>400</width>
       <height>400</height>
      </rect>
     </property>
     <property name="text">
-     <string>1</string>
+     <string/>
     </property>
    </widget>
   </widget>

@@ -109,7 +109,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>分布式传感器位置</string>
+       <string>分布式传感器编号</string>
       </property>
      </widget>
      <widget class="QLabel" name="fenbushi_loc2">

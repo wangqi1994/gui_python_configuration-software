@@ -100,7 +100,7 @@ class Ui_fenbushi(object):
         self.ok_fenbushi.setText(_translate("fenbushi", "确认"))
         self.fenbushi_labal.setText(_translate("fenbushi", "请输入现场分布式传感器个数："))
         self.ok_fenbushinum.setText(_translate("fenbushi", "确认"))
-        self.fensbushi_loc.setText(_translate("fenbushi", "分布式传感器位置"))
+        self.fensbushi_loc.setText(_translate("fenbushi", "分布式传感器编号"))
         self.fenbushi_loc2.setText(_translate("fenbushi", "分布式传感器对应点位置"))
         self.hint_fenbushi.setText(_translate("fenbushi", "单台机器人最大可配置15个分布式传感器"))
         self.menuFiles.setTitle(_translate("fenbushi", "文件"))

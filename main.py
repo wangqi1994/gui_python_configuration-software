@@ -9,6 +9,7 @@ import sys
 import configparser
 from PyQt5.QtWidgets import *
 
+
 from gui import *
 from planwork import *
 from fenbushi import *
@@ -33,6 +34,7 @@ class MainWin(QMainWindow, Ui_MainWindow):
         image = QtGui.QPixmap(img_path).scaled(400, 400)
         # 显示图片
         self.pic_show_label.setPixmap(image)
+        self.pic_show_label.show()
         # self.pic_show_label.setScaledContents(True)
 
     # 打开文件夹选择页面，选择生成文件保存路径
@@ -114,17 +116,17 @@ class fenbushi(QMainWindow, Ui_fenbushi):
         print(fbs_num)
         if int(fbs_num) <= 15:
             # 存储分布式传感器本身位置和对应位置
-            self.fenbushi_list = []
+            self.fenbushi_id = []
             self.fenbushi_lists = []
             # 生成对应数量的输入框
             for i in range(int(fbs_num)):
                 # 分布式传感器本身位置输入框
-                self.fenbushi_list.append(0)
-                self.fenbushi_list[i] = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
-                self.fenbushi_list[i].setGeometry(QtCore.QRect(30, 40+30*i, 120, 20))
-                self.fenbushi_list[i].setObjectName("fenbushi_location")
-                self.fenbushi_list[i].setPlaceholderText("填写示例：x,y,yaw")
-                self.fenbushi_list[i].setVisible(True)
+                self.fenbushi_id.append(0)
+                self.fenbushi_id[i] = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
+                self.fenbushi_id[i].setGeometry(QtCore.QRect(30, 40+30*i, 120, 20))
+                self.fenbushi_id[i].setObjectName("fenbushi_id")
+                self.fenbushi_id[i].setPlaceholderText("保留两位数字")
+                self.fenbushi_id[i].setVisible(True)
                 # 分布式传感器对应位置输入框
                 self.fenbushi_lists.append(0)
                 self.fenbushi_lists[i] = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
@@ -133,7 +135,7 @@ class fenbushi(QMainWindow, Ui_fenbushi):
                 self.fenbushi_lists[i].setPlaceholderText("填写示例：x1,y1,yaw1;x2,y2,yaw")
                 self.fenbushi_lists[i].setVisible(True)
 
-            return self.fenbushi_lists, self.fenbushi_list
+            return self.fenbushi_lists, self.fenbushi_id
         else:
             self.hint_fenbushi.setVisible(True)
 
@@ -150,10 +152,11 @@ class fenbushi(QMainWindow, Ui_fenbushi):
         # 打开文件，将数据信息写入文档中
         robot_fenbushi = open(get_directory_path + "/" + "fenbushi" + ".conf", "w+")
         for i in range(int(fbs_num)):
-            robot_fenbushi.write('[%02d] \n' % i)
-            robot_fenbushi.write("fenbushi_position = " + self.fenbushi_lists[i].text() + "\n")
+            fenbushi_id = int(self.fenbushi_id[i].text())
+            robot_fenbushi.write('[%02d] \n' % fenbushi_id)
+            # robot_fenbushi.write("fenbushi_position = " + self.fenbushi_lists[i].text() + "\n")
             robot_fenbushi.write("fenbushi_positions = " + self.fenbushi_lists[i].text()+"\n\n")
-            print(self.fenbushi_list[i].text(),self.fenbushi_lists[i].text())
+            print(self.fenbushi_list[i].text())
         # # 关闭fenbushi文件
         robot_fenbushi.close()
 

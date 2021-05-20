@@ -1,0 +1,2 @@
+# gui_python_configuration-software
+用于生成机器人配置文件的人机交互页面

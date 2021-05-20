@@ -156,7 +156,6 @@ class fenbushi(QMainWindow, Ui_fenbushi):
             robot_fenbushi.write('[%02d] \n' % fenbushi_id)
             # robot_fenbushi.write("fenbushi_position = " + self.fenbushi_lists[i].text() + "\n")
             robot_fenbushi.write("fenbushi_positions = " + self.fenbushi_lists[i].text()+"\n\n")
-            print(self.fenbushi_list[i].text())
         # # 关闭fenbushi文件
         robot_fenbushi.close()
 

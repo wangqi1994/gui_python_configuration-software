@@ -7,6 +7,7 @@
 
 import sys
 import configparser
+import pic_rc
 from PyQt5.QtWidgets import *
 
 
@@ -27,15 +28,15 @@ class MainWin(QMainWindow, Ui_MainWindow):
         super(MainWin, self).__init__(parent)
         self.setupUi(self)
 
-        # 图片路径
-        img_path = "image_sy.jpg"
-
-        # 加载图片,并自定义图片展示尺寸
+        # # 图片路径
+        img_path = (":/image_sy.jpg")     # "image_sy.jpg"
+        # # 加载图片,并自定义图片展示尺寸
         image = QtGui.QPixmap(img_path).scaled(400, 400)
-        # 显示图片
+        # # 显示图片
         self.pic_show_label.setPixmap(image)
-        self.pic_show_label.show()
-        # self.pic_show_label.setScaledContents(True)
+        # self.pic_show_label.show()
+        # # self.pic_show_label.setScaledContents(True)
+        # self.setWindowIcon(QIcon(":/qticon.png"))
 
     # 打开文件夹选择页面，选择生成文件保存路径
     def openFile(self):

@@ -7,6 +7,9 @@
 
 import sys
 import configparser
+# import socket
+import uuid
+import matplotlib.pyplot as plt
 import cv2
 import pic_rc
 from PyQt5.QtWidgets import *
@@ -73,36 +76,74 @@ class myLabel(QLabel):
     x1 = 0
     y1 = 0
     flag = False
-    lastPoint = []  # 起始点
-    endPoint = []  # 终点
-
+    sss=[]
+    lastPoint = QPoint()  # 起始点
+    endPoint = QPoint()  # 终点
 
     def mousePressEvent(self,event):
         self.flag = True
         self.x0 = event.x()
         self.y0 = event.y()
+        # self.lastPoint = event.pos()
+        # self.endPoint = self.lastPoint
     def mouseReleaseEvent(self,event):
         self.flag = False
-        self.sss.append(self.lastPoint)
+        # self.lastPoint = event.pos()
+        # self.endPoint = self.lastPoint
+        self.sss.append([self.x0, self.y0])
         print(self.sss)
+        if len(self.sss)> 2:
+            a, b = self.sss[0]
+            c, d = self.sss[1]
+            print(a,b,c,d)
+            aaa=QLine(a,b,c,d)
+            print(aaa)
+            # lin = QLine(QPoint(self.sss[0]), QPoint(self.sss[1]))
+            # print(lin)
+            painter = QPainter(self)
+            painter.begin(self)
+            painter.drawLine(a,b,c,d)
 
-    def mouseMoveEvent(self,event):
-        if self.flag:
-            self.x1 = event.x()
-            self.y1 = event.y()
-            self.update()
-            self.ssss.append((self.x1, self.y1))
-            print(self.ssss)
-    def paintEvent(self, event):
-        super().paintEvent(event)
-        lin = QLine(QPoint(self.sss[0]), QPoint(self.sss[1]))
-        pp.drawLine(self.lastPoint, self.endPoint)
-        # 让前一个坐标值等于后一个坐标值，
-        # 这样就能实现画出连续的线
-        self.lastPoint = self.endPoint
-        painter = QPainter(self)
-        painter.setPen(QPen(Qt.red, 4, Qt.SolidLine))
-        painter.drawPixmap(0, 0, self)  # 在画布上画出
+            painter.setPen(QPen(Qt.red, 4, Qt.SolidLine))
+            painter.end()
+            # plt.plot(self.sss[0], self.sss[1], color='r')
+            # plt.show()
+            # plt.scatter(self.sss[0], self.sss[1], color='b')
+            # for i in range(len(self.sss)):
+            #     plt.plot(self.sss[i-1], self.sss[i], color='r')
+            #     plt.scatter(self.sss[i-1], self.sss[i], color='b')
+        else:
+            pass
+
+    # def mouseMoveEvent(self,event):
+    #     if self.flag:
+    #         self.x1 = event.x()
+    #         self.y1 = event.y()
+    #         self.update()
+    #         self.endPoint.append((self.x1, self.y1))
+    #         print(self.endPoint)
+    # def paintEvent(self, event):
+    #     # super().paintEvent(event)
+    #     for i in range(self.sss):
+    #         a, b = self.sss[i-1]
+    #         c, d = self.sss[i]
+    #         print(a,b,c,d)
+            # lin = QLine(QPoint(self.sss[i-1]), QPoint(self.sss[i]))
+            # print(lin)
+            # painter = QPainter(self)
+            # painter.begin(self)
+            # painter.drawLine(lin)
+            # painter.setPen(QPen(Qt.red, 4, Qt.SolidLine))
+            # painter.end()
+              # 在画布上画出
+        # lin = QLine(QPoint(self.lastPoint[0]), QPoint(self.sss[1]))
+        # pp.drawLine(self.lastPoint, self.endPoint)
+        # # 让前一个坐标值等于后一个坐标值，
+        # # 这样就能实现画出连续的线
+        # self.lastPoint = self.endPoint
+        # painter = QPainter(self)
+        # painter.setPen(QPen(Qt.red, 4, Qt.SolidLine))
+        # painter.drawPixmap(0, 0, self)  # 在画布上画出
         # lin = QLine(QPoint(self.sss[0]),QPoint(self.sss[1]))
         # # rect =QRect(self.x0, self.y0, abs(self.x1-self.x0), abs(self.y1-self.y0))
         # painter = QPainter(self)
@@ -170,6 +211,12 @@ class info(QMainWindow, Ui_info):
     def __init__(self, parent=None):
         super(info, self).__init__(parent)
         self.setupUi(self)
+        # 自动获取IP和物理地址
+        # ip = socket.gethostbyname(socket.gethostname())
+        mac_address = uuid.UUID(int=uuid.getnode()).hex[-12:].upper()
+        mac_address = ':'.join([mac_address[i:i + 2] for i in range(0, 11, 2)])
+        print(mac_address)
+        self.host_mac.setText(mac_address)
 
 
     # 保存机器人基本信息的Button响应函数

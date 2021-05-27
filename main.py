@@ -7,10 +7,14 @@
 
 import sys
 import configparser
+import cv2
 import pic_rc
 from PyQt5.QtWidgets import *
+from PyQt5.QtGui import QPixmap, QImage, QPen, QPainter, QGuiApplication
+from PyQt5.QtCore import QRect, Qt, QLine, QPoint
+
 # import pyqtgraph as pg
-import pyqtgraph.examples
+# import pyqtgraph.examples
 
 
 from gui import *
@@ -40,6 +44,21 @@ class MainWin(QMainWindow, Ui_MainWindow):
         # # self.pic_show_label.setScaledContents(True)
         # self.setWindowIcon(QIcon(":/qticon.png"))
 
+        self.lb = myLabel(self)
+        self.lb.setGeometry(QRect(20, 20, 800, 800))
+
+        img = cv2.imread('map.png')
+        height, width, bytesPerComponent = img.shape
+        bytesPerLine = 3 * width
+        cv2.cvtColor(img, cv2.COLOR_BGR2RGB, img)
+        QImg = QImage(img.data, width, height, bytesPerLine, QImage.Format_RGB888)
+        self.pixmap = QPixmap.fromImage(QImg)
+
+        self.lb.setPixmap(self.pixmap)
+        self.lb.setCursor(Qt.CrossCursor)
+
+        self.show()
+
     # 打开文件夹选择页面，选择生成文件保存路径
     def openFile(self):
         global get_directory_path
@@ -47,7 +66,104 @@ class MainWin(QMainWindow, Ui_MainWindow):
         get_directory_path = QFileDialog.getExistingDirectory(self, "选取指定文件夹", "C:/")
 
 
+class myLabel(QLabel):
+
+    x0 = 0
+    y0 = 0
+    x1 = 0
+    y1 = 0
+    flag = False
+    lastPoint = []  # 起始点
+    endPoint = []  # 终点
+
+
+    def mousePressEvent(self,event):
+        self.flag = True
+        self.x0 = event.x()
+        self.y0 = event.y()
+    def mouseReleaseEvent(self,event):
+        self.flag = False
+        self.sss.append(self.lastPoint)
+        print(self.sss)
+
+    def mouseMoveEvent(self,event):
+        if self.flag:
+            self.x1 = event.x()
+            self.y1 = event.y()
+            self.update()
+            self.ssss.append((self.x1, self.y1))
+            print(self.ssss)
+    def paintEvent(self, event):
+        super().paintEvent(event)
+        lin = QLine(QPoint(self.sss[0]), QPoint(self.sss[1]))
+        pp.drawLine(self.lastPoint, self.endPoint)
+        # 让前一个坐标值等于后一个坐标值，
+        # 这样就能实现画出连续的线
+        self.lastPoint = self.endPoint
+        painter = QPainter(self)
+        painter.setPen(QPen(Qt.red, 4, Qt.SolidLine))
+        painter.drawPixmap(0, 0, self)  # 在画布上画出
+        # lin = QLine(QPoint(self.sss[0]),QPoint(self.sss[1]))
+        # # rect =QRect(self.x0, self.y0, abs(self.x1-self.x0), abs(self.y1-self.y0))
+        # painter = QPainter(self)
+        # painter.setPen(QPen(Qt.red, 4, Qt.SolidLine))
+        # painter.drawRect(lin)
+
+        # pqscreen  = QGuiApplication.primaryScreen()
+        # pixmap2 = pqscreen.grabWindow(self.winId(), self.x0, self.y0, abs(self.x1-self.x0), abs(self.y1-self.y0))
+        # pixmap2.save('555.png')
+
 # 创建info主窗口并传入Ui_info
+#     m = MainWin()
+#     pix = m.pixmap  # 实例化一个 QPixmap 对象
+#     lastPoint = QPoint()  # 起始点
+#     endPoint = QPoint()  # 终点
+#
+#     def paintEvent(self, event):
+#         pp = QPainter(self)
+#
+#         pen = QPen()  # 定义笔格式对象
+#         pen.setWidth(10)  # 设置笔的宽度
+#         pp.setPen(pen)  # 将笔格式赋值给 画笔
+#
+#         # 根据鼠标指针前后两个位置绘制直线
+#         pp.drawLine(self.lastPoint, self.endPoint)
+#         # 让前一个坐标值等于后一个坐标值，
+#         # 这样就能实现画出连续的线
+#         self.lastPoint = self.endPoint
+#         painter = QPainter(self)
+#         painter.drawPixmap(0, 0, self)  # 在画布上画出
+#
+#         # 鼠标按压事件
+#
+#
+#     def mousePressEvent(self, event):
+#         # 鼠标左键按下
+#         if event.button() == Qt.LeftButton:
+#             self.lastPoint = event.pos()
+#             self.endPoint = self.lastPoint
+#
+#         # 鼠标移动事件
+#
+#
+#     def mouseMoveEvent(self, event):
+#         # 鼠标左键按下的同时移动鼠标
+#         if event.buttons() and Qt.LeftButton:
+#             self.endPoint = event.pos()
+#             # 进行重新绘制
+#             self.update()
+#
+#         # 鼠标释放事件
+#
+#
+#     def mouseReleaseEvent(self, event):
+#         # 鼠标左键释放
+#         if event.button() == Qt.LeftButton:
+#             self.endPoint = event.pos()
+#             # 进行重新绘制
+#             self.update()
+
+
 class info(QMainWindow, Ui_info):
     """机器人基本信息窗口类"""
 
@@ -409,13 +525,15 @@ def menu_triggered(mwindow, info_m, planwork_m, fenbushi_m):
 
 def main():
     # pyqtgraph 示例
-    pyqtgraph.examples.run()
+    # pyqtgraph.examples.run()
+
     app = QApplication(sys.argv)
     mwindow = MainWin()
     info_m = info()
     planwork_m = planwork()
     fenbushi_m = fenbushi()
     xunluoluxian_w = xunluoluxian()
+
     # 展示主窗口
     mwindow.show()
 

@@ -7,6 +7,7 @@
 
 import sys
 import configparser
+import uuid
 import pic_rc
 from PyQt5.QtWidgets import *
 # import pyqtgraph as pg
@@ -54,6 +55,12 @@ class info(QMainWindow, Ui_info):
     def __init__(self, parent=None):
         super(info, self).__init__(parent)
         self.setupUi(self)
+
+        mac_address = uuid.UUID(int=uuid.getnode()).hex[-12:].upper()
+        mac_address = ':'.join([mac_address[i:i + 2] for i in range(0, 11, 2)])
+        print(mac_address)
+        self.host_mac.setText(mac_address)
+
 
 
     # 保存机器人基本信息的Button响应函数

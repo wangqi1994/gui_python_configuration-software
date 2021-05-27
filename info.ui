@@ -36,6 +36,9 @@
       <height>20</height>
      </rect>
     </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
    </widget>
    <widget class="QLabel" name="r_mac">
     <property name="geometry">
@@ -72,6 +75,12 @@
       <height>20</height>
      </rect>
     </property>
+    <property name="text">
+     <string>COM6</string>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
    </widget>
    <widget class="QLineEdit" name="wddy_port">
     <property name="geometry">
@@ -81,6 +90,12 @@
       <width>160</width>
       <height>20</height>
      </rect>
+    </property>
+    <property name="text">
+     <string>COM4</string>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QLabel" name="maxcharg">
@@ -138,6 +153,9 @@
       <height>20</height>
      </rect>
     </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
    </widget>
    <widget class="QLabel" name="right_eye">
     <property name="geometry">
@@ -160,6 +178,12 @@
       <width>160</width>
       <height>20</height>
      </rect>
+    </property>
+    <property name="text">
+     <string>COM13</string>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QLabel" name="autocharge_xyz">
@@ -253,6 +277,12 @@
       <height>20</height>
      </rect>
     </property>
+    <property name="text">
+     <string>COM11</string>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
    </widget>
    <widget class="QLabel" name="x">
     <property name="geometry">
@@ -276,7 +306,13 @@
       <height>20</height>
      </rect>
     </property>
+    <property name="text">
+     <string>192.168.8.2</string>
+    </property>
     <property name="dragEnabled">
+     <bool>true</bool>
+    </property>
+    <property name="readOnly">
      <bool>true</bool>
     </property>
    </widget>
@@ -311,6 +347,12 @@
       <width>160</width>
       <height>20</height>
      </rect>
+    </property>
+    <property name="text">
+     <string>5</string>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QLabel" name="cameraip">
@@ -370,6 +412,12 @@
       <height>20</height>
      </rect>
     </property>
+    <property name="text">
+     <string>COM5</string>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
    </widget>
    <widget class="QLineEdit" name="camera_ip">
     <property name="geometry">
@@ -379,6 +427,12 @@
       <width>160</width>
       <height>20</height>
      </rect>
+    </property>
+    <property name="text">
+     <string>192.168.1.120</string>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QLabel" name="s_ip">
@@ -402,6 +456,12 @@
       <width>160</width>
       <height>20</height>
      </rect>
+    </property>
+    <property name="text">
+     <string>100</string>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QLabel" name="h_mac">

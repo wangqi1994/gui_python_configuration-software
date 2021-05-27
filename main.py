@@ -10,7 +10,7 @@ import configparser
 import pic_rc
 from PyQt5.QtWidgets import *
 # import pyqtgraph as pg
-# import pyqtgraph.examples
+import pyqtgraph.examples
 
 
 from gui import *
@@ -409,7 +409,7 @@ def menu_triggered(mwindow, info_m, planwork_m, fenbushi_m):
 
 def main():
     # pyqtgraph 示例
-    # pyqtgraph.examples.run()
+    pyqtgraph.examples.run()
     app = QApplication(sys.argv)
     mwindow = MainWin()
     info_m = info()

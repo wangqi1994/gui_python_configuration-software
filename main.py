@@ -8,7 +8,6 @@
 import sys
 import configparser
 # import socket
-import matplotlib.pyplot as plt
 import cv2
 import uuid
 import pic_rc
@@ -47,112 +46,12 @@ class MainWin(QMainWindow, Ui_MainWindow):
         # # self.pic_show_label.setScaledContents(True)
         # self.setWindowIcon(QIcon(":/qticon.png"))
 
-        self.lb = myLabel(self)
-        self.lb.setGeometry(QRect(20, 20, 800, 800))
-
-        img = cv2.imread('map.png')
-        height, width, bytesPerComponent = img.shape
-        bytesPerLine = 3 * width
-        cv2.cvtColor(img, cv2.COLOR_BGR2RGB, img)
-        QImg = QImage(img.data, width, height, bytesPerLine, QImage.Format_RGB888)
-        self.pixmap = QPixmap.fromImage(QImg)
-
-        self.lb.setPixmap(self.pixmap)
-        self.lb.setCursor(Qt.CrossCursor)
-
-        self.show()
-
     # 打开文件夹选择页面，选择生成文件保存路径
     def openFile(self):
         global get_directory_path
         # 获取选择的文件路径
         get_directory_path = QFileDialog.getExistingDirectory(self, "选取指定文件夹", "C:/")
 
-
-class myLabel(QLabel):
-
-    x0 = 0
-    y0 = 0
-    x1 = 0
-    y1 = 0
-    flag = False
-    sss=[]
-    lastPoint = QPoint()  # 起始点
-    endPoint = QPoint()  # 终点
-
-    def mousePressEvent(self,event):
-        self.flag = True
-        self.x0 = event.x()
-        self.y0 = event.y()
-        # self.lastPoint = event.pos()
-        # self.endPoint = self.lastPoint
-    def mouseReleaseEvent(self,event):
-        self.flag = False
-        # self.lastPoint = event.pos()
-        # self.endPoint = self.lastPoint
-        self.sss.append([self.x0, self.y0])
-        print(self.sss)
-        if len(self.sss)> 2:
-            a, b = self.sss[0]
-            c, d = self.sss[1]
-            print(a,b,c,d)
-            aaa=QLine(a,b,c,d)
-            print(aaa)
-            # lin = QLine(QPoint(self.sss[0]), QPoint(self.sss[1]))
-            # print(lin)
-            painter = QPainter(self)
-            painter.begin(self)
-            painter.drawLine(a,b,c,d)
-
-            painter.setPen(QPen(Qt.red, 4, Qt.SolidLine))
-            painter.end()
-            # plt.plot(self.sss[0], self.sss[1], color='r')
-            # plt.show()
-            # plt.scatter(self.sss[0], self.sss[1], color='b')
-            # for i in range(len(self.sss)):
-            #     plt.plot(self.sss[i-1], self.sss[i], color='r')
-            #     plt.scatter(self.sss[i-1], self.sss[i], color='b')
-        else:
-            pass
-
-    # def mouseMoveEvent(self,event):
-    #     if self.flag:
-    #         self.x1 = event.x()
-    #         self.y1 = event.y()
-    #         self.update()
-    #         self.endPoint.append((self.x1, self.y1))
-    #         print(self.endPoint)
-    # def paintEvent(self, event):
-    #     # super().paintEvent(event)
-    #     for i in range(self.sss):
-    #         a, b = self.sss[i-1]
-    #         c, d = self.sss[i]
-    #         print(a,b,c,d)
-            # lin = QLine(QPoint(self.sss[i-1]), QPoint(self.sss[i]))
-            # print(lin)
-            # painter = QPainter(self)
-            # painter.begin(self)
-            # painter.drawLine(lin)
-            # painter.setPen(QPen(Qt.red, 4, Qt.SolidLine))
-            # painter.end()
-              # 在画布上画出
-        # lin = QLine(QPoint(self.lastPoint[0]), QPoint(self.sss[1]))
-        # pp.drawLine(self.lastPoint, self.endPoint)
-        # # 让前一个坐标值等于后一个坐标值，
-        # # 这样就能实现画出连续的线
-        # self.lastPoint = self.endPoint
-        # painter = QPainter(self)
-        # painter.setPen(QPen(Qt.red, 4, Qt.SolidLine))
-        # painter.drawPixmap(0, 0, self)  # 在画布上画出
-        # lin = QLine(QPoint(self.sss[0]),QPoint(self.sss[1]))
-        # # rect =QRect(self.x0, self.y0, abs(self.x1-self.x0), abs(self.y1-self.y0))
-        # painter = QPainter(self)
-        # painter.setPen(QPen(Qt.red, 4, Qt.SolidLine))
-        # painter.drawRect(lin)
-
-        # pqscreen  = QGuiApplication.primaryScreen()
-        # pixmap2 = pqscreen.grabWindow(self.winId(), self.x0, self.y0, abs(self.x1-self.x0), abs(self.y1-self.y0))
-        # pixmap2.save('555.png')
 
 # 创建info主窗口并传入Ui_info
 class info(QMainWindow, Ui_info):

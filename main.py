@@ -8,9 +8,9 @@
 import sys
 import configparser
 # import socket
-import uuid
 import matplotlib.pyplot as plt
 import cv2
+import uuid
 import pic_rc
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import QPixmap, QImage, QPen, QPainter, QGuiApplication
@@ -155,56 +155,6 @@ class myLabel(QLabel):
         # pixmap2.save('555.png')
 
 # 创建info主窗口并传入Ui_info
-#     m = MainWin()
-#     pix = m.pixmap  # 实例化一个 QPixmap 对象
-#     lastPoint = QPoint()  # 起始点
-#     endPoint = QPoint()  # 终点
-#
-#     def paintEvent(self, event):
-#         pp = QPainter(self)
-#
-#         pen = QPen()  # 定义笔格式对象
-#         pen.setWidth(10)  # 设置笔的宽度
-#         pp.setPen(pen)  # 将笔格式赋值给 画笔
-#
-#         # 根据鼠标指针前后两个位置绘制直线
-#         pp.drawLine(self.lastPoint, self.endPoint)
-#         # 让前一个坐标值等于后一个坐标值，
-#         # 这样就能实现画出连续的线
-#         self.lastPoint = self.endPoint
-#         painter = QPainter(self)
-#         painter.drawPixmap(0, 0, self)  # 在画布上画出
-#
-#         # 鼠标按压事件
-#
-#
-#     def mousePressEvent(self, event):
-#         # 鼠标左键按下
-#         if event.button() == Qt.LeftButton:
-#             self.lastPoint = event.pos()
-#             self.endPoint = self.lastPoint
-#
-#         # 鼠标移动事件
-#
-#
-#     def mouseMoveEvent(self, event):
-#         # 鼠标左键按下的同时移动鼠标
-#         if event.buttons() and Qt.LeftButton:
-#             self.endPoint = event.pos()
-#             # 进行重新绘制
-#             self.update()
-#
-#         # 鼠标释放事件
-#
-#
-#     def mouseReleaseEvent(self, event):
-#         # 鼠标左键释放
-#         if event.button() == Qt.LeftButton:
-#             self.endPoint = event.pos()
-#             # 进行重新绘制
-#             self.update()
-
-
 class info(QMainWindow, Ui_info):
     """机器人基本信息窗口类"""
 
@@ -217,6 +167,7 @@ class info(QMainWindow, Ui_info):
         mac_address = ':'.join([mac_address[i:i + 2] for i in range(0, 11, 2)])
         print(mac_address)
         self.host_mac.setText(mac_address)
+
 
 
     # 保存机器人基本信息的Button响应函数
@@ -573,14 +524,12 @@ def menu_triggered(mwindow, info_m, planwork_m, fenbushi_m):
 def main():
     # pyqtgraph 示例
     # pyqtgraph.examples.run()
-
     app = QApplication(sys.argv)
     mwindow = MainWin()
     info_m = info()
     planwork_m = planwork()
     fenbushi_m = fenbushi()
     xunluoluxian_w = xunluoluxian()
-
     # 展示主窗口
     mwindow.show()
 

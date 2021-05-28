@@ -10,17 +10,25 @@ from ditu import *
 
 
 # 创建map类并传入Ui_map
-class map(QMainWindow, Ui_map):
+class map(QWidget, Ui_map):
     """主窗口类"""
     def __init__(self, parent=None):
         super(map, self).__init__(parent)
         self.setupUi(self)
+        #
+        # self.x0 = 0
+        # self.y0 = 0
+        # x1 = 0
+        # y1 = 0
+        # self.flag = False
+        # sss = []
+        # self.begin_point = QPoint()
+        # self.end_point = QPoint()
 
-
-
-        self.lb = myLabel(self)
+        self.lb = MyLabel(self)
         self.lb.setGeometry(QRect(20, 20, 800, 800))
-        # self.lb.setAttribute(Qt.WA_OpaquePaintEvent)
+
+
 
         img = cv2.imread('map.png')
         height, width, bytesPerComponent = img.shape
@@ -35,112 +43,107 @@ class map(QMainWindow, Ui_map):
 
         self.show()
 
-    # 打开文件夹选择页面，选择生成文件保存路径
-    def openFile(self):
-        global get_directory_path
-        # 获取选择的文件路径
-        get_directory_path = QFileDialog.getExistingDirectory(self, "选取指定文件夹", "C:/")
 
-
-class myLabel(QLabel):
-
-    x0 = 0
-    y0 = 0
-    x1 = 0
-    y1 = 0
-    flag = False
-    sss=[]
-    begin_point = QPoint()
-    end_point = QPoint()
-
-    # def mousePressEvent(self,event):
+    #     self.pix = QPixmap(800, 800)
+    #     self.pix.fill(Qt.white)
+    #
+    #
+    #
+    #
+    # def mousePressEvent(self, event):
     #     self.flag = True
     #     self.x0 = event.x()
     #     self.y0 = event.y()
-    #     self.begin_point = event.pos()
-    #     self.end_point = self.begin_point
+    #
+    #     # self.begin_point = self.end_point
+    #     print(self.begin_point)
     #     self.update()
-    # def mouseReleaseEvent(self,event):
+    #
+    # def mouseReleaseEvent(self, event):
     #     self.flag = False
     #     self.end_point = event.pos()
+    #     if not self.begin_point:
+    #         self.begin_point = self.end_point
+    #     print(self.end_point)
     #     self.update()
-    # def paintEvent(self, event):  # 2
-    #     painter = QPainter(self)
+    #
+    # def paintEvent(self, event):
+    #     super().paintEvent(event)
+    #     painter = QPainter(self.pix)
+    #     # painter.setBackgroundMode(Qt.OpaqueMode)
+    #     # painter.setBackground(self.pixmap)
+    #     painter.setPen(QPen(Qt.blue, 4, Qt.SolidLine))
+    #
+    #     painter.begin(self)
+    #
     #     painter.drawLine(self.begin_point, self.end_point)
     #     self.begin_point = self.end_point
+    #     painter.end()
+    #     painter2 = QPainter(self)
+    #     painter2.drawPixmap(0, 0, self.pix)
 
 
-#
-    def mousePressEvent(self,event):
+class MyLabel(QLabel):
+    def __init__(self, parent=map):
+        super(MyLabel, self).__init__(parent)
+        self.setWindowTitle("绘图例子")
+
+        self.x0 = 0
+        self.y0 = 0
+        x1 = 0
+        y1 = 0
+        self.flag = False
+        sss = []
+        self.begin_point = QPoint()
+        self.end_point = QPoint()
+        #
+    #
+    def mousePressEvent(self, event):
         self.flag = True
         self.x0 = event.x()
         self.y0 = event.y()
-        # self.lastPoint = event.pos()
-        # self.endPoint = self.lastPoint
-        self.begin_point = event.pos()
-        self.end_point = self.begin_point
+
+        # self.begin_point = self.end_point
+        # print(self.begin_point)
         self.update()
-    def mouseReleaseEvent(self,event):
+
+
+    def mouseReleaseEvent(self, event):
         self.flag = False
-        # self.lastPoint = event.pos()
-        # self.endPoint = self.lastPoint
         self.end_point = event.pos()
+        if not self.begin_point:
+            self.begin_point = self.end_point
+        print(self.begin_point)
+        print(self.end_point)
         self.update()
-    def paintEvent(self, QPaintEvent):
-        painter = QPainter(self)
+
+
+    def paintEvent(self, event):
+        super().paintEvent(event)
+
+        painter = QPainter(self.pixmap())
+
+        painter.setPen(QPen(Qt.blue, 4, Qt.SolidLine))
+
+        painter.begin(self)
+
         painter.drawLine(self.begin_point, self.end_point)
         self.begin_point = self.end_point
-        self.sss.append([self.x0, self.y0])
-        print(self.sss)
-#         if len(self.sss)> 2:
-#             a, b = self.sss[0]
-#             c, d = self.sss[1]
-#             print(a,b,c,d)
-#             aaa=QLine(a,b,c,d)
-#             print(aaa)
-#             # lin = QLine(QPoint(self.sss[0]), QPoint(self.sss[1]))
-#             # print(lin)
-#             painter = QPainter(self)
-#             painter.begin(self)
-#             painter.drawLine(a,b,c,d)
-#
-#             painter.setPen(QPen(Qt.red, 4, Qt.SolidLine))
-#             painter.end()
-#
-#         else:
-#             pass
+        painter.end()
+        painter2 = QPainter(self)
+        painter2.drawPixmap(0, 0, self.pixmap())
 
 
 
-# 创建info主窗口并传入Ui_info
 
 
-# class myLabel(QLabel):
-#
-#
-#
-#     begin_point = QPoint()                             # 1
-#     end_point = QPoint()
-#
-#     def paintEvent(self, QPaintEvent):                          # 2
-#         painter = QPainter(self)
-#         painter.drawLine(self.begin_point, self.end_point)
-#         self.begin_point = self.end_point
-#
-#     def mousePressEvent(self, QMouseEvent):
-#         if QMouseEvent.button() == Qt.LeftButton:
-#             self.begin_point = QMouseEvent.pos()
-#             self.end_point = self.begin_point
-#             self.update()                                       # 3
-#
-#     def mouseMoveEvent(self, QMouseEvent):
-#         if QMouseEvent.buttons() == Qt.LeftButton:
-#             self.end_point = QMouseEvent.pos()
-#             self.update()
+
+
 
 def main():
     app = QApplication(sys.argv)
-    map = map()
+    map_w = map()
+    map_w.show()
     sys.exit(app.exec_())
 
 

@@ -17,7 +17,7 @@ class map(QWidget, Ui_map):
         self.setupUi(self)
         # 新建MyLabel的类
         self.map_position = MyLabel(self)
-        self.map_position.setGeometry(QRect(20, 20, 800, 800))
+        self.map_position.setGeometry(QRect(25, 25, 800, 800))
 
         img = cv2.imread('map.png')
         height, width, bytesPerComponent = img.shape
@@ -76,6 +76,20 @@ class MyLabel(QLabel):
         self.begin_point = self.end_point
         # 结束绘画
         painter.end()
+
+        painter_p = QPainter(self.pixmap())
+        # 设置线颜色（蓝）粗细形式
+        painter_p.setPen(QPen(Qt.red, 10))
+        # 开始绘画
+        painter_p.begin(self)
+        # 画点
+        painter_p.drawPoint(self.begin_point)
+        painter_p.drawPoint(self.end_point)
+        # 将前一个点赋值给起点，保证连续画线
+        self.begin_point = self.end_point
+        # 结束绘画
+        painter_p.end()
+
         # 实现双缓冲
         painter2 = QPainter(self)
         painter2.drawPixmap(0, 0, self.pixmap())

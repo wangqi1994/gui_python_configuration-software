@@ -40,6 +40,7 @@ class MainWin(QMainWindow, Ui_MainWindow):
         img_path = (":/image_sy.jpg")     # "image_sy.jpg"
         # # 加载图片,并自定义图片展示尺寸
         image = QtGui.QPixmap(img_path).scaled(400, 400)
+
         # # 显示图片
         self.pic_show_label.setPixmap(image)
         # self.pic_show_label.show()

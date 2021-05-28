@@ -124,36 +124,42 @@ class fenbushi(QMainWindow, Ui_fenbushi):
         super(fenbushi, self).__init__(parent)
         self.setupUi(self)
         self.hint_fenbushi.setVisible(False)
-
+        self.kong_fenbushi.setVisible(False)
 
     def add(self):
         # 获取分布式传感器的数量
         fbs_num = self.fensbushi_num.text()
-        print(fbs_num)
-        if int(fbs_num) <= 15:
-            # 存储分布式传感器本身位置和对应位置
-            self.fenbushi_id = []
-            self.fenbushi_lists = []
-            # 生成对应数量的输入框
-            for i in range(int(fbs_num)):
-                # 分布式传感器本身位置输入框
-                self.fenbushi_id.append(0)
-                self.fenbushi_id[i] = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
-                self.fenbushi_id[i].setGeometry(QtCore.QRect(30, 40+30*i, 120, 20))
-                self.fenbushi_id[i].setObjectName("fenbushi_id")
-                self.fenbushi_id[i].setPlaceholderText("保留两位数字")
-                self.fenbushi_id[i].setVisible(True)
-                # 分布式传感器对应位置输入框
-                self.fenbushi_lists.append(0)
-                self.fenbushi_lists[i] = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
-                self.fenbushi_lists[i].setGeometry(QtCore.QRect(170, 40+30*i, 450, 21))
-                self.fenbushi_lists[i].setObjectName("fenbushi_locations")
-                self.fenbushi_lists[i].setPlaceholderText("填写示例：x1,y1,yaw1;x2,y2,yaw")
-                self.fenbushi_lists[i].setVisible(True)
-
-            return self.fenbushi_lists, self.fenbushi_id
+        print(fbs_num, len(fbs_num))
+        if len(fbs_num) == 0 and int(fbs_num) == 0:
+            self.kong_fenbushi.setVisible(True)
+            self.hint_fenbushi.setVisible(False)
         else:
-            self.hint_fenbushi.setVisible(True)
+            self.kong_fenbushi.setVisible(False)
+            if int(fbs_num) <= 15:
+                # 存储分布式传感器本身位置和对应位置
+                self.fenbushi_id = []
+                self.fenbushi_lists = []
+                # 生成对应数量的输入框
+                for i in range(int(fbs_num)):
+                    # 分布式传感器本身位置输入框
+                    self.fenbushi_id.append(0)
+                    self.fenbushi_id[i] = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
+                    self.fenbushi_id[i].setGeometry(QtCore.QRect(30, 40 + 30 * i, 120, 20))
+                    self.fenbushi_id[i].setObjectName("fenbushi_id")
+                    self.fenbushi_id[i].setPlaceholderText("保留两位数字")
+                    self.fenbushi_id[i].setVisible(True)
+                    # 分布式传感器对应位置输入框
+                    self.fenbushi_lists.append(0)
+                    self.fenbushi_lists[i] = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
+                    self.fenbushi_lists[i].setGeometry(QtCore.QRect(170, 40 + 30 * i, 450, 21))
+                    self.fenbushi_lists[i].setObjectName("fenbushi_locations")
+                    self.fenbushi_lists[i].setPlaceholderText("填写示例：x1,y1,yaw1;x2,y2,yaw")
+                    self.fenbushi_lists[i].setVisible(True)
+
+                return self.fenbushi_lists, self.fenbushi_id
+            else:
+                self.kong_fenbushi.setVisible(False)
+                self.hint_fenbushi.setVisible(True)
 
 
 

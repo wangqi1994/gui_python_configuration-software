@@ -69,7 +69,7 @@
     <item row="6" column="1">
      <widget class="QLineEdit" name="camera_ip">
       <property name="sizePolicy">
-       <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+       <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
         <horstretch>0</horstretch>
         <verstretch>0</verstretch>
        </sizepolicy>
@@ -150,6 +150,12 @@
         <horstretch>0</horstretch>
         <verstretch>50</verstretch>
        </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>20</width>
+        <height>0</height>
+       </size>
       </property>
       <property name="text">
        <string>自动充电点坐标x,y,yaw:</string>

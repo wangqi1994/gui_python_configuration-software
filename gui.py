@@ -38,7 +38,7 @@ class Ui_MainWindow(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.pic_show_label.sizePolicy().hasHeightForWidth())
         self.pic_show_label.setSizePolicy(sizePolicy)
-        self.pic_show_label.setMinimumSize(QtCore.QSize(0, 415))
+        self.pic_show_label.setMinimumSize(QtCore.QSize(0, 0))
         self.pic_show_label.setText("")
         self.pic_show_label.setAlignment(QtCore.Qt.AlignHCenter|QtCore.Qt.AlignTop)
         self.pic_show_label.setObjectName("pic_show_label")

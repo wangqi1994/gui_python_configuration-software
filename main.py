@@ -43,9 +43,6 @@ class MainWin(QMainWindow, Ui_MainWindow):
 
         # # 显示图片
         self.pic_show_label.setPixmap(image)
-        # self.pic_show_label.show()
-        # # self.pic_show_label.setScaledContents(True)
-        # self.setWindowIcon(QIcon(":/qticon.png"))
 
     # 打开文件夹选择页面，选择生成文件保存路径
     def openFile(self):
@@ -131,15 +128,17 @@ class fenbushi(QMainWindow, Ui_fenbushi):
         # 获取分布式传感器的数量
         fbs_num = self.fensbushi_num.text()
         print(fbs_num, len(fbs_num))
-        if len(fbs_num) == 0 and int(fbs_num) == 0:
+        if len(fbs_num) == 0 or int(fbs_num) == 0:
             self.kong_fenbushi.setVisible(True)
             self.hint_fenbushi.setVisible(False)
         else:
+            self.kong_fenbushi.setVisible(False)
             self.kong_fenbushi.setVisible(False)
             if int(fbs_num) <= 15:
                 # 存储分布式传感器本身位置和对应位置
                 self.fenbushi_id = []
                 self.fenbushi_lists = []
+                self.fenbushi_editButton = []
                 # 生成对应数量的输入框
                 for i in range(int(fbs_num)):
                     # 分布式传感器本身位置输入框
@@ -156,6 +155,14 @@ class fenbushi(QMainWindow, Ui_fenbushi):
                     self.fenbushi_lists[i].setObjectName("fenbushi_locations")
                     self.fenbushi_lists[i].setPlaceholderText("填写示例：x1,y1,yaw1;x2,y2,yaw")
                     self.fenbushi_lists[i].setVisible(True)
+                    # 编辑按钮
+                    self.fenbushi_editButton.append(0)
+                    self.fenbushi_editButton[i] = QPushButton("编辑", self.scrollAreaWidgetContents)
+                    self.fenbushi_editButton[i].setDown(False)  # 默认为未按的状态
+                    self.fenbushi_editButton[i].setGeometry(QtCore.QRect(630, 35+30*i, 60, 30))
+                    self.fenbushi_editButton[i].setStyleSheet('QPushButton{margin:3px};')
+                    self.fenbushi_editButton[i].setVisible(True)
+
 
                 return self.fenbushi_lists, self.fenbushi_id
             else:
@@ -334,6 +341,7 @@ class xunluoluxian(QWidget, Ui_xunluoluxian):
         # 创建对应路线名称和点的列表
         self.xunluoluxian_name = []
         self.xunluoluxian_point = []
+        self.xunluoluxian_button = []
         # 添加路线名称的QLinEdit控件
         self.xunluoluxian_n = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
         self.xunluoluxian_n.setGeometry(QtCore.QRect(20, 40, 80, 20))
@@ -344,11 +352,18 @@ class xunluoluxian(QWidget, Ui_xunluoluxian):
         self.xunluoluxian_name.append(self.xunluoluxian_n)
         # 添加路线点的QLinEdit控件
         self.xunluoluxian_p = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
-        self.xunluoluxian_p.setGeometry(QtCore.QRect(120, 40, 320, 20))
+        self.xunluoluxian_p.setGeometry(QtCore.QRect(120, 40, 240, 20))
         self.xunluoluxian_p.setObjectName("xunluoluxian_point")
         self.xunluoluxian_p.setPlaceholderText("示例：x1,y1,yaw1;x2,y2,yaw2")
         self.xunluoluxian_p.setVisible(True)
         self.xunluoluxian_point.append(self.xunluoluxian_p)
+        # 编辑按钮
+        self.xunluoluxian_b = QPushButton("编辑", self.scrollAreaWidgetContents)
+        self.xunluoluxian_b.setDown(False)  # 默认为未按的状态
+        self.xunluoluxian_b.setGeometry(QtCore.QRect(370, 35, 60, 30))
+        self.xunluoluxian_b.setStyleSheet('QPushButton{margin:3px};')
+        self.xunluoluxian_b.setVisible(True)
+        self.xunluoluxian_button.append(self.xunluoluxian_b)
 
 
     def add_xunluoluxian(self):
@@ -362,12 +377,22 @@ class xunluoluxian(QWidget, Ui_xunluoluxian):
         self.xunluoluxian_name.append(self.xunluoluxian_n)
         # 点击按钮添加路线点的QLinEdit控件
         self.xunluoluxian_p = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
-        self.xunluoluxian_p.setGeometry(QtCore.QRect(120, self.xunluoluxian_point[len(self.xunluoluxian_point)-1].y()+30, 320, 20))
+        self.xunluoluxian_p.setGeometry(QtCore.QRect(120, self.xunluoluxian_point[len(self.xunluoluxian_point)-1].y()+30, 240, 20))
         self.xunluoluxian_p.setObjectName("xunluoluxian_point")
         self.xunluoluxian_p.setPlaceholderText("示例：x1,y1,yaw1;x2,y2,yaw2")
         self.xunluoluxian_p.setVisible(True)
         self.xunluoluxian_point.append(self.xunluoluxian_p)
         self.name_num = len(self.xunluoluxian_name)
+
+        # 点击按钮添加编辑按钮
+        self.xunluoluxian_b = QPushButton("编辑", self.scrollAreaWidgetContents)
+        self.xunluoluxian_b.setDown(False)  # 默认为未按的状态
+        self.xunluoluxian_b.setGeometry(QtCore.QRect(370, self.xunluoluxian_button[len(self.xunluoluxian_button)-1].y()+30, 60, 30))
+        self.xunluoluxian_b.setStyleSheet('QPushButton{margin:3px};')
+        self.xunluoluxian_b.setVisible(True)
+        self.xunluoluxian_button.append(self.xunluoluxian_b)
+
+
         print(self.xunluoluxian_name, len(self.xunluoluxian_name), self.name_num)
 
     # 保存机器人巡逻路线的Button响应函数

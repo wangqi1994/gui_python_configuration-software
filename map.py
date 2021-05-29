@@ -15,9 +15,28 @@ class map(QWidget, Ui_map):
     def __init__(self, parent=None):
         super(map, self).__init__(parent)
         self.setupUi(self)
+
+        # self.scrollArea = QtWidgets.QScrollArea()
+        # self.scrollArea.setGeometry(QtCore.QRect(0, 0, 800, 800))
+        # self.scrollArea.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAsNeeded)
+        # self.scrollArea.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustIgnored)
+        # self.scrollArea.setWidgetResizable(False)
+        # self.scrollArea.setObjectName("scrollArea")
+        # self.scrollAreaWidgetContents = QtWidgets.QWidget()
+        # self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 1024, 1024))
+        # sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        # sizePolicy.setHorizontalStretch(0)
+        # sizePolicy.setVerticalStretch(0)
+        # sizePolicy.setHeightForWidth(self.scrollAreaWidgetContents.sizePolicy().hasHeightForWidth())
+        # self.scrollAreaWidgetContents.setSizePolicy(sizePolicy)
+        # self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
+
+
         # 新建MyLabel的类
         self.map_position = MyLabel(self)
-        self.map_position.setGeometry(QRect(25, 25, 800, 800))
+
+        self.map_position.setGeometry(QRect(0, 0, 730, 924))
+        print(self.map_position.width(), self.map_position.height())
 
         img = cv2.imread('map.png')
         height, width, bytesPerComponent = img.shape
@@ -55,11 +74,14 @@ class MyLabel(QLabel):
         if not self.begin_point:
             self.begin_point = self.end_point
 
-        self.position.append([self.x0, self.y0, 0])
+        self.position.append([(self.x0-self.width()/2)*0.05, (self.height()/2-self.y0)*0.05, 0])
+        print(self.height(), self.width())
+        # self.position.append([(self.x0-self.map_position.width()/2)*0.05, (self.map_position.height()/2-self.y0)*0.05, 0])
         print(self.position)
         print(self.begin_point)
         print(self.end_point)
         self.update()
+
 
 
     def paintEvent(self, event):

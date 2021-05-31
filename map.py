@@ -33,7 +33,7 @@ class map(QWidget, Ui_map):
 
 
         # 新建MyLabel的类
-        self.map_position = MyLabel(self)
+        self.map_position = MyLabel(self.scrollAreaWidgetContents)
 
         self.map_position.setGeometry(QRect(0, 0, 730, 924))
         print(self.map_position.width(), self.map_position.height())

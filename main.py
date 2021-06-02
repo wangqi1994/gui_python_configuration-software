@@ -12,21 +12,28 @@ import cv2
 import uuid
 import pic_rc
 from PyQt5.QtWidgets import *
-from PyQt5.QtGui import QPixmap, QImage, QPen, QPainter, QGuiApplication
-from PyQt5.QtCore import QRect, Qt, QLine, QPoint
+from PyQt5.QtGui import QPixmap, QImage, QPen, QPainter
+from PyQt5.QtCore import QRect, Qt, QPoint
 
 # import pyqtgraph as pg
 # import pyqtgraph.examples
-
+import time
 
 from gui import *
 from planwork import *
 from fenbushi import *
 from info import *
 from xunluoluxian import *
+from ditu import *
+# from map import *
 
 # 全局变量定义
 global get_directory_path
+global fenbushi_button
+global xunluoluxian_button
+fenbushi_button = []
+xunluoluxian_button = []
+
 
 
 # 创建mainWin类并传入Ui_MainWindow
@@ -35,6 +42,13 @@ class MainWin(QMainWindow, Ui_MainWindow):
     def __init__(self, parent=None):
         super(MainWin, self).__init__(parent)
         self.setupUi(self)
+
+        self.sb = QPushButton("编辑", self)
+        self.sb.setDown(False)  # 默认为未按的状态
+        self.sb.setGeometry(QtCore.QRect(630, 35 + 30 , 60, 30))
+        self.sb.setStyleSheet('QPushButton{margin:3px};')
+        self.sb.setVisible(True)
+
 
         # # 图片路径
         img_path = (":/image_sy.jpg")     # "image_sy.jpg"
@@ -123,11 +137,27 @@ class fenbushi(QMainWindow, Ui_fenbushi):
         self.setupUi(self)
         self.hint_fenbushi.setVisible(False)
         self.kong_fenbushi.setVisible(False)
+        # map_w = Ditu
+
+        self.fenbushi_id = []
+        self.fenbushi_lists = []
+        self.fenbushi_editButton = []
+
+        for i in range(15):
+            self.fenbushi_editButton.append(0)
+            self.fenbushi_editButton[i] = QPushButton("编辑", self.scrollAreaWidgetContents)
+            self.fenbushi_editButton[i].setDown(False)  # 默认为未按的状态
+            self.fenbushi_editButton[i].setGeometry(QtCore.QRect(630, 35 + 30 * i, 60, 30))
+            self.fenbushi_editButton[i].setStyleSheet('QPushButton{margin:3px};')
+            self.fenbushi_editButton[i].setVisible(False)
+            self.fenbushi_editButton[i].setObjectName("fenbushi" + str(i))
+
 
     def add(self):
         # 获取分布式传感器的数量
         fbs_num = self.fensbushi_num.text()
         print(fbs_num, len(fbs_num))
+
         if len(fbs_num) == 0 or int(fbs_num) == 0:
             self.kong_fenbushi.setVisible(True)
             self.hint_fenbushi.setVisible(False)
@@ -138,7 +168,6 @@ class fenbushi(QMainWindow, Ui_fenbushi):
                 # 存储分布式传感器本身位置和对应位置
                 self.fenbushi_id = []
                 self.fenbushi_lists = []
-                self.fenbushi_editButton = []
                 # 生成对应数量的输入框
                 for i in range(int(fbs_num)):
                     # 分布式传感器本身位置输入框
@@ -148,6 +177,7 @@ class fenbushi(QMainWindow, Ui_fenbushi):
                     self.fenbushi_id[i].setObjectName("fenbushi_id")
                     self.fenbushi_id[i].setPlaceholderText("保留两位数字")
                     self.fenbushi_id[i].setVisible(True)
+
                     # 分布式传感器对应位置输入框
                     self.fenbushi_lists.append(0)
                     self.fenbushi_lists[i] = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
@@ -155,16 +185,10 @@ class fenbushi(QMainWindow, Ui_fenbushi):
                     self.fenbushi_lists[i].setObjectName("fenbushi_locations")
                     self.fenbushi_lists[i].setPlaceholderText("填写示例：x1,y1,yaw1;x2,y2,yaw")
                     self.fenbushi_lists[i].setVisible(True)
-                    # 编辑按钮
-                    self.fenbushi_editButton.append(0)
-                    self.fenbushi_editButton[i] = QPushButton("编辑", self.scrollAreaWidgetContents)
-                    self.fenbushi_editButton[i].setDown(False)  # 默认为未按的状态
-                    self.fenbushi_editButton[i].setGeometry(QtCore.QRect(630, 35+30*i, 60, 30))
-                    self.fenbushi_editButton[i].setStyleSheet('QPushButton{margin:3px};')
+                    # 显示编辑按钮
                     self.fenbushi_editButton[i].setVisible(True)
 
-
-                return self.fenbushi_lists, self.fenbushi_id
+                return self.fenbushi_lists, self.fenbushi_id, self.fenbushi_editButton
             else:
                 self.kong_fenbushi.setVisible(False)
                 self.hint_fenbushi.setVisible(True)
@@ -188,6 +212,8 @@ class fenbushi(QMainWindow, Ui_fenbushi):
             robot_fenbushi.write("fenbushi_positions = " + self.fenbushi_lists[i].text()+"\n\n")
         # # 关闭fenbushi文件
         robot_fenbushi.close()
+
+
 
 
 # 创建planwork主窗口并传入Ui_planwork
@@ -342,6 +368,7 @@ class xunluoluxian(QWidget, Ui_xunluoluxian):
         self.xunluoluxian_name = []
         self.xunluoluxian_point = []
         self.xunluoluxian_button = []
+
         # 添加路线名称的QLinEdit控件
         self.xunluoluxian_n = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
         self.xunluoluxian_n.setGeometry(QtCore.QRect(20, 40, 80, 20))
@@ -365,6 +392,15 @@ class xunluoluxian(QWidget, Ui_xunluoluxian):
         self.xunluoluxian_b.setVisible(True)
         self.xunluoluxian_button.append(self.xunluoluxian_b)
 
+        for i in range(9):
+            self.xunluoluxian_b = QPushButton("编辑", self.scrollAreaWidgetContents)
+            self.xunluoluxian_b.setDown(False)  # 默认为未按的状态
+            self.xunluoluxian_b.setGeometry(
+                QtCore.QRect(370, self.xunluoluxian_button[len(self.xunluoluxian_button) - 1].y() + 30, 60, 30))
+            self.xunluoluxian_b.setStyleSheet('QPushButton{margin:3px};')
+            self.xunluoluxian_b.setVisible(False)
+            self.xunluoluxian_button.append(self.xunluoluxian_b)
+
 
     def add_xunluoluxian(self):
         # 点击按钮添加路线名称的QLinEdit控件
@@ -385,15 +421,16 @@ class xunluoluxian(QWidget, Ui_xunluoluxian):
         self.name_num = len(self.xunluoluxian_name)
 
         # 点击按钮添加编辑按钮
-        self.xunluoluxian_b = QPushButton("编辑", self.scrollAreaWidgetContents)
-        self.xunluoluxian_b.setDown(False)  # 默认为未按的状态
-        self.xunluoluxian_b.setGeometry(QtCore.QRect(370, self.xunluoluxian_button[len(self.xunluoluxian_button)-1].y()+30, 60, 30))
-        self.xunluoluxian_b.setStyleSheet('QPushButton{margin:3px};')
-        self.xunluoluxian_b.setVisible(True)
-        self.xunluoluxian_button.append(self.xunluoluxian_b)
+        for i in range(10):
+            if self.xunluoluxian_button[i].isVisible() and not self.xunluoluxian_button[i+1].isVisible():
+                self.xunluoluxian_button[i+1].setVisible(True)
+                break
+            else:
+                continue
 
 
         print(self.xunluoluxian_name, len(self.xunluoluxian_name), self.name_num)
+        print(self.xunluoluxian_button)
 
     # 保存机器人巡逻路线的Button响应函数
     def save_xunluoluxian(self):
@@ -410,6 +447,113 @@ class xunluoluxian(QWidget, Ui_xunluoluxian):
             print(self.xunluoluxian_name[i].text(), self.xunluoluxian_point[i].text())
         # # 关闭巡逻路线文件
         robot_xunluoluxian.close()
+
+
+# 创建map类并传入Ui_map
+class Ditu(QWidget, Ui_map):
+    """地图操作窗口"""
+    def __init__(self, parent=None):
+        super(Ditu, self).__init__(parent)
+        self.setupUi(self)
+
+        # 新建MyLabel的类
+        self.map_position = Mylabel(self.scrollAreaWidgetContents)
+        # 读取地图文件
+        img = cv2.imread('./map.png')
+        # 获取图像高度和宽度值
+        height, width, bytesPerComponent = img.shape
+        # 设置地图尺寸，为坐标计算做准备
+        self.map_position.setGeometry(QRect(0, 0, width, height))
+        print(self.map_position.width(), self.map_position.height())
+
+        bytesPerLine = 3 * width
+        cv2.cvtColor(img, cv2.COLOR_BGR2RGB, img)
+        QImg = QImage(img.data, width, height, bytesPerLine, QImage.Format_RGB888)
+        self.pixmap = QPixmap.fromImage(QImg)
+
+        self.map_position.setPixmap(self.pixmap)
+
+        self.map_position.setCursor(Qt.CrossCursor)
+
+        # self.show()
+    # 重写地图页面的关闭窗口事件
+    def closeEvent(self, e):
+        self.box = QMessageBox(QMessageBox.Warning, "系统提示信息", "是否完成配置并退出地图？")
+        qyes = self.box.addButton(self.tr("是"), QMessageBox.YesRole)
+        qno = self.box.addButton(self.tr("否"), QMessageBox.NoRole)
+        self.box.exec_()
+        if self.box.clickedButton() == qyes:
+            e.accept()
+            QtWidgets.QWidget.closeEvent(self, e)
+            # sys.exit().accept()
+
+        else:
+            e.ignore()
+
+# 重写新的Qlabel类
+class Mylabel(QLabel):
+    def __init__(self, parent=Ditu):
+        super(Mylabel, self).__init__(parent)
+        self.x0 = 0
+        self.y0 = 0
+        self.flag = False
+        self.position = []
+        self.begin_point = QPoint()
+        self.end_point = QPoint()
+
+    def mousePressEvent(self, event):
+        self.flag = True
+        self.x0 = event.x()
+        self.y0 = event.y()
+        # self.update()
+
+    def mouseReleaseEvent(self, event):
+        self.flag = False
+        self.end_point = event.pos()
+        if not self.begin_point:
+            self.begin_point = self.end_point
+
+        self.position.append([(self.x0-self.width()/2)*0.05, (self.height()/2-self.y0)*0.05, 0])
+        print(self.height(), self.width())
+        # self.position.append([(self.x0-self.map_position.width()/2)*0.05, (self.map_position.height()/2-self.y0)*0.05, 0])
+        print(self.position)
+        print(self.begin_point)
+        print(self.end_point)
+        self.update()
+
+
+
+    def paintEvent(self, event):
+        super().paintEvent(event)
+        # 实例化QPainter
+        painter = QPainter(self.pixmap())
+        # 设置线颜色（蓝）粗细形式
+        painter.setPen(QPen(Qt.blue, 4, Qt.SolidLine))
+        # 开始绘画
+        painter.begin(self)
+        # 画线
+        painter.drawLine(self.begin_point, self.end_point)
+        # 将前一个点赋值给起点，保证连续画线
+        self.begin_point = self.end_point
+        # 结束绘画
+        painter.end()
+
+        painter_p = QPainter(self.pixmap())
+        # 设置线颜色（蓝）粗细形式
+        painter_p.setPen(QPen(Qt.red, 10))
+        # 开始绘画
+        painter_p.begin(self)
+        # 画点
+        painter_p.drawPoint(self.begin_point)
+        painter_p.drawPoint(self.end_point)
+        # 将前一个点赋值给起点，保证连续画线
+        self.begin_point = self.end_point
+        # 结束绘画
+        painter_p.end()
+
+        # 实现双缓冲
+        painter2 = QPainter(self)
+        painter2.drawPixmap(0, 0, self.pixmap())
 
 
 def menu_triggered(mwindow, info_m, planwork_m, fenbushi_m):
@@ -452,6 +596,121 @@ def menu_triggered(mwindow, info_m, planwork_m, fenbushi_m):
     planwork_m.actionRobot_info.triggered.connect(planwork_m.close)
 
 
+def fenbushi_ditu(fenbushi_m):
+
+    map_f_1 = Ditu()
+    map_f_2 = Ditu()
+    map_f_3 = Ditu()
+    map_f_4 = Ditu()
+    map_f_5 = Ditu()
+    map_f_6 = Ditu()
+    map_f_7 = Ditu()
+    map_f_8 = Ditu()
+    map_f_9 = Ditu()
+    map_f_10 = Ditu()
+    map_f_11 = Ditu()
+    map_f_12 = Ditu()
+    map_f_13 = Ditu()
+    map_f_14 = Ditu()
+    map_f_15 = Ditu()
+
+    fenbushi_m.fenbushi_editButton[0].clicked.connect(map_f_1.show)
+    fenbushi_m.fenbushi_editButton[1].clicked.connect(map_f_2.show)
+    fenbushi_m.fenbushi_editButton[2].clicked.connect(map_f_3.show)
+    fenbushi_m.fenbushi_editButton[3].clicked.connect(map_f_4.show)
+    fenbushi_m.fenbushi_editButton[4].clicked.connect(map_f_5.show)
+    fenbushi_m.fenbushi_editButton[5].clicked.connect(map_f_6.show)
+    fenbushi_m.fenbushi_editButton[6].clicked.connect(map_f_7.show)
+    fenbushi_m.fenbushi_editButton[7].clicked.connect(map_f_8.show)
+    fenbushi_m.fenbushi_editButton[8].clicked.connect(map_f_9.show)
+    fenbushi_m.fenbushi_editButton[9].clicked.connect(map_f_10.show)
+    fenbushi_m.fenbushi_editButton[10].clicked.connect(map_f_11.show)
+    fenbushi_m.fenbushi_editButton[11].clicked.connect(map_f_12.show)
+    fenbushi_m.fenbushi_editButton[12].clicked.connect(map_f_13.show)
+    fenbushi_m.fenbushi_editButton[13].clicked.connect(map_f_14.show)
+    fenbushi_m.fenbushi_editButton[14].clicked.connect(map_f_15.show)
+
+
+# def xunluoluxian_ditu(xunluoluxian_w):
+#     map_x_1 = Ditu()
+#     map_x_2 = Ditu()
+#     map_x_3 = Ditu()
+#     map_x_4 = Ditu()
+#     map_x_5 = Ditu()
+#     map_x_6 = Ditu()
+#     map_x_7 = Ditu()
+#     map_x_8 = Ditu()
+#     map_x_9 = Ditu()
+#     map_x_10 = Ditu()
+#
+#
+#     xunluoluxian_w.xunluoluxian_button[0].clicked.connect(map_x_1.show)
+#     xunluoluxian_w.xunluoluxian_button[1].clicked.connect(map_x_2.show)
+#     xunluoluxian_w.xunluoluxian_button[2].clicked.connect(map_x_3.show)
+#     xunluoluxian_w.xunluoluxian_button[3].clicked.connect(map_x_4.show)
+#     xunluoluxian_w.xunluoluxian_button[4].clicked.connect(map_x_5.show)
+#     xunluoluxian_w.xunluoluxian_button[5].clicked.connect(map_x_6.show)
+#     xunluoluxian_w.xunluoluxian_button[6].clicked.connect(map_x_7.show)
+#     xunluoluxian_w.xunluoluxian_button[7].clicked.connect(map_x_8.show)
+#     xunluoluxian_w.xunluoluxian_button[8].clicked.connect(map_x_9.show)
+#     xunluoluxian_w.xunluoluxian_button[9].clicked.connect(map_x_10.show)
+
+def expo_ditu(fenbushi_m, xunluoluxian_w):
+    map_f_1 = Ditu()
+    map_f_2 = Ditu()
+    map_f_3 = Ditu()
+    map_f_4 = Ditu()
+    map_f_5 = Ditu()
+    map_f_6 = Ditu()
+    map_f_7 = Ditu()
+    map_f_8 = Ditu()
+    map_f_9 = Ditu()
+    map_f_10 = Ditu()
+    map_f_11 = Ditu()
+    map_f_12 = Ditu()
+    map_f_13 = Ditu()
+    map_f_14 = Ditu()
+    map_f_15 = Ditu()
+
+    fenbushi_m.fenbushi_editButton[0].clicked.connect(map_f_1.show)
+    fenbushi_m.fenbushi_editButton[1].clicked.connect(map_f_2.show)
+    fenbushi_m.fenbushi_editButton[2].clicked.connect(map_f_3.show)
+    fenbushi_m.fenbushi_editButton[3].clicked.connect(map_f_4.show)
+    fenbushi_m.fenbushi_editButton[4].clicked.connect(map_f_5.show)
+    fenbushi_m.fenbushi_editButton[5].clicked.connect(map_f_6.show)
+    fenbushi_m.fenbushi_editButton[6].clicked.connect(map_f_7.show)
+    fenbushi_m.fenbushi_editButton[7].clicked.connect(map_f_8.show)
+    fenbushi_m.fenbushi_editButton[8].clicked.connect(map_f_9.show)
+    fenbushi_m.fenbushi_editButton[9].clicked.connect(map_f_10.show)
+    fenbushi_m.fenbushi_editButton[10].clicked.connect(map_f_11.show)
+    fenbushi_m.fenbushi_editButton[11].clicked.connect(map_f_12.show)
+    fenbushi_m.fenbushi_editButton[12].clicked.connect(map_f_13.show)
+    fenbushi_m.fenbushi_editButton[13].clicked.connect(map_f_14.show)
+    fenbushi_m.fenbushi_editButton[14].clicked.connect(map_f_15.show)
+
+    map_x_1 = Ditu()
+    map_x_2 = Ditu()
+    map_x_3 = Ditu()
+    map_x_4 = Ditu()
+    map_x_5 = Ditu()
+    map_x_6 = Ditu()
+    map_x_7 = Ditu()
+    map_x_8 = Ditu()
+    map_x_9 = Ditu()
+    map_x_10 = Ditu()
+
+
+    xunluoluxian_w.xunluoluxian_button[0].clicked.connect(map_x_1.show)
+    xunluoluxian_w.xunluoluxian_button[1].clicked.connect(map_x_2.show)
+    xunluoluxian_w.xunluoluxian_button[2].clicked.connect(map_x_3.show)
+    xunluoluxian_w.xunluoluxian_button[3].clicked.connect(map_x_4.show)
+    xunluoluxian_w.xunluoluxian_button[4].clicked.connect(map_x_5.show)
+    xunluoluxian_w.xunluoluxian_button[5].clicked.connect(map_x_6.show)
+    xunluoluxian_w.xunluoluxian_button[6].clicked.connect(map_x_7.show)
+    xunluoluxian_w.xunluoluxian_button[7].clicked.connect(map_x_8.show)
+    xunluoluxian_w.xunluoluxian_button[8].clicked.connect(map_x_9.show)
+    xunluoluxian_w.xunluoluxian_button[9].clicked.connect(map_x_10.show)
+
 def main():
     # pyqtgraph 示例
     # pyqtgraph.examples.run()
@@ -461,7 +720,10 @@ def main():
     planwork_m = planwork()
     fenbushi_m = fenbushi()
     xunluoluxian_w = xunluoluxian()
+    map_w = Ditu()
+    # map_m = Ditu()
     # 展示主窗口
+
     mwindow.show()
 
     #调用页面切换函数
@@ -491,6 +753,23 @@ def main():
     planwork_m.add_planwork.clicked.connect(planwork_m.add_plan)
     # 保存计划任务
     planwork_m.ok_planwork.clicked.connect(planwork_m.save_planwork)
+
+    # 分布式页面弹出地图编辑函数
+    expo_ditu(fenbushi_m, xunluoluxian_w)
+
+    # fenbushi_ditu(fenbushi_m)
+
+    # 巡逻路线弹出地图编辑函数
+
+    # xunluoluxian_ditu(xunluoluxian_w)
+
+    mwindow.sb.clicked.connect(map_w.show)
+    # fenbushi_m.fenbushi_editButton[0].clicked.connect(map_w.show)
+    # fenbushi_m.fenbushi_editButton[1].clicked.connect(map_m.show)
+    # for i in range(15):
+    #     exec("map_%s = Ditu()" % i)
+    #     # fenbushi_m.fenbushi_editButton[i].clicked.connect(map_w.show)
+
 
     sys.exit(app.exec_())
 

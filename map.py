@@ -16,30 +16,16 @@ class map(QWidget, Ui_map):
         super(map, self).__init__(parent)
         self.setupUi(self)
 
-        # self.scrollArea = QtWidgets.QScrollArea()
-        # self.scrollArea.setGeometry(QtCore.QRect(0, 0, 800, 800))
-        # self.scrollArea.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAsNeeded)
-        # self.scrollArea.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustIgnored)
-        # self.scrollArea.setWidgetResizable(False)
-        # self.scrollArea.setObjectName("scrollArea")
-        # self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        # self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 1024, 1024))
-        # sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
-        # sizePolicy.setHorizontalStretch(0)
-        # sizePolicy.setVerticalStretch(0)
-        # sizePolicy.setHeightForWidth(self.scrollAreaWidgetContents.sizePolicy().hasHeightForWidth())
-        # self.scrollAreaWidgetContents.setSizePolicy(sizePolicy)
-        # self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
-
-
         # 新建MyLabel的类
         self.map_position = MyLabel(self.scrollAreaWidgetContents)
-
-        self.map_position.setGeometry(QRect(0, 0, 730, 924))
+        # 读取地图文件
+        img = cv2.imread('./map.png')
+        # 获取图像高度和宽度值
+        height, width, bytesPerComponent = img.shape
+        # 设置地图尺寸，为坐标计算做准备
+        self.map_position.setGeometry(QRect(0, 0, width, height))
         print(self.map_position.width(), self.map_position.height())
 
-        img = cv2.imread('map.png')
-        height, width, bytesPerComponent = img.shape
         bytesPerLine = 3 * width
         cv2.cvtColor(img, cv2.COLOR_BGR2RGB, img)
         QImg = QImage(img.data, width, height, bytesPerLine, QImage.Format_RGB888)
@@ -50,6 +36,18 @@ class map(QWidget, Ui_map):
         self.map_position.setCursor(Qt.CrossCursor)
 
         self.show()
+
+    def closeEvent(self, e):
+        self.box = QMessageBox(QMessageBox.Warning, "系统提示信息", "是否退出系统？")
+        qyes = self.box.addButton(self.tr("是"), QMessageBox.YesRole)
+        qno = self.box.addButton(self.tr("否"), QMessageBox.NoRole)
+        self.box.exec_()
+        if self.box.clickedButton() == qyes:
+            e.accept()
+            QtWidgets.QWidget.closeEvent(self, e)
+            sys.exit().accept()
+        else:
+            e.ignore()
 
 # 重写新的Qlabel类
 class MyLabel(QLabel):

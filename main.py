@@ -25,14 +25,21 @@ from fenbushi import *
 from info import *
 from xunluoluxian import *
 from ditu import *
+from setting import *
 # from map import *
 
 # 全局变量定义
 global get_directory_path
 global fenbushi_button
 global xunluoluxian_button
-fenbushi_button = []
-xunluoluxian_button = []
+global fenbushi_list
+global xunluoluxian_list
+global fenbushi_point
+fenbushi_button = [0 for x in range(0,15)]
+fenbushi_list = [0 for x in range(0,15)]
+fenbushi_point = [0 for x in range(0,15)]
+xunluoluxian_button = [0 for x in range(0,10)]
+xunluoluxian_list = [0 for x in range(0,10)]
 
 
 
@@ -140,10 +147,19 @@ class fenbushi(QMainWindow, Ui_fenbushi):
         # map_w = Ditu
 
         self.fenbushi_id = []
+        self.fenbushi_points = []
         self.fenbushi_lists = []
         self.fenbushi_editButton = []
 
         for i in range(15):
+            # 分布式传感器id输入框
+            self.fenbushi_id.append(0)
+            self.fenbushi_id[i] = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
+            self.fenbushi_id[i].setGeometry(QtCore.QRect(30, 40 + 30 * i, 120, 20))
+            self.fenbushi_id[i].setObjectName("fenbushi_id")
+            self.fenbushi_id[i].setPlaceholderText("保留两位数字")
+            self.fenbushi_id[i].setVisible(False)
+            # 分布式传感器编辑按钮
             self.fenbushi_editButton.append(0)
             self.fenbushi_editButton[i] = QPushButton("编辑", self.scrollAreaWidgetContents)
             self.fenbushi_editButton[i].setDown(False)  # 默认为未按的状态
@@ -152,11 +168,29 @@ class fenbushi(QMainWindow, Ui_fenbushi):
             self.fenbushi_editButton[i].setVisible(False)
             self.fenbushi_editButton[i].setObjectName("fenbushi" + str(i))
 
+            # 分布式传感器本身位置输入框
+            self.fenbushi_points.append(0)
+            self.fenbushi_points[i] = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
+            self.fenbushi_points[i].setGeometry(QtCore.QRect(170, 40 + 30 * i, 120, 21))
+            self.fenbushi_points[i].setObjectName("fenbushi_points")
+            self.fenbushi_points[i].setPlaceholderText("填写示例：x1,y1,yaw1")
+            self.fenbushi_points[i].setVisible(False)
+            fenbushi_point[i] = self.fenbushi_points[i]
+            # 分布式传感器对应位置输入框
+            self.fenbushi_lists.append(0)
+            self.fenbushi_lists[i] = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
+            self.fenbushi_lists[i].setGeometry(QtCore.QRect(300, 40 + 30 * i, 320, 21))
+            self.fenbushi_lists[i].setObjectName("fenbushi_locations")
+            self.fenbushi_lists[i].setPlaceholderText("填写示例：x1,y1,yaw1;x2,y2,yaw")
+            self.fenbushi_lists[i].setVisible(False)
+            fenbushi_list[i] = self.fenbushi_lists[i]
+
 
     def add(self):
         # 获取分布式传感器的数量
         fbs_num = self.fensbushi_num.text()
         print(fbs_num, len(fbs_num))
+        # global fenbushi_list
 
         if len(fbs_num) == 0 or int(fbs_num) == 0:
             self.kong_fenbushi.setVisible(True)
@@ -166,25 +200,30 @@ class fenbushi(QMainWindow, Ui_fenbushi):
             self.kong_fenbushi.setVisible(False)
             if int(fbs_num) <= 15:
                 # 存储分布式传感器本身位置和对应位置
-                self.fenbushi_id = []
-                self.fenbushi_lists = []
+
+
                 # 生成对应数量的输入框
                 for i in range(int(fbs_num)):
-                    # 分布式传感器本身位置输入框
-                    self.fenbushi_id.append(0)
-                    self.fenbushi_id[i] = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
-                    self.fenbushi_id[i].setGeometry(QtCore.QRect(30, 40 + 30 * i, 120, 20))
-                    self.fenbushi_id[i].setObjectName("fenbushi_id")
-                    self.fenbushi_id[i].setPlaceholderText("保留两位数字")
+                    # 分布式传感器id输入框
+                    # self.fenbushi_id.append(0)
+                    # self.fenbushi_id[i] = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
+                    # self.fenbushi_id[i].setGeometry(QtCore.QRect(30, 40 + 30 * i, 120, 20))
+                    # self.fenbushi_id[i].setObjectName("fenbushi_id")
+                    # self.fenbushi_id[i].setPlaceholderText("保留两位数字")
                     self.fenbushi_id[i].setVisible(True)
 
+                    # 分布式传感器编辑按钮
+                    self.fenbushi_points[i].setVisible(True)
+
                     # 分布式传感器对应位置输入框
-                    self.fenbushi_lists.append(0)
-                    self.fenbushi_lists[i] = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
-                    self.fenbushi_lists[i].setGeometry(QtCore.QRect(170, 40 + 30 * i, 450, 21))
-                    self.fenbushi_lists[i].setObjectName("fenbushi_locations")
-                    self.fenbushi_lists[i].setPlaceholderText("填写示例：x1,y1,yaw1;x2,y2,yaw")
+                    # self.fenbushi_lists.append(0)
+                    # self.fenbushi_lists[i] = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
+                    # self.fenbushi_lists[i].setGeometry(QtCore.QRect(170, 40 + 30 * i, 450, 21))
+                    # self.fenbushi_lists[i].setObjectName("fenbushi_locations")
+                    # # self.fenbushi_lists[i].setText(fenbushi_list[i])
+                    # self.fenbushi_lists[i].setPlaceholderText("填写示例：x1,y1,yaw1;x2,y2,yaw")
                     self.fenbushi_lists[i].setVisible(True)
+
                     # 显示编辑按钮
                     self.fenbushi_editButton[i].setVisible(True)
 
@@ -457,7 +496,7 @@ class Ditu(QWidget, Ui_map):
         self.setupUi(self)
 
         # 新建MyLabel的类
-        self.map_position = Mylabel(self.scrollAreaWidgetContents)
+        self.map_position = Mylabel_fenbushi(self.scrollAreaWidgetContents)
         # 读取地图文件
         img = cv2.imread('./map.png')
         # 获取图像高度和宽度值
@@ -475,6 +514,7 @@ class Ditu(QWidget, Ui_map):
 
         self.map_position.setCursor(Qt.CrossCursor)
 
+
         # self.show()
     # 重写地图页面的关闭窗口事件
     def closeEvent(self, e):
@@ -483,23 +523,32 @@ class Ditu(QWidget, Ui_map):
         qno = self.box.addButton(self.tr("否"), QMessageBox.NoRole)
         self.box.exec_()
         if self.box.clickedButton() == qyes:
+            print(self.map_position.position,self.map_position.position_str)
+            print(type(self.map_position.position))
+            print(fenbushi_list, len(fenbushi_list))
+            fenbushi_point[0].setText(self.map_position.fenbushi_poi)
+            fenbushi_list[0].setText(self.map_position.position)
             e.accept()
             QtWidgets.QWidget.closeEvent(self, e)
+
+
+
             # sys.exit().accept()
 
         else:
             e.ignore()
 
-# 重写新的Qlabel类
-class Mylabel(QLabel):
-    def __init__(self, parent=Ditu):
-        super(Mylabel, self).__init__(parent)
+# 重写新的Qlabel类-对应分布式地图展示
+class Mylabel_fenbushi(QLabel):
+    def __init__(self, parent=None):
+        super(Mylabel_fenbushi, self).__init__(parent)
         self.x0 = 0
         self.y0 = 0
         self.flag = False
         self.position = []
         self.begin_point = QPoint()
         self.end_point = QPoint()
+        self.position_str = []
 
     def mousePressEvent(self, event):
         self.flag = True
@@ -512,13 +561,92 @@ class Mylabel(QLabel):
         self.end_point = event.pos()
         if not self.begin_point:
             self.begin_point = self.end_point
-
-        self.position.append([(self.x0-self.width()/2)*0.05, (self.height()/2-self.y0)*0.05, 0])
+        # 将坐标点坐标转换为str类型
+        position_int_str =",".join( [str(i) for i in[(self.x0-self.width()/2)*0.05, (self.height()/2-self.y0)*0.05, 0]])
+        # 各个坐标点写入列表
+        self.position_str.append(position_int_str)
+        self.fenbushi_poi = self.position_str[0]
+        self.fenbushi_poilist = self.position_str[1:]
+        self.position= ";".join(self.fenbushi_poilist)
         print(self.height(), self.width())
         # self.position.append([(self.x0-self.map_position.width()/2)*0.05, (self.map_position.height()/2-self.y0)*0.05, 0])
         print(self.position)
         print(self.begin_point)
         print(self.end_point)
+
+        self.update()
+
+
+
+    def paintEvent(self, event):
+        super().paintEvent(event)
+        # 实例化QPainter
+        # painter = QPainter(self.pixmap())
+        # # 设置线颜色（蓝）粗细形式
+        # painter.setPen(QPen(Qt.blue, 4, Qt.SolidLine))
+        # # 开始绘画
+        # painter.begin(self)
+        # # 画线
+        # painter.drawLine(self.begin_point, self.end_point)
+        # # 将前一个点赋值给起点，保证连续画线
+        # self.begin_point = self.end_point
+        # # 结束绘画
+        # painter.end()
+
+        painter_p = QPainter(self.pixmap())
+        # 设置线颜色（蓝）粗细形式
+        painter_p.setPen(QPen(Qt.red, 10))
+        # 开始绘画
+        painter_p.begin(self)
+        # 画点
+        painter_p.drawPoint(self.begin_point)
+        painter_p.drawPoint(self.end_point)
+        # 将前一个点赋值给起点，保证连续画线
+        self.begin_point = self.end_point
+        # 结束绘画
+        painter_p.end()
+
+        # 实现双缓冲
+        painter2 = QPainter(self)
+        painter2.drawPixmap(0, 0, self.pixmap())
+
+
+# 重写新的Qlabel类-对应巡逻路线地图展示
+class Mylabel_xunluoluxian(QLabel):
+    def __init__(self, parent=None):
+        super(Mylabel_xunluoluxian, self).__init__(parent)
+        self.x0 = 0
+        self.y0 = 0
+        self.flag = False
+        self.position = []
+        self.begin_point = QPoint()
+        self.end_point = QPoint()
+        self.position_str = []
+
+    def mousePressEvent(self, event):
+        self.flag = True
+        self.x0 = event.x()
+        self.y0 = event.y()
+        # self.update()
+
+    def mouseReleaseEvent(self, event):
+        self.flag = False
+        self.end_point = event.pos()
+        if not self.begin_point:
+            self.begin_point = self.end_point
+        # 将坐标点坐标转换为str类型
+        position_int_str =",".join( [str(i) for i in[(self.x0-self.width()/2)*0.05, (self.height()/2-self.y0)*0.05, 0]])
+        # 各个坐标点写入列表
+        self.position_str.append(position_int_str)
+        self.fenbushi_poi = self.position_str[0]
+        self.fenbushi_poilist = self.position_str[1:]
+        self.position= ";".join(self.position_str)
+        print(self.height(), self.width())
+        # self.position.append([(self.x0-self.map_position.width()/2)*0.05, (self.map_position.height()/2-self.y0)*0.05, 0])
+        print(self.position)
+        print(self.begin_point)
+        print(self.end_point)
+
         self.update()
 
 
@@ -555,7 +683,7 @@ class Mylabel(QLabel):
         painter2 = QPainter(self)
         painter2.drawPixmap(0, 0, self.pixmap())
 
-
+# 界面切换函数
 def menu_triggered(mwindow, info_m, planwork_m, fenbushi_m):
     # 主窗口菜单页面切换
     # 切换到info界面
@@ -594,6 +722,8 @@ def menu_triggered(mwindow, info_m, planwork_m, fenbushi_m):
     # 切换到info界面
     planwork_m.actionRobot_info.triggered.connect(info_m.show)
     planwork_m.actionRobot_info.triggered.connect(planwork_m.close)
+
+
 
 
 def fenbushi_ditu(fenbushi_m):
@@ -762,6 +892,69 @@ def main():
     # 巡逻路线弹出地图编辑函数
 
     # xunluoluxian_ditu(xunluoluxian_w)
+
+    # 暂时无法通过调用函数处理-之前可以
+    # 分布式
+
+    map_f_1 = Ditu()
+    map_f_2 = Ditu()
+    map_f_3 = Ditu()
+    map_f_4 = Ditu()
+    map_f_5 = Ditu()
+    map_f_6 = Ditu()
+    map_f_7 = Ditu()
+    map_f_8 = Ditu()
+    map_f_9 = Ditu()
+    map_f_10 = Ditu()
+    map_f_11 = Ditu()
+    map_f_12 = Ditu()
+    map_f_13 = Ditu()
+    map_f_14 = Ditu()
+    map_f_15 = Ditu()
+
+    fenbushi_m.fenbushi_editButton[0].clicked.connect(map_f_1.show)
+
+
+
+
+    # print(map_f_1.map_position.pp,11111)
+    # fenbushi_m.fenbushi_lists[0].setText(m1)
+    fenbushi_m.fenbushi_editButton[1].clicked.connect(map_f_2.show)
+    fenbushi_m.fenbushi_editButton[2].clicked.connect(map_f_3.show)
+    fenbushi_m.fenbushi_editButton[3].clicked.connect(map_f_4.show)
+    fenbushi_m.fenbushi_editButton[4].clicked.connect(map_f_5.show)
+    fenbushi_m.fenbushi_editButton[5].clicked.connect(map_f_6.show)
+    fenbushi_m.fenbushi_editButton[6].clicked.connect(map_f_7.show)
+    fenbushi_m.fenbushi_editButton[7].clicked.connect(map_f_8.show)
+    fenbushi_m.fenbushi_editButton[8].clicked.connect(map_f_9.show)
+    fenbushi_m.fenbushi_editButton[9].clicked.connect(map_f_10.show)
+    fenbushi_m.fenbushi_editButton[10].clicked.connect(map_f_11.show)
+    fenbushi_m.fenbushi_editButton[11].clicked.connect(map_f_12.show)
+    fenbushi_m.fenbushi_editButton[12].clicked.connect(map_f_13.show)
+    fenbushi_m.fenbushi_editButton[13].clicked.connect(map_f_14.show)
+    fenbushi_m.fenbushi_editButton[14].clicked.connect(map_f_15.show)
+    # 巡逻路线
+    map_x_1 = Ditu()
+    map_x_2 = Ditu()
+    map_x_3 = Ditu()
+    map_x_4 = Ditu()
+    map_x_5 = Ditu()
+    map_x_6 = Ditu()
+    map_x_7 = Ditu()
+    map_x_8 = Ditu()
+    map_x_9 = Ditu()
+    map_x_10 = Ditu()
+
+    xunluoluxian_w.xunluoluxian_button[0].clicked.connect(map_x_1.show)
+    xunluoluxian_w.xunluoluxian_button[1].clicked.connect(map_x_2.show)
+    xunluoluxian_w.xunluoluxian_button[2].clicked.connect(map_x_3.show)
+    xunluoluxian_w.xunluoluxian_button[3].clicked.connect(map_x_4.show)
+    xunluoluxian_w.xunluoluxian_button[4].clicked.connect(map_x_5.show)
+    xunluoluxian_w.xunluoluxian_button[5].clicked.connect(map_x_6.show)
+    xunluoluxian_w.xunluoluxian_button[6].clicked.connect(map_x_7.show)
+    xunluoluxian_w.xunluoluxian_button[7].clicked.connect(map_x_8.show)
+    xunluoluxian_w.xunluoluxian_button[8].clicked.connect(map_x_9.show)
+    xunluoluxian_w.xunluoluxian_button[9].clicked.connect(map_x_10.show)
 
     mwindow.sb.clicked.connect(map_w.show)
     # fenbushi_m.fenbushi_editButton[0].clicked.connect(map_w.show)

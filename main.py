@@ -35,11 +35,13 @@ global xunluoluxian_button
 global fenbushi_list
 global xunluoluxian_list
 global fenbushi_point
+global fenbushi_flag
 fenbushi_button = [0 for x in range(0,15)]
 fenbushi_list = [0 for x in range(0,15)]
 fenbushi_point = [0 for x in range(0,15)]
 xunluoluxian_button = [0 for x in range(0,10)]
 xunluoluxian_list = [0 for x in range(0,10)]
+fenbushi_flag = 0
 
 
 
@@ -488,11 +490,11 @@ class xunluoluxian(QWidget, Ui_xunluoluxian):
         robot_xunluoluxian.close()
 
 
-# 创建map类并传入Ui_map
-class Ditu(QWidget, Ui_map):
+# 创建分布式地图类并传入Ui_map
+class Ditu_fenbushi(QWidget, Ui_map):
     """地图操作窗口"""
     def __init__(self, parent=None):
-        super(Ditu, self).__init__(parent)
+        super(Ditu_fenbushi, self).__init__(parent)
         self.setupUi(self)
 
         # 新建MyLabel的类
@@ -518,6 +520,7 @@ class Ditu(QWidget, Ui_map):
         # self.show()
     # 重写地图页面的关闭窗口事件
     def closeEvent(self, e):
+        # global fenbushi_flag
         self.box = QMessageBox(QMessageBox.Warning, "系统提示信息", "是否完成配置并退出地图？")
         qyes = self.box.addButton(self.tr("是"), QMessageBox.YesRole)
         qno = self.box.addButton(self.tr("否"), QMessageBox.NoRole)
@@ -526,8 +529,53 @@ class Ditu(QWidget, Ui_map):
             print(self.map_position.position,self.map_position.position_str)
             print(type(self.map_position.position))
             print(fenbushi_list, len(fenbushi_list))
-            fenbushi_point[0].setText(self.map_position.fenbushi_poi)
-            fenbushi_list[0].setText(self.map_position.position)
+            print(fenbushi_flag)
+            if fenbushi_flag == 1:
+                fenbushi_point[0].setText(self.map_position.fenbushi_poi)
+                fenbushi_list[0].setText(self.map_position.position)
+            elif fenbushi_flag == 2:
+                fenbushi_point[1].setText(self.map_position.fenbushi_poi)
+                fenbushi_list[1].setText(self.map_position.position)
+            elif fenbushi_flag == 3:
+                fenbushi_point[2].setText(self.map_position.fenbushi_poi)
+                fenbushi_list[2].setText(self.map_position.position)
+            elif fenbushi_flag == 4:
+                fenbushi_point[3].setText(self.map_position.fenbushi_poi)
+                fenbushi_list[3].setText(self.map_position.position)
+            elif fenbushi_flag == 5:
+                fenbushi_point[4].setText(self.map_position.fenbushi_poi)
+                fenbushi_list[4].setText(self.map_position.position)
+            elif fenbushi_flag == 6:
+                fenbushi_point[5].setText(self.map_position.fenbushi_poi)
+                fenbushi_list[5].setText(self.map_position.position)
+            elif fenbushi_flag == 7:
+                fenbushi_point[6].setText(self.map_position.fenbushi_poi)
+                fenbushi_list[6].setText(self.map_position.position)
+            elif fenbushi_flag == 8:
+                fenbushi_point[7].setText(self.map_position.fenbushi_poi)
+                fenbushi_list[7].setText(self.map_position.position)
+            elif fenbushi_flag == 9:
+                fenbushi_point[8].setText(self.map_position.fenbushi_poi)
+                fenbushi_list[8].setText(self.map_position.position)
+            elif fenbushi_flag == 10:
+                fenbushi_point[9].setText(self.map_position.fenbushi_poi)
+                fenbushi_list[9].setText(self.map_position.position)
+            elif fenbushi_flag == 11:
+                fenbushi_point[10].setText(self.map_position.fenbushi_poi)
+                fenbushi_list[10].setText(self.map_position.position)
+            elif fenbushi_flag == 12:
+                fenbushi_point[11].setText(self.map_position.fenbushi_poi)
+                fenbushi_list[11].setText(self.map_position.position)
+            elif fenbushi_flag == 13:
+                fenbushi_point[12].setText(self.map_position.fenbushi_poi)
+                fenbushi_list[12].setText(self.map_position.position)
+            elif fenbushi_flag == 14:
+                fenbushi_point[13].setText(self.map_position.fenbushi_poi)
+                fenbushi_list[13].setText(self.map_position.position)
+            elif fenbushi_flag == 15:
+                fenbushi_point[14].setText(self.map_position.fenbushi_poi)
+                fenbushi_list[14].setText(self.map_position.position)
+
             e.accept()
             QtWidgets.QWidget.closeEvent(self, e)
 
@@ -537,6 +585,103 @@ class Ditu(QWidget, Ui_map):
 
         else:
             e.ignore()
+
+
+# 创建巡逻路线地图类并传入Ui_map
+class Ditu_xunluoluxian(QWidget, Ui_map):
+    """地图操作窗口"""
+
+    def __init__(self, parent=None):
+        super(Ditu_xunluoluxian, self).__init__(parent)
+        self.setupUi(self)
+
+        # 新建MyLabel的类
+        self.map_position = Mylabel_fenbushi(self.scrollAreaWidgetContents)
+        # 读取地图文件
+        img = cv2.imread('./map.png')
+        # 获取图像高度和宽度值
+        height, width, bytesPerComponent = img.shape
+        # 设置地图尺寸，为坐标计算做准备
+        self.map_position.setGeometry(QRect(0, 0, width, height))
+        print(self.map_position.width(), self.map_position.height())
+
+        bytesPerLine = 3 * width
+        cv2.cvtColor(img, cv2.COLOR_BGR2RGB, img)
+        QImg = QImage(img.data, width, height, bytesPerLine, QImage.Format_RGB888)
+        self.pixmap = QPixmap.fromImage(QImg)
+
+        self.map_position.setPixmap(self.pixmap)
+
+        self.map_position.setCursor(Qt.CrossCursor)
+
+        # self.show()
+
+    # 重写地图页面的关闭窗口事件
+    def closeEvent(self, e):
+        # global fenbushi_flag
+        self.box = QMessageBox(QMessageBox.Warning, "系统提示信息", "是否完成配置并退出地图？")
+        qyes = self.box.addButton(self.tr("是"), QMessageBox.YesRole)
+        qno = self.box.addButton(self.tr("否"), QMessageBox.NoRole)
+        self.box.exec_()
+        if self.box.clickedButton() == qyes:
+            print(self.map_position.position, self.map_position.position_str)
+            print(type(self.map_position.position))
+            print(fenbushi_list, len(fenbushi_list))
+            print(fenbushi_flag)
+            if fenbushi_flag == 1:
+                fenbushi_point[0].setText(self.map_position.fenbushi_poi)
+                fenbushi_list[0].setText(self.map_position.position)
+            elif fenbushi_flag == 2:
+                fenbushi_point[1].setText(self.map_position.fenbushi_poi)
+                fenbushi_list[1].setText(self.map_position.position)
+            elif fenbushi_flag == 3:
+                fenbushi_point[2].setText(self.map_position.fenbushi_poi)
+                fenbushi_list[2].setText(self.map_position.position)
+            elif fenbushi_flag == 4:
+                fenbushi_point[3].setText(self.map_position.fenbushi_poi)
+                fenbushi_list[3].setText(self.map_position.position)
+            elif fenbushi_flag == 5:
+                fenbushi_point[4].setText(self.map_position.fenbushi_poi)
+                fenbushi_list[4].setText(self.map_position.position)
+            elif fenbushi_flag == 6:
+                fenbushi_point[5].setText(self.map_position.fenbushi_poi)
+                fenbushi_list[5].setText(self.map_position.position)
+            elif fenbushi_flag == 7:
+                fenbushi_point[6].setText(self.map_position.fenbushi_poi)
+                fenbushi_list[6].setText(self.map_position.position)
+            elif fenbushi_flag == 8:
+                fenbushi_point[7].setText(self.map_position.fenbushi_poi)
+                fenbushi_list[7].setText(self.map_position.position)
+            elif fenbushi_flag == 9:
+                fenbushi_point[8].setText(self.map_position.fenbushi_poi)
+                fenbushi_list[8].setText(self.map_position.position)
+            elif fenbushi_flag == 10:
+                fenbushi_point[9].setText(self.map_position.fenbushi_poi)
+                fenbushi_list[9].setText(self.map_position.position)
+            elif fenbushi_flag == 11:
+                fenbushi_point[10].setText(self.map_position.fenbushi_poi)
+                fenbushi_list[10].setText(self.map_position.position)
+            elif fenbushi_flag == 12:
+                fenbushi_point[11].setText(self.map_position.fenbushi_poi)
+                fenbushi_list[11].setText(self.map_position.position)
+            elif fenbushi_flag == 13:
+                fenbushi_point[12].setText(self.map_position.fenbushi_poi)
+                fenbushi_list[12].setText(self.map_position.position)
+            elif fenbushi_flag == 14:
+                fenbushi_point[13].setText(self.map_position.fenbushi_poi)
+                fenbushi_list[13].setText(self.map_position.position)
+            elif fenbushi_flag == 15:
+                fenbushi_point[14].setText(self.map_position.fenbushi_poi)
+                fenbushi_list[14].setText(self.map_position.position)
+
+            e.accept()
+            QtWidgets.QWidget.closeEvent(self, e)
+
+            # sys.exit().accept()
+
+        else:
+            e.ignore()
+
 
 # 重写新的Qlabel类-对应分布式地图展示
 class Mylabel_fenbushi(QLabel):
@@ -725,122 +870,11 @@ def menu_triggered(mwindow, info_m, planwork_m, fenbushi_m):
 
 
 
-
-def fenbushi_ditu(fenbushi_m):
-
-    map_f_1 = Ditu()
-    map_f_2 = Ditu()
-    map_f_3 = Ditu()
-    map_f_4 = Ditu()
-    map_f_5 = Ditu()
-    map_f_6 = Ditu()
-    map_f_7 = Ditu()
-    map_f_8 = Ditu()
-    map_f_9 = Ditu()
-    map_f_10 = Ditu()
-    map_f_11 = Ditu()
-    map_f_12 = Ditu()
-    map_f_13 = Ditu()
-    map_f_14 = Ditu()
-    map_f_15 = Ditu()
-
-    fenbushi_m.fenbushi_editButton[0].clicked.connect(map_f_1.show)
-    fenbushi_m.fenbushi_editButton[1].clicked.connect(map_f_2.show)
-    fenbushi_m.fenbushi_editButton[2].clicked.connect(map_f_3.show)
-    fenbushi_m.fenbushi_editButton[3].clicked.connect(map_f_4.show)
-    fenbushi_m.fenbushi_editButton[4].clicked.connect(map_f_5.show)
-    fenbushi_m.fenbushi_editButton[5].clicked.connect(map_f_6.show)
-    fenbushi_m.fenbushi_editButton[6].clicked.connect(map_f_7.show)
-    fenbushi_m.fenbushi_editButton[7].clicked.connect(map_f_8.show)
-    fenbushi_m.fenbushi_editButton[8].clicked.connect(map_f_9.show)
-    fenbushi_m.fenbushi_editButton[9].clicked.connect(map_f_10.show)
-    fenbushi_m.fenbushi_editButton[10].clicked.connect(map_f_11.show)
-    fenbushi_m.fenbushi_editButton[11].clicked.connect(map_f_12.show)
-    fenbushi_m.fenbushi_editButton[12].clicked.connect(map_f_13.show)
-    fenbushi_m.fenbushi_editButton[13].clicked.connect(map_f_14.show)
-    fenbushi_m.fenbushi_editButton[14].clicked.connect(map_f_15.show)
-
-
-# def xunluoluxian_ditu(xunluoluxian_w):
-#     map_x_1 = Ditu()
-#     map_x_2 = Ditu()
-#     map_x_3 = Ditu()
-#     map_x_4 = Ditu()
-#     map_x_5 = Ditu()
-#     map_x_6 = Ditu()
-#     map_x_7 = Ditu()
-#     map_x_8 = Ditu()
-#     map_x_9 = Ditu()
-#     map_x_10 = Ditu()
-#
-#
-#     xunluoluxian_w.xunluoluxian_button[0].clicked.connect(map_x_1.show)
-#     xunluoluxian_w.xunluoluxian_button[1].clicked.connect(map_x_2.show)
-#     xunluoluxian_w.xunluoluxian_button[2].clicked.connect(map_x_3.show)
-#     xunluoluxian_w.xunluoluxian_button[3].clicked.connect(map_x_4.show)
-#     xunluoluxian_w.xunluoluxian_button[4].clicked.connect(map_x_5.show)
-#     xunluoluxian_w.xunluoluxian_button[5].clicked.connect(map_x_6.show)
-#     xunluoluxian_w.xunluoluxian_button[6].clicked.connect(map_x_7.show)
-#     xunluoluxian_w.xunluoluxian_button[7].clicked.connect(map_x_8.show)
-#     xunluoluxian_w.xunluoluxian_button[8].clicked.connect(map_x_9.show)
-#     xunluoluxian_w.xunluoluxian_button[9].clicked.connect(map_x_10.show)
-
-def expo_ditu(fenbushi_m, xunluoluxian_w):
-    map_f_1 = Ditu()
-    map_f_2 = Ditu()
-    map_f_3 = Ditu()
-    map_f_4 = Ditu()
-    map_f_5 = Ditu()
-    map_f_6 = Ditu()
-    map_f_7 = Ditu()
-    map_f_8 = Ditu()
-    map_f_9 = Ditu()
-    map_f_10 = Ditu()
-    map_f_11 = Ditu()
-    map_f_12 = Ditu()
-    map_f_13 = Ditu()
-    map_f_14 = Ditu()
-    map_f_15 = Ditu()
-
-    fenbushi_m.fenbushi_editButton[0].clicked.connect(map_f_1.show)
-    fenbushi_m.fenbushi_editButton[1].clicked.connect(map_f_2.show)
-    fenbushi_m.fenbushi_editButton[2].clicked.connect(map_f_3.show)
-    fenbushi_m.fenbushi_editButton[3].clicked.connect(map_f_4.show)
-    fenbushi_m.fenbushi_editButton[4].clicked.connect(map_f_5.show)
-    fenbushi_m.fenbushi_editButton[5].clicked.connect(map_f_6.show)
-    fenbushi_m.fenbushi_editButton[6].clicked.connect(map_f_7.show)
-    fenbushi_m.fenbushi_editButton[7].clicked.connect(map_f_8.show)
-    fenbushi_m.fenbushi_editButton[8].clicked.connect(map_f_9.show)
-    fenbushi_m.fenbushi_editButton[9].clicked.connect(map_f_10.show)
-    fenbushi_m.fenbushi_editButton[10].clicked.connect(map_f_11.show)
-    fenbushi_m.fenbushi_editButton[11].clicked.connect(map_f_12.show)
-    fenbushi_m.fenbushi_editButton[12].clicked.connect(map_f_13.show)
-    fenbushi_m.fenbushi_editButton[13].clicked.connect(map_f_14.show)
-    fenbushi_m.fenbushi_editButton[14].clicked.connect(map_f_15.show)
-
-    map_x_1 = Ditu()
-    map_x_2 = Ditu()
-    map_x_3 = Ditu()
-    map_x_4 = Ditu()
-    map_x_5 = Ditu()
-    map_x_6 = Ditu()
-    map_x_7 = Ditu()
-    map_x_8 = Ditu()
-    map_x_9 = Ditu()
-    map_x_10 = Ditu()
-
-
-    xunluoluxian_w.xunluoluxian_button[0].clicked.connect(map_x_1.show)
-    xunluoluxian_w.xunluoluxian_button[1].clicked.connect(map_x_2.show)
-    xunluoluxian_w.xunluoluxian_button[2].clicked.connect(map_x_3.show)
-    xunluoluxian_w.xunluoluxian_button[3].clicked.connect(map_x_4.show)
-    xunluoluxian_w.xunluoluxian_button[4].clicked.connect(map_x_5.show)
-    xunluoluxian_w.xunluoluxian_button[5].clicked.connect(map_x_6.show)
-    xunluoluxian_w.xunluoluxian_button[6].clicked.connect(map_x_7.show)
-    xunluoluxian_w.xunluoluxian_button[7].clicked.connect(map_x_8.show)
-    xunluoluxian_w.xunluoluxian_button[8].clicked.connect(map_x_9.show)
-    xunluoluxian_w.xunluoluxian_button[9].clicked.connect(map_x_10.show)
-
+def change_fenbushi_flag(n):
+    global fenbushi_flag
+    fenbushi_flag = n
+    print(fenbushi_flag)
+    # return fenbushi_flag
 def main():
     # pyqtgraph 示例
     # pyqtgraph.examples.run()
@@ -850,7 +884,7 @@ def main():
     planwork_m = planwork()
     fenbushi_m = fenbushi()
     xunluoluxian_w = xunluoluxian()
-    map_w = Ditu()
+    map_w = Ditu_fenbushi()
     # map_m = Ditu()
     # 展示主窗口
 
@@ -885,7 +919,7 @@ def main():
     planwork_m.ok_planwork.clicked.connect(planwork_m.save_planwork)
 
     # 分布式页面弹出地图编辑函数
-    expo_ditu(fenbushi_m, xunluoluxian_w)
+
 
     # fenbushi_ditu(fenbushi_m)
 
@@ -896,54 +930,78 @@ def main():
     # 暂时无法通过调用函数处理-之前可以
     # 分布式
 
-    map_f_1 = Ditu()
-    map_f_2 = Ditu()
-    map_f_3 = Ditu()
-    map_f_4 = Ditu()
-    map_f_5 = Ditu()
-    map_f_6 = Ditu()
-    map_f_7 = Ditu()
-    map_f_8 = Ditu()
-    map_f_9 = Ditu()
-    map_f_10 = Ditu()
-    map_f_11 = Ditu()
-    map_f_12 = Ditu()
-    map_f_13 = Ditu()
-    map_f_14 = Ditu()
-    map_f_15 = Ditu()
+    map_f_1 = Ditu_fenbushi()
+    map_f_2 = Ditu_fenbushi()
+    map_f_3 = Ditu_fenbushi()
+    map_f_4 = Ditu_fenbushi()
+    map_f_5 = Ditu_fenbushi()
+    map_f_6 = Ditu_fenbushi()
+    map_f_7 = Ditu_fenbushi()
+    map_f_8 = Ditu_fenbushi()
+    map_f_9 = Ditu_fenbushi()
+    map_f_10 = Ditu_fenbushi()
+    map_f_11 = Ditu_fenbushi()
+    map_f_12 = Ditu_fenbushi()
+    map_f_13 = Ditu_fenbushi()
+    map_f_14 = Ditu_fenbushi()
+    map_f_15 = Ditu_fenbushi()
 
+    fenbushi_m.fenbushi_editButton[0].clicked.connect(lambda: change_fenbushi_flag(1))
     fenbushi_m.fenbushi_editButton[0].clicked.connect(map_f_1.show)
 
-
-
-
-    # print(map_f_1.map_position.pp,11111)
-    # fenbushi_m.fenbushi_lists[0].setText(m1)
     fenbushi_m.fenbushi_editButton[1].clicked.connect(map_f_2.show)
+    fenbushi_m.fenbushi_editButton[1].clicked.connect(lambda : change_fenbushi_flag(2))
+
     fenbushi_m.fenbushi_editButton[2].clicked.connect(map_f_3.show)
+    fenbushi_m.fenbushi_editButton[2].clicked.connect(lambda : change_fenbushi_flag(3))
+
     fenbushi_m.fenbushi_editButton[3].clicked.connect(map_f_4.show)
+    fenbushi_m.fenbushi_editButton[3].clicked.connect(lambda : change_fenbushi_flag(4))
+
     fenbushi_m.fenbushi_editButton[4].clicked.connect(map_f_5.show)
+    fenbushi_m.fenbushi_editButton[4].clicked.connect(lambda : change_fenbushi_flag(5))
+
     fenbushi_m.fenbushi_editButton[5].clicked.connect(map_f_6.show)
+    fenbushi_m.fenbushi_editButton[5].clicked.connect(lambda : change_fenbushi_flag(6))
+
     fenbushi_m.fenbushi_editButton[6].clicked.connect(map_f_7.show)
+    fenbushi_m.fenbushi_editButton[6].clicked.connect(lambda : change_fenbushi_flag(7))
+
     fenbushi_m.fenbushi_editButton[7].clicked.connect(map_f_8.show)
+    fenbushi_m.fenbushi_editButton[7].clicked.connect(lambda : change_fenbushi_flag(8))
+
     fenbushi_m.fenbushi_editButton[8].clicked.connect(map_f_9.show)
+    fenbushi_m.fenbushi_editButton[8].clicked.connect(lambda : change_fenbushi_flag(9))
+
     fenbushi_m.fenbushi_editButton[9].clicked.connect(map_f_10.show)
+    fenbushi_m.fenbushi_editButton[9].clicked.connect(lambda : change_fenbushi_flag(10))
+
     fenbushi_m.fenbushi_editButton[10].clicked.connect(map_f_11.show)
+    fenbushi_m.fenbushi_editButton[10].clicked.connect(lambda : change_fenbushi_flag(11))
+
     fenbushi_m.fenbushi_editButton[11].clicked.connect(map_f_12.show)
+    fenbushi_m.fenbushi_editButton[11].clicked.connect(lambda : change_fenbushi_flag(12))
+
     fenbushi_m.fenbushi_editButton[12].clicked.connect(map_f_13.show)
+    fenbushi_m.fenbushi_editButton[12].clicked.connect(lambda : change_fenbushi_flag(13))
+
     fenbushi_m.fenbushi_editButton[13].clicked.connect(map_f_14.show)
+    fenbushi_m.fenbushi_editButton[13].clicked.connect(lambda : change_fenbushi_flag(14))
+
     fenbushi_m.fenbushi_editButton[14].clicked.connect(map_f_15.show)
+    fenbushi_m.fenbushi_editButton[14].clicked.connect(lambda : change_fenbushi_flag(15))
+
     # 巡逻路线
-    map_x_1 = Ditu()
-    map_x_2 = Ditu()
-    map_x_3 = Ditu()
-    map_x_4 = Ditu()
-    map_x_5 = Ditu()
-    map_x_6 = Ditu()
-    map_x_7 = Ditu()
-    map_x_8 = Ditu()
-    map_x_9 = Ditu()
-    map_x_10 = Ditu()
+    map_x_1 = Ditu_xunluoluxian()
+    map_x_2 = Ditu_xunluoluxian()
+    map_x_3 = Ditu_xunluoluxian()
+    map_x_4 = Ditu_xunluoluxian()
+    map_x_5 = Ditu_xunluoluxian()
+    map_x_6 = Ditu_xunluoluxian()
+    map_x_7 = Ditu_xunluoluxian()
+    map_x_8 = Ditu_xunluoluxian()
+    map_x_9 = Ditu_xunluoluxian()
+    map_x_10 = Ditu_xunluoluxian()
 
     xunluoluxian_w.xunluoluxian_button[0].clicked.connect(map_x_1.show)
     xunluoluxian_w.xunluoluxian_button[1].clicked.connect(map_x_2.show)

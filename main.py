@@ -25,23 +25,25 @@ from fenbushi import *
 from info import *
 from xunluoluxian import *
 from ditu import *
-from setting import *
+# from setting import *
 # from map import *
 
 # 全局变量定义
 global get_directory_path
 global fenbushi_button
-global xunluoluxian_button
+global xunluoluxian_buttons
 global fenbushi_list
 global xunluoluxian_list
 global fenbushi_point
 global fenbushi_flag
+global xunluoluxian_flag
 fenbushi_button = [0 for x in range(0,15)]
 fenbushi_list = [0 for x in range(0,15)]
 fenbushi_point = [0 for x in range(0,15)]
-xunluoluxian_button = [0 for x in range(0,10)]
+xunluoluxian_buttons = [0 for x in range(0,10)]
 xunluoluxian_list = [0 for x in range(0,10)]
 fenbushi_flag = 0
+xunluoluxian_flag = 0
 
 
 
@@ -202,8 +204,6 @@ class fenbushi(QMainWindow, Ui_fenbushi):
             self.kong_fenbushi.setVisible(False)
             if int(fbs_num) <= 15:
                 # 存储分布式传感器本身位置和对应位置
-
-
                 # 生成对应数量的输入框
                 for i in range(int(fbs_num)):
                     # 分布式传感器id输入框
@@ -418,6 +418,7 @@ class xunluoluxian(QWidget, Ui_xunluoluxian):
         self.xunluoluxian_n.setText("巡逻路线"+str(num))
         self.xunluoluxian_n.setVisible(True)
         self.xunluoluxian_name.append(self.xunluoluxian_n)
+        self.name_num = len(self.xunluoluxian_name)
         # 添加路线点的QLinEdit控件
         self.xunluoluxian_p = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
         self.xunluoluxian_p.setGeometry(QtCore.QRect(120, 40, 240, 20))
@@ -425,6 +426,7 @@ class xunluoluxian(QWidget, Ui_xunluoluxian):
         self.xunluoluxian_p.setPlaceholderText("示例：x1,y1,yaw1;x2,y2,yaw2")
         self.xunluoluxian_p.setVisible(True)
         self.xunluoluxian_point.append(self.xunluoluxian_p)
+        xunluoluxian_list[0] = self.xunluoluxian_point[0]
         # 编辑按钮
         self.xunluoluxian_b = QPushButton("编辑", self.scrollAreaWidgetContents)
         self.xunluoluxian_b.setDown(False)  # 默认为未按的状态
@@ -432,6 +434,7 @@ class xunluoluxian(QWidget, Ui_xunluoluxian):
         self.xunluoluxian_b.setStyleSheet('QPushButton{margin:3px};')
         self.xunluoluxian_b.setVisible(True)
         self.xunluoluxian_button.append(self.xunluoluxian_b)
+        xunluoluxian_buttons[0] = self.xunluoluxian_button[0]
 
         for i in range(9):
             self.xunluoluxian_b = QPushButton("编辑", self.scrollAreaWidgetContents)
@@ -441,37 +444,43 @@ class xunluoluxian(QWidget, Ui_xunluoluxian):
             self.xunluoluxian_b.setStyleSheet('QPushButton{margin:3px};')
             self.xunluoluxian_b.setVisible(False)
             self.xunluoluxian_button.append(self.xunluoluxian_b)
+            xunluoluxian_buttons[i+1] = self.xunluoluxian_button[i+1]
 
 
     def add_xunluoluxian(self):
-        # 点击按钮添加路线名称的QLinEdit控件
-        self.xunluoluxian_n = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
-        self.xunluoluxian_n.setGeometry(QtCore.QRect(20, self.xunluoluxian_name[len(self.xunluoluxian_name)-1].y()+30, 80, 20))
-        self.xunluoluxian_n.setObjectName("xunluoluxian_name")
-        num = len(self.xunluoluxian_name)
-        self.xunluoluxian_n.setText("巡逻路线"+str(num))
-        self.xunluoluxian_n.setVisible(True)
-        self.xunluoluxian_name.append(self.xunluoluxian_n)
-        # 点击按钮添加路线点的QLinEdit控件
-        self.xunluoluxian_p = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
-        self.xunluoluxian_p.setGeometry(QtCore.QRect(120, self.xunluoluxian_point[len(self.xunluoluxian_point)-1].y()+30, 240, 20))
-        self.xunluoluxian_p.setObjectName("xunluoluxian_point")
-        self.xunluoluxian_p.setPlaceholderText("示例：x1,y1,yaw1;x2,y2,yaw2")
-        self.xunluoluxian_p.setVisible(True)
-        self.xunluoluxian_point.append(self.xunluoluxian_p)
-        self.name_num = len(self.xunluoluxian_name)
+        if self.name_num <=10:
+            # 点击按钮添加路线名称的QLinEdit控件
+            self.xunluoluxian_n = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
+            self.xunluoluxian_n.setGeometry(QtCore.QRect(20, self.xunluoluxian_name[len(self.xunluoluxian_name)-1].y()+30, 80, 20))
+            self.xunluoluxian_n.setObjectName("xunluoluxian_name")
+            num = len(self.xunluoluxian_name)
+            self.xunluoluxian_n.setText("巡逻路线"+str(num))
+            self.xunluoluxian_n.setVisible(True)
+            self.xunluoluxian_name.append(self.xunluoluxian_n)
+            # 点击按钮添加路线点的QLinEdit控件
+            self.xunluoluxian_p = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
+            self.xunluoluxian_p.setGeometry(QtCore.QRect(120, self.xunluoluxian_point[len(self.xunluoluxian_point)-1].y()+30, 240, 20))
+            self.xunluoluxian_p.setObjectName("xunluoluxian_point")
+            self.xunluoluxian_p.setPlaceholderText("示例：x1,y1,yaw1;x2,y2,yaw2")
+            self.xunluoluxian_p.setVisible(True)
+            self.xunluoluxian_point.append(self.xunluoluxian_p)
+            xunluoluxian_list[num] = self.xunluoluxian_point[num]
+            print(xunluoluxian_list)
+            self.name_num = len(self.xunluoluxian_name)
 
-        # 点击按钮添加编辑按钮
-        for i in range(10):
-            if self.xunluoluxian_button[i].isVisible() and not self.xunluoluxian_button[i+1].isVisible():
-                self.xunluoluxian_button[i+1].setVisible(True)
-                break
-            else:
-                continue
+            # 点击按钮添加编辑按钮
+            for i in range(10):
+                if self.xunluoluxian_button[i].isVisible() and not self.xunluoluxian_button[i+1].isVisible():
+                    self.xunluoluxian_button[i+1].setVisible(True)
+                    break
+                else:
+                    continue
 
 
-        print(self.xunluoluxian_name, len(self.xunluoluxian_name), self.name_num)
-        print(self.xunluoluxian_button)
+            print(self.xunluoluxian_name, len(self.xunluoluxian_name), self.name_num)
+            print(self.xunluoluxian_button)
+        else:
+            pass
 
     # 保存机器人巡逻路线的Button响应函数
     def save_xunluoluxian(self):
@@ -596,7 +605,7 @@ class Ditu_xunluoluxian(QWidget, Ui_map):
         self.setupUi(self)
 
         # 新建MyLabel的类
-        self.map_position = Mylabel_fenbushi(self.scrollAreaWidgetContents)
+        self.map_position = Mylabel_xunluoluxian(self.scrollAreaWidgetContents)
         # 读取地图文件
         img = cv2.imread('./map.png')
         # 获取图像高度和宽度值
@@ -628,51 +637,27 @@ class Ditu_xunluoluxian(QWidget, Ui_map):
             print(type(self.map_position.position))
             print(fenbushi_list, len(fenbushi_list))
             print(fenbushi_flag)
-            if fenbushi_flag == 1:
-                fenbushi_point[0].setText(self.map_position.fenbushi_poi)
-                fenbushi_list[0].setText(self.map_position.position)
-            elif fenbushi_flag == 2:
-                fenbushi_point[1].setText(self.map_position.fenbushi_poi)
-                fenbushi_list[1].setText(self.map_position.position)
-            elif fenbushi_flag == 3:
-                fenbushi_point[2].setText(self.map_position.fenbushi_poi)
-                fenbushi_list[2].setText(self.map_position.position)
-            elif fenbushi_flag == 4:
-                fenbushi_point[3].setText(self.map_position.fenbushi_poi)
-                fenbushi_list[3].setText(self.map_position.position)
-            elif fenbushi_flag == 5:
-                fenbushi_point[4].setText(self.map_position.fenbushi_poi)
-                fenbushi_list[4].setText(self.map_position.position)
-            elif fenbushi_flag == 6:
-                fenbushi_point[5].setText(self.map_position.fenbushi_poi)
-                fenbushi_list[5].setText(self.map_position.position)
-            elif fenbushi_flag == 7:
-                fenbushi_point[6].setText(self.map_position.fenbushi_poi)
-                fenbushi_list[6].setText(self.map_position.position)
-            elif fenbushi_flag == 8:
-                fenbushi_point[7].setText(self.map_position.fenbushi_poi)
-                fenbushi_list[7].setText(self.map_position.position)
-            elif fenbushi_flag == 9:
-                fenbushi_point[8].setText(self.map_position.fenbushi_poi)
-                fenbushi_list[8].setText(self.map_position.position)
-            elif fenbushi_flag == 10:
-                fenbushi_point[9].setText(self.map_position.fenbushi_poi)
-                fenbushi_list[9].setText(self.map_position.position)
-            elif fenbushi_flag == 11:
-                fenbushi_point[10].setText(self.map_position.fenbushi_poi)
-                fenbushi_list[10].setText(self.map_position.position)
-            elif fenbushi_flag == 12:
-                fenbushi_point[11].setText(self.map_position.fenbushi_poi)
-                fenbushi_list[11].setText(self.map_position.position)
-            elif fenbushi_flag == 13:
-                fenbushi_point[12].setText(self.map_position.fenbushi_poi)
-                fenbushi_list[12].setText(self.map_position.position)
-            elif fenbushi_flag == 14:
-                fenbushi_point[13].setText(self.map_position.fenbushi_poi)
-                fenbushi_list[13].setText(self.map_position.position)
-            elif fenbushi_flag == 15:
-                fenbushi_point[14].setText(self.map_position.fenbushi_poi)
-                fenbushi_list[14].setText(self.map_position.position)
+            if xunluoluxian_flag == 1:
+                xunluoluxian_list[0].setText(self.map_position.position)
+            elif xunluoluxian_flag == 2:
+                xunluoluxian_list[1].setText(self.map_position.position)
+            elif xunluoluxian_flag == 3:
+                xunluoluxian_list[2].setText(self.map_position.position)
+            elif xunluoluxian_flag == 4:
+                xunluoluxian_list[3].setText(self.map_position.position)
+            elif xunluoluxian_flag == 5:
+                xunluoluxian_list[4].setText(self.map_position.position)
+            elif xunluoluxian_flag == 6:
+                xunluoluxian_list[5].setText(self.map_position.position)
+            elif xunluoluxian_flag == 7:
+                xunluoluxian_list[6].setText(self.map_position.position)
+            elif xunluoluxian_flag == 8:
+                xunluoluxian_list[7].setText(self.map_position.position)
+            elif xunluoluxian_flag == 9:
+                xunluoluxian_list[8].setText(self.map_position.position)
+            elif xunluoluxian_flag == 10:
+                xunluoluxian_list[9].setText(self.map_position.position)
+
 
             e.accept()
             QtWidgets.QWidget.closeEvent(self, e)
@@ -783,8 +768,6 @@ class Mylabel_xunluoluxian(QLabel):
         position_int_str =",".join( [str(i) for i in[(self.x0-self.width()/2)*0.05, (self.height()/2-self.y0)*0.05, 0]])
         # 各个坐标点写入列表
         self.position_str.append(position_int_str)
-        self.fenbushi_poi = self.position_str[0]
-        self.fenbushi_poilist = self.position_str[1:]
         self.position= ";".join(self.position_str)
         print(self.height(), self.width())
         # self.position.append([(self.x0-self.map_position.width()/2)*0.05, (self.map_position.height()/2-self.y0)*0.05, 0])
@@ -875,6 +858,15 @@ def change_fenbushi_flag(n):
     fenbushi_flag = n
     print(fenbushi_flag)
     # return fenbushi_flag
+
+
+def change_xunluoluxian_flag(n):
+    global xunluoluxian_flag
+    xunluoluxian_flag = n
+
+    # return fenbushi_flag
+
+
 def main():
     # pyqtgraph 示例
     # pyqtgraph.examples.run()
@@ -1004,15 +996,35 @@ def main():
     map_x_10 = Ditu_xunluoluxian()
 
     xunluoluxian_w.xunluoluxian_button[0].clicked.connect(map_x_1.show)
+    xunluoluxian_w.xunluoluxian_button[0].clicked.connect(lambda :change_xunluoluxian_flag(1))
+
     xunluoluxian_w.xunluoluxian_button[1].clicked.connect(map_x_2.show)
+    xunluoluxian_w.xunluoluxian_button[1].clicked.connect(lambda: change_xunluoluxian_flag(2))
+
     xunluoluxian_w.xunluoluxian_button[2].clicked.connect(map_x_3.show)
+    xunluoluxian_w.xunluoluxian_button[2].clicked.connect(lambda: change_xunluoluxian_flag(3))
+
     xunluoluxian_w.xunluoluxian_button[3].clicked.connect(map_x_4.show)
+    xunluoluxian_w.xunluoluxian_button[3].clicked.connect(lambda: change_xunluoluxian_flag(4))
+
     xunluoluxian_w.xunluoluxian_button[4].clicked.connect(map_x_5.show)
+    xunluoluxian_w.xunluoluxian_button[4].clicked.connect(lambda: change_xunluoluxian_flag(5))
+
     xunluoluxian_w.xunluoluxian_button[5].clicked.connect(map_x_6.show)
+    xunluoluxian_w.xunluoluxian_button[5].clicked.connect(lambda: change_xunluoluxian_flag(6))
+
     xunluoluxian_w.xunluoluxian_button[6].clicked.connect(map_x_7.show)
+    xunluoluxian_w.xunluoluxian_button[6].clicked.connect(lambda: change_xunluoluxian_flag(7))
+
     xunluoluxian_w.xunluoluxian_button[7].clicked.connect(map_x_8.show)
+    xunluoluxian_w.xunluoluxian_button[7].clicked.connect(lambda: change_xunluoluxian_flag(8))
+
     xunluoluxian_w.xunluoluxian_button[8].clicked.connect(map_x_9.show)
+    xunluoluxian_w.xunluoluxian_button[8].clicked.connect(lambda: change_xunluoluxian_flag(9))
+
     xunluoluxian_w.xunluoluxian_button[9].clicked.connect(map_x_10.show)
+    xunluoluxian_w.xunluoluxian_button[9].clicked.connect(lambda: change_xunluoluxian_flag(10))
+
 
     mwindow.sb.clicked.connect(map_w.show)
     # fenbushi_m.fenbushi_editButton[0].clicked.connect(map_w.show)

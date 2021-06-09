@@ -17,7 +17,7 @@ from PyQt5.QtCore import QRect, Qt, QPoint
 
 # import pyqtgraph as pg
 # import pyqtgraph.examples
-import time
+
 
 from gui import *
 from planwork import *
@@ -37,11 +37,11 @@ global xunluoluxian_list
 global fenbushi_point
 global fenbushi_flag
 global xunluoluxian_flag
-fenbushi_button = [0 for x in range(0,15)]
-fenbushi_list = [0 for x in range(0,15)]
-fenbushi_point = [0 for x in range(0,15)]
-xunluoluxian_buttons = [0 for x in range(0,10)]
-xunluoluxian_list = [0 for x in range(0,10)]
+fenbushi_button = [0 for i in range(0, 15)]
+fenbushi_list = [0 for i in range(0, 15)]
+fenbushi_point = [0 for i in range(0, 15)]
+xunluoluxian_buttons = [0 for i in range(0, 10)]
+xunluoluxian_list = [0 for i in range(0, 10)]
 fenbushi_flag = 0
 xunluoluxian_flag = 0
 

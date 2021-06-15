@@ -54,11 +54,11 @@ class MainWin(QMainWindow, Ui_MainWindow):
         super(MainWin, self).__init__(parent)
         self.setupUi(self)
 
-        self.sb = QPushButton("编辑", self)
-        self.sb.setDown(False)  # 默认为未按的状态
-        self.sb.setGeometry(QtCore.QRect(630, 35 + 30 , 60, 30))
-        self.sb.setStyleSheet('QPushButton{margin:3px};')
-        self.sb.setVisible(True)
+        # self.sb = QPushButton("编辑", self)
+        # self.sb.setDown(False)  # 默认为未按的状态
+        # self.sb.setGeometry(QtCore.QRect(630, 35 + 30 , 60, 30))
+        # self.sb.setStyleSheet('QPushButton{margin:3px};')
+        # self.sb.setVisible(True)
 
 
         # # 图片路径
@@ -1026,7 +1026,7 @@ def main():
     xunluoluxian_w.xunluoluxian_button[9].clicked.connect(lambda: change_xunluoluxian_flag(10))
 
 
-    mwindow.sb.clicked.connect(map_w.show)
+    # mwindow.sb.clicked.connect(map_w.show)
     # fenbushi_m.fenbushi_editButton[0].clicked.connect(map_w.show)
     # fenbushi_m.fenbushi_editButton[1].clicked.connect(map_m.show)
     # for i in range(15):

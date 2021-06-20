@@ -876,7 +876,7 @@ def main():
     planwork_m = planwork()
     fenbushi_m = fenbushi()
     xunluoluxian_w = xunluoluxian()
-    map_w = Ditu_fenbushi()
+
     # map_m = Ditu()
     # 展示主窗口
 

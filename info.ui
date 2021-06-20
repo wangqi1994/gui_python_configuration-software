@@ -14,326 +14,570 @@
    <string>创能机器人配置软件</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="2">
-     <widget class="QLabel" name="right_eye">
-      <property name="text">
-       <string>紫外传感器端口:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="3">
-     <widget class="QLineEdit" name="right_eye_port">
-      <property name="text">
-       <string>COM13</string>
-      </property>
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="2">
-     <widget class="QLabel" name="left_eye">
-      <property name="text">
-       <string>红外传感器端口:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="9" column="0">
-     <widget class="QLabel" name="y">
-      <property name="text">
-       <string>y</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-      </property>
-     </widget>
-    </item>
-    <item row="8" column="0">
-     <widget class="QLabel" name="x">
-      <property name="text">
-       <string>x</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-      </property>
-     </widget>
-    </item>
-    <item row="6" column="0">
-     <widget class="QLabel" name="cameraip">
-      <property name="text">
-       <string>监控摄像头的IP地址:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="6" column="1">
-     <widget class="QLineEdit" name="camera_ip">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="minimumSize">
-       <size>
-        <width>0</width>
-        <height>0</height>
-       </size>
-      </property>
-      <property name="text">
-       <string>192.168.1.120</string>
-      </property>
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="2">
-     <widget class="QLabel" name="deluge_gun">
-      <property name="text">
-       <string>水平转动端口:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="0">
-     <widget class="QLabel" name="r_mac">
-      <property name="text">
-       <string>小车MAC地址:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="0">
-     <widget class="QLabel" name="mincharg">
-      <property name="text">
-       <string>小车电量的最小值:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="5" column="2">
-     <widget class="QLabel" name="duojizhuban">
-      <property name="text">
-       <string>舵机主控板端口:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="0">
-     <widget class="QLabel" name="h_mac">
-      <property name="text">
-       <string>工控机MAC地址:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="5" column="3">
-     <widget class="QLineEdit" name="duojizhuban_port">
-      <property name="text">
-       <string>COM6</string>
-      </property>
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
-    <item row="8" column="1">
-     <widget class="QLineEdit" name="autocharge_x"/>
-    </item>
-    <item row="4" column="2">
-     <widget class="QLabel" name="yuanhongwai">
-      <property name="text">
-       <string>远红外摄像头端口:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="7" column="0">
-     <widget class="QLabel" name="autocharge_xyz">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>50</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="minimumSize">
-       <size>
-        <width>20</width>
-        <height>0</height>
-       </size>
-      </property>
-      <property name="text">
-       <string>自动充电点坐标x,y,yaw:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="3">
-     <widget class="QLineEdit" name="fenbushi_port">
-      <property name="text">
-       <string>COM5</string>
-      </property>
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="1">
-     <widget class="QLineEdit" name="host_mac">
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
-    <item row="5" column="0">
-     <widget class="QLabel" name="app_ip">
-      <property name="text">
-       <string>手机端后台服务器的IP地址:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="3">
-     <widget class="QLineEdit" name="left_eye_port"/>
-    </item>
-    <item row="3" column="1">
-     <widget class="QLineEdit" name="mincharge">
-      <property name="text">
-       <string>5</string>
-      </property>
-      <property name="readOnly">
-       <bool>false</bool>
-      </property>
-     </widget>
-    </item>
-    <item row="6" column="2">
-     <widget class="QLabel" name="wddy">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="text">
-       <string>温度电压端口:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="1">
-     <widget class="QLineEdit" name="server_ip">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="text">
-       <string>192.168.8.2</string>
-      </property>
-      <property name="dragEnabled">
-       <bool>true</bool>
-      </property>
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
-    <item row="10" column="1">
-     <widget class="QLineEdit" name="autocharge_yaw"/>
-    </item>
-    <item row="0" column="0">
-     <widget class="QLabel" name="s_ip">
-      <property name="text">
-       <string>小车的IP地址:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="10" column="0">
-     <widget class="QLabel" name="yaw">
-      <property name="text">
-       <string>yaw</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="0">
-     <widget class="QLabel" name="maxcharg">
-      <property name="text">
-       <string>小车电量的最大值:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="3">
-     <widget class="QLineEdit" name="deluge_gun_port"/>
-    </item>
-    <item row="3" column="2">
-     <widget class="QLabel" name="fenbushi">
-      <property name="text">
-       <string>Lora端口:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="9" column="1">
-     <widget class="QLineEdit" name="autocharge_y"/>
-    </item>
-    <item row="4" column="3">
-     <widget class="QLineEdit" name="yuanhongwai_port">
-      <property name="text">
-       <string>COM11</string>
-      </property>
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
-    <item row="5" column="1">
-     <widget class="QLineEdit" name="appserverip"/>
-    </item>
-    <item row="2" column="1">
-     <widget class="QLineEdit" name="robot_mac">
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="1">
-     <widget class="QLineEdit" name="maxcharge">
-      <property name="text">
-       <string>100</string>
-      </property>
-      <property name="readOnly">
-       <bool>false</bool>
-      </property>
-     </widget>
-    </item>
-    <item row="6" column="3">
-     <widget class="QLineEdit" name="wddy_port">
-      <property name="text">
-       <string>COM4</string>
-      </property>
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
-    <item row="10" column="3">
-     <widget class="QPushButton" name="ok_info">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="text">
-       <string>确认</string>
-      </property>
-      <property name="checkable">
-       <bool>false</bool>
-      </property>
-      <property name="checked">
-       <bool>false</bool>
-      </property>
-      <property name="autoDefault">
-       <bool>false</bool>
-      </property>
-     </widget>
-    </item>
-   </layout>
+   <widget class="QLabel" name="right_eye">
+    <property name="geometry">
+     <rect>
+      <x>428</x>
+      <y>55</y>
+      <width>90</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>紫外传感器端口:</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="right_eye_port">
+    <property name="geometry">
+     <rect>
+      <x>637</x>
+      <y>55</y>
+      <width>133</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>COM13</string>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="left_eye">
+    <property name="geometry">
+     <rect>
+      <x>428</x>
+      <y>127</y>
+      <width>90</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>红外传感器端口:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="y">
+    <property name="geometry">
+     <rect>
+      <x>9</x>
+      <y>695</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>y</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="x">
+    <property name="geometry">
+     <rect>
+      <x>9</x>
+      <y>623</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>x</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="cameraip">
+    <property name="geometry">
+     <rect>
+      <x>9</x>
+      <y>487</y>
+      <width>114</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>监控摄像头的IP地址:</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="camera_ip">
+    <property name="geometry">
+     <rect>
+      <x>218</x>
+      <y>487</y>
+      <width>133</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>0</width>
+      <height>0</height>
+     </size>
+    </property>
+    <property name="text">
+     <string>192.168.1.120</string>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="deluge_gun">
+    <property name="geometry">
+     <rect>
+      <x>428</x>
+      <y>199</y>
+      <width>78</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>水平转动端口:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="r_mac">
+    <property name="geometry">
+     <rect>
+      <x>9</x>
+      <y>199</y>
+      <width>72</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>小车MAC地址:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="mincharg">
+    <property name="geometry">
+     <rect>
+      <x>9</x>
+      <y>271</y>
+      <width>102</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>小车电量的最小值:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="duojizhuban">
+    <property name="geometry">
+     <rect>
+      <x>428</x>
+      <y>415</y>
+      <width>90</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>舵机主控板端口:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="h_mac">
+    <property name="geometry">
+     <rect>
+      <x>9</x>
+      <y>127</y>
+      <width>84</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>工控机MAC地址:</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="duojizhuban_port">
+    <property name="geometry">
+     <rect>
+      <x>637</x>
+      <y>415</y>
+      <width>133</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>COM6</string>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="autocharge_x">
+    <property name="geometry">
+     <rect>
+      <x>218</x>
+      <y>623</y>
+      <width>133</width>
+      <height>20</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="yuanhongwai">
+    <property name="geometry">
+     <rect>
+      <x>428</x>
+      <y>343</y>
+      <width>102</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>远红外摄像头端口:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="autocharge_xyz">
+    <property name="geometry">
+     <rect>
+      <x>9</x>
+      <y>559</y>
+      <width>132</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+      <horstretch>0</horstretch>
+      <verstretch>50</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>20</width>
+      <height>0</height>
+     </size>
+    </property>
+    <property name="text">
+     <string>自动充电点坐标x,y,yaw:</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="fenbushi_port">
+    <property name="geometry">
+     <rect>
+      <x>637</x>
+      <y>271</y>
+      <width>133</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>COM5</string>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="host_mac">
+    <property name="geometry">
+     <rect>
+      <x>218</x>
+      <y>127</y>
+      <width>133</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="app_ip">
+    <property name="geometry">
+     <rect>
+      <x>9</x>
+      <y>415</y>
+      <width>150</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>手机端后台服务器的IP地址:</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="left_eye_port">
+    <property name="geometry">
+     <rect>
+      <x>637</x>
+      <y>127</y>
+      <width>133</width>
+      <height>20</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="mincharge">
+    <property name="geometry">
+     <rect>
+      <x>218</x>
+      <y>271</y>
+      <width>133</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>5</string>
+    </property>
+    <property name="readOnly">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="wddy">
+    <property name="geometry">
+     <rect>
+      <x>428</x>
+      <y>491</y>
+      <width>78</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="text">
+     <string>温度电压端口:</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="server_ip">
+    <property name="geometry">
+     <rect>
+      <x>218</x>
+      <y>55</y>
+      <width>133</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="text">
+     <string>192.168.8.2</string>
+    </property>
+    <property name="dragEnabled">
+     <bool>true</bool>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="autocharge_yaw">
+    <property name="geometry">
+     <rect>
+      <x>218</x>
+      <y>768</y>
+      <width>133</width>
+      <height>20</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="s_ip">
+    <property name="geometry">
+     <rect>
+      <x>9</x>
+      <y>55</y>
+      <width>78</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>小车的IP地址:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="yaw">
+    <property name="geometry">
+     <rect>
+      <x>9</x>
+      <y>767</y>
+      <width>18</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>yaw</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="maxcharg">
+    <property name="geometry">
+     <rect>
+      <x>9</x>
+      <y>343</y>
+      <width>102</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>小车电量的最大值:</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="deluge_gun_port">
+    <property name="geometry">
+     <rect>
+      <x>637</x>
+      <y>199</y>
+      <width>133</width>
+      <height>20</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="fenbushi">
+    <property name="geometry">
+     <rect>
+      <x>428</x>
+      <y>271</y>
+      <width>54</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Lora端口:</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="autocharge_y">
+    <property name="geometry">
+     <rect>
+      <x>218</x>
+      <y>695</y>
+      <width>133</width>
+      <height>20</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="yuanhongwai_port">
+    <property name="geometry">
+     <rect>
+      <x>637</x>
+      <y>343</y>
+      <width>133</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>COM11</string>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="appserverip">
+    <property name="geometry">
+     <rect>
+      <x>218</x>
+      <y>415</y>
+      <width>133</width>
+      <height>20</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="robot_mac">
+    <property name="geometry">
+     <rect>
+      <x>218</x>
+      <y>199</y>
+      <width>133</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="maxcharge">
+    <property name="geometry">
+     <rect>
+      <x>218</x>
+      <y>343</y>
+      <width>133</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>100</string>
+    </property>
+    <property name="readOnly">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="wddy_port">
+    <property name="geometry">
+     <rect>
+      <x>637</x>
+      <y>487</y>
+      <width>133</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>COM4</string>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="ok_info">
+    <property name="geometry">
+     <rect>
+      <x>637</x>
+      <y>767</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="text">
+     <string>确认</string>
+    </property>
+    <property name="checkable">
+     <bool>false</bool>
+    </property>
+    <property name="checked">
+     <bool>false</bool>
+    </property>
+    <property name="autoDefault">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="yiqueren">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>650</x>
+      <y>800</y>
+      <width>45</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>11</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>已确认</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

@@ -297,13 +297,13 @@ class planwork(QMainWindow, Ui_planwork):
         # 新增任务名称设置默认值
         misson_name_init = "mission"+str(rownum+1)
         m_name_init= QTableWidgetItem(misson_name_init)
-        self.plan_showtable.setItem(rownum, 1, m_name_init)
+        self.plan_showtable.setItem(rownum, 0, m_name_init)
 
-        # 在新增的一行中添加编辑按钮
-        self.editButton = QPushButton("编辑")
-        self.editButton.setDown(False)  # 默认为未按的状态
-        self.editButton.setStyleSheet('QPushButton{margin:3px};')
-        self.plan_showtable.setCellWidget(rownum, 0, self.editButton)
+        # # 在新增的一行中添加编辑按钮
+        # self.editButton = QPushButton("编辑")
+        # self.editButton.setDown(False)  # 默认为未按的状态
+        # self.editButton.setStyleSheet('QPushButton{margin:3px};')
+        # self.plan_showtable.setCellWidget(rownum, 0, self.editButton)
 
         # 添加模式选择下拉控件
         self.patterncombox = QComboBox()
@@ -311,17 +311,22 @@ class planwork(QMainWindow, Ui_planwork):
         # QSS(类似CSS样式表)
         # 设置所有的QComboBox控件，使得它们的边距为3像素
         self.patterncombox.setStyleSheet('QComboBox{margin:3px};')
-        self.plan_showtable.setCellWidget(rownum, 2, self.patterncombox)
+        self.plan_showtable.setCellWidget(rownum, 1, self.patterncombox)
 
         # 添加开始时间选择timeedit
         self.starttimeButton = QTimeEdit()
         self.starttimeButton.setStyleSheet('QTimeEdit{margin:3px};')
-        self.plan_showtable.setCellWidget(rownum, 3, self.starttimeButton)
+        self.plan_showtable.setCellWidget(rownum, 2, self.starttimeButton)
 
-        # 添加结束时间/时间间隔选择timeedit
+        # 添加结束时间选择timeedit
         self.endtimeButton = QTimeEdit()
         self.endtimeButton.setStyleSheet('QTimeEdit{margin:3px};')
-        self.plan_showtable.setCellWidget(rownum, 4, self.endtimeButton)
+        self.plan_showtable.setCellWidget(rownum, 3, self.endtimeButton)
+
+        # 添加时间间隔选择timeedit
+        self.intervalButton = QTimeEdit()
+        self.intervalButton.setStyleSheet('QTimeEdit{margin:3px};')
+        self.plan_showtable.setCellWidget(rownum, 4, self.intervalButton)
 
         # 添加巡逻路线选择下拉控件
         self.xunluocombox = QComboBox()
@@ -342,6 +347,7 @@ class planwork(QMainWindow, Ui_planwork):
         self.plan_pattern = []
         self.plan_starttime = []
         self.plan_endtime = []
+        self.plan_interval = []
         self.plan_xunluo = []
         # 打开文件，将数据信息写入文档中
         robot_planwork = open(get_directory_path + "/" + "planworkfile" + ".conf", "w+")
@@ -354,15 +360,15 @@ class planwork(QMainWindow, Ui_planwork):
             # 表格中单元格一定要判断非空，否则会出现报错
 
             # 任务名称
-            if (self.plan_showtable.item(i, 1) != None):
-                p_name = self.plan_showtable.item(i, 1).text()
+            if (self.plan_showtable.item(i, 0) != None):
+                p_name = self.plan_showtable.item(i, 0).text()
                 print(p_name)
                 self.plan_name.append(p_name)
                 print(self.plan_name)
 
             # 任务模式
-            if (self.plan_showtable.cellWidget(i, 2) != None):
-                p_pattern = self.plan_showtable.cellWidget(i, 2).currentText()
+            if (self.plan_showtable.cellWidget(i, 1) != None):
+                p_pattern = self.plan_showtable.cellWidget(i, 1).currentText()
 
                 if str(p_pattern) == '时间段':
                     self.plan_pattern.append(str(1))
@@ -372,33 +378,45 @@ class planwork(QMainWindow, Ui_planwork):
                 print(self.plan_pattern)
 
             # 开始时间
-            if (self.plan_showtable.cellWidget(i, 3) != None):
-                p_stime = self.plan_showtable.cellWidget(i, 3).text()
+            if (self.plan_showtable.cellWidget(i, 2) != None):
+                p_stime = self.plan_showtable.cellWidget(i, 2).text()
                 self.plan_starttime.append(p_stime)
                 print(self.plan_starttime)
 
-            # 结束时间、时间间隔
-            if (self.plan_showtable.cellWidget(i, 4) != None):
-                p_etime = self.plan_showtable.cellWidget(i, 4).text()
+            # 结束时间
+            if (self.plan_showtable.cellWidget(i, 3) != None):
+                p_etime = self.plan_showtable.cellWidget(i, 3).text()
                 self.plan_endtime.append(p_etime)
                 print(self.plan_endtime)
+            # 时间间隔
+            if (self.plan_showtable.cellWidget(i, 4) != None):
+                p_interval = self.plan_showtable.cellWidget(i, 4).text()
+                self.plan_interval.append(p_interval)
+                print(self.plan_interval)
 
             # 巡逻路线
             if (self.plan_showtable.cellWidget(i, 5) != None):
                 p_xunluo = self.plan_showtable.cellWidget(i, 5).currentText()
                 print(len(self.namelist), p_xunluo)
+                if len(self.namelist) != 0:
+                    for j in range(len(self.namelist)):
+                        if p_xunluo == self.namelist[j]:
+                            self.plan_xunluo.append(self.poilist[j])
+                    print(self.plan_xunluo)
+                else:
+                    continue
 
-                for j in range(len(self.namelist)):
-                    if p_xunluo == self.namelist[j]:
-                        self.plan_xunluo.append(self.poilist[j])
-                print(self.plan_xunluo)
 
             # 将数据信息写入文档中
             robot_planwork.write("["+self.plan_name[i]+"] \n")
             robot_planwork.write("# 巡逻模式:\n plan_work_flag = " + self.plan_pattern[i] + "\n")
             robot_planwork.write("# 开始时间:\n starttime = " + self.plan_starttime[i] + "\n")
-            robot_planwork.write("# 结束时间/时间间隔:\n endtime = " + self.plan_endtime[i] + "\n")
-            robot_planwork.write("# 巡逻点:\n poilist = " + self.plan_xunluo[i] + "\n\n")
+            robot_planwork.write("# 结束时间:\n endtime = " + self.plan_endtime[i] + "\n")
+            robot_planwork.write("# 时间间隔:\n interval = " + self.plan_interval[i] + "\n")
+            if len(self.plan_xunluo):
+                robot_planwork.write("# 巡逻点:\n poilist = " + self.plan_xunluo[i] + "\n\n")
+            else:
+                robot_planwork.write("# 巡逻点:\n poilist = 无 \n\n")
         # 关闭planworkfile文件
         robot_planwork.close()
 
@@ -693,18 +711,27 @@ class Mylabel_fenbushi(QLabel):
         self.begin_point = QPoint()
         self.end_point = QPoint()
         self.position_str = []
+        self.pen1 = QPen()  # 1
+        self.pen1.setColor(Qt.blue)
+        self.pen1.setWidth(10)
+        self.pen2 = QPen()
+        self.pen2.setColor(Qt.red)
+        self.pen2.setWidth(10)
+
 
     def mousePressEvent(self, event):
-        self.flag = True
-        self.x0 = event.x()
-        self.y0 = event.y()
-        # self.update()
+            self.flag = True
+            self.x0 = event.x()
+            self.y0 = event.y()
+            # self.update()
 
     def mouseReleaseEvent(self, event):
         self.flag = False
         self.end_point = event.pos()
         if not self.begin_point:
             self.begin_point = self.end_point
+            # self.fenbushi_loc = [(self.x0-self.width()/2)*0.05, (self.height()/2-self.y0)*0.05, 0]
+            # print(self.fenbushi_loc,111111)
         # 将坐标点坐标转换为str类型
         position_int_str =",".join( [str(i) for i in[(self.x0-self.width()/2)*0.05, (self.height()/2-self.y0)*0.05, 0]])
         # 各个坐标点写入列表
@@ -739,16 +766,22 @@ class Mylabel_fenbushi(QLabel):
 
         painter_p = QPainter(self.pixmap())
         # 设置线颜色（蓝）粗细形式
-        painter_p.setPen(QPen(Qt.red, 10))
-        # 开始绘画
-        painter_p.begin(self)
-        # 画点
-        painter_p.drawPoint(self.begin_point)
-        painter_p.drawPoint(self.end_point)
-        # 将前一个点赋值给起点，保证连续画线
-        self.begin_point = self.end_point
-        # 结束绘画
-        painter_p.end()
+        if self.begin_point == self.end_point:
+
+            painter_p.setPen(QPen(self.pen1))
+            painter_p.drawPoint(self.begin_point)
+
+        else:
+            painter_p.setPen(QPen(self.pen2))
+            # 开始绘画
+            painter_p.begin(self)
+            # 画点
+            # painter_p.drawPoint(self.begin_point)
+            painter_p.drawPoint(self.end_point)
+            # 将前一个点赋值给起点，保证连续画线
+            self.begin_point = self.end_point
+            # 结束绘画
+            painter_p.end()
 
         # 实现双缓冲
         painter2 = QPainter(self)

@@ -89,6 +89,7 @@ class info(QMainWindow, Ui_info):
         mac_address = ':'.join([mac_address[i:i + 2] for i in range(0, 11, 2)])
         print(mac_address)
         self.host_mac.setText(mac_address)
+        self.yiqueren.setVisible((False))
 
 
 
@@ -136,6 +137,8 @@ class info(QMainWindow, Ui_info):
             "# 自动充电点坐标x,y,yaw:\n autocharge_x = " + x + "\n autocharge_y = " + y + "\n autocharge_yaw = "+yaw+"\n")
         # 关闭info文件
         robot_info.close()
+
+        self.yiqueren.setVisible(True)
 
 
 # 创建fenbushi主窗口并传入Ui_fenbushi
@@ -188,6 +191,8 @@ class fenbushi(QMainWindow, Ui_fenbushi):
             self.fenbushi_lists[i].setPlaceholderText("填写示例：x1,y1,yaw1;x2,y2,yaw")
             self.fenbushi_lists[i].setVisible(False)
             fenbushi_list[i] = self.fenbushi_lists[i]
+
+            self.yiqueren.setVisible(False)
 
 
     def add(self):
@@ -254,6 +259,8 @@ class fenbushi(QMainWindow, Ui_fenbushi):
         # # 关闭fenbushi文件
         robot_fenbushi.close()
 
+        self.yiqueren.setVisible(True)
+
 
 
 
@@ -265,6 +272,7 @@ class planwork(QMainWindow, Ui_planwork):
     def __init__(self, parent=None):
         super(planwork, self).__init__(parent)
         self.setupUi(self)
+        self.yiqueren.setVisible(False)
 
 
     def add_plan(self):
@@ -394,6 +402,8 @@ class planwork(QMainWindow, Ui_planwork):
         # 关闭planworkfile文件
         robot_planwork.close()
 
+        self.yiqueren.setVisible(True)
+
 
 # 创建巡逻路线窗口并传入Ui_xunluoluxian
 class xunluoluxian(QWidget, Ui_xunluoluxian):
@@ -446,6 +456,8 @@ class xunluoluxian(QWidget, Ui_xunluoluxian):
             self.xunluoluxian_button.append(self.xunluoluxian_b)
             xunluoluxian_buttons[i+1] = self.xunluoluxian_button[i+1]
 
+        self.yiqueren.setVisible(False)
+
 
     def add_xunluoluxian(self):
         if self.name_num <=10:
@@ -497,6 +509,8 @@ class xunluoluxian(QWidget, Ui_xunluoluxian):
             print(self.xunluoluxian_name[i].text(), self.xunluoluxian_point[i].text())
         # # 关闭巡逻路线文件
         robot_xunluoluxian.close()
+
+        self.yiqueren.setVisible(True)
 
 
 # 创建分布式地图类并传入Ui_map

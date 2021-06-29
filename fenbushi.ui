@@ -27,8 +27,8 @@
    <widget class="QPushButton" name="ok_fenbushi">
     <property name="geometry">
      <rect>
-      <x>690</x>
-      <y>500</y>
+      <x>767</x>
+      <y>780</y>
       <width>75</width>
       <height>23</height>
      </rect>
@@ -74,8 +74,8 @@
      <rect>
       <x>50</x>
       <y>80</y>
-      <width>710</width>
-      <height>400</height>
+      <width>791</width>
+      <height>681</height>
      </rect>
     </property>
     <property name="autoFillBackground">
@@ -213,8 +213,8 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>703</x>
-      <y>530</y>
+      <x>780</x>
+      <y>810</y>
       <width>51</width>
       <height>21</height>
      </rect>

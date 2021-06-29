@@ -404,7 +404,7 @@ class planwork(QMainWindow, Ui_planwork):
                             self.plan_xunluo.append(self.poilist[j])
                     print(self.plan_xunluo)
                 else:
-                    continue
+                    pass
 
 
             # 将数据信息写入文档中
@@ -413,7 +413,7 @@ class planwork(QMainWindow, Ui_planwork):
             robot_planwork.write("# 开始时间:\n starttime = " + self.plan_starttime[i] + "\n")
             robot_planwork.write("# 结束时间:\n endtime = " + self.plan_endtime[i] + "\n")
             robot_planwork.write("# 时间间隔:\n interval = " + self.plan_interval[i] + "\n")
-            if len(self.plan_xunluo):
+            if len(self.namelist):
                 robot_planwork.write("# 巡逻点:\n poilist = " + self.plan_xunluo[i] + "\n\n")
             else:
                 robot_planwork.write("# 巡逻点:\n poilist = 无 \n\n")
@@ -732,18 +732,21 @@ class Mylabel_fenbushi(QLabel):
             self.begin_point = self.end_point
             # self.fenbushi_loc = [(self.x0-self.width()/2)*0.05, (self.height()/2-self.y0)*0.05, 0]
             # print(self.fenbushi_loc,111111)
+        print(int((self.x0-self.width()/2)*0.05*1000)/1000 ,type((self.x0-self.width()/2)*0.05))
         # 将坐标点坐标转换为str类型
-        position_int_str =",".join( [str(i) for i in[(self.x0-self.width()/2)*0.05, (self.height()/2-self.y0)*0.05, 0]])
+        position_int_str =",".join( [str(i) for i in[int((self.x0-self.width()/2)*0.05*1000)/1000, int((self.height()/2-self.y0)*0.05*1000)/1000, 0]])
         # 各个坐标点写入列表
         self.position_str.append(position_int_str)
+        # print(round(self.position_str[0],3))
         self.fenbushi_poi = self.position_str[0]
+        # print(self.fenbushi_poi)
         self.fenbushi_poilist = self.position_str[1:]
         self.position= ";".join(self.fenbushi_poilist)
-        print(self.height(), self.width())
-        # self.position.append([(self.x0-self.map_position.width()/2)*0.05, (self.map_position.height()/2-self.y0)*0.05, 0])
+        # print(self.height(), self.width())
+        # # self.position.append([(self.x0-self.map_position.width()/2)*0.05, (self.map_position.height()/2-self.y0)*0.05, 0])
         print(self.position)
-        print(self.begin_point)
-        print(self.end_point)
+        # print(self.begin_point)
+        # print(self.end_point)
 
         self.update()
 
@@ -812,7 +815,7 @@ class Mylabel_xunluoluxian(QLabel):
         if not self.begin_point:
             self.begin_point = self.end_point
         # 将坐标点坐标转换为str类型
-        position_int_str =",".join( [str(i) for i in[(self.x0-self.width()/2)*0.05, (self.height()/2-self.y0)*0.05, 0]])
+        position_int_str =",".join( [str(i) for i in[int((self.x0-self.width()/2)*0.05*1000)/1000, int((self.height()/2-self.y0)*0.05*1000)/1000, 0]])
         # 各个坐标点写入列表
         self.position_str.append(position_int_str)
         self.position= ";".join(self.position_str)

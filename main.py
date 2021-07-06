@@ -802,6 +802,18 @@ class Mylabel_xunluoluxian(QLabel):
         self.begin_point = QPoint()
         self.end_point = QPoint()
         self.position_str = []
+        # global get_directory_path
+        # read_info = configparser.ConfigParser()
+        # read_info.read(get_directory_path + "/" + "info" + ".conf")
+        # with open("./info.conf", 'r') as read_info:
+        #     x = read_info.read()
+        #     print(x,type(x))
+        # read_info = open("./info.conf", "r+")
+        # x = read_info.read()
+        # information = info()
+        # x=information.autocharge_x.text()
+        # print(x,type(x))
+        # self.charge_point = [float(information.x()) *0.05+self.width()/2, self.height()/2-float(information.y())*0.05, 0]
 
     def mousePressEvent(self, event):
         self.flag = True
@@ -812,8 +824,12 @@ class Mylabel_xunluoluxian(QLabel):
     def mouseReleaseEvent(self, event):
         self.flag = False
         self.end_point = event.pos()
+        # with open("./info.conf", 'r') as read_info:
+        #     x = read_info.read()
+        #     print(x,type(x))
         if not self.begin_point:
             self.begin_point = self.end_point
+            # self.begin_point = self.charge_point
         # 将坐标点坐标转换为str类型
         position_int_str =",".join( [str(i) for i in[int((self.x0-self.width()/2)*0.05*1000)/1000, int((self.height()/2-self.y0)*0.05*1000)/1000, 0]])
         # 各个坐标点写入列表
@@ -834,7 +850,7 @@ class Mylabel_xunluoluxian(QLabel):
         # 实例化QPainter
         painter = QPainter(self.pixmap())
         # 设置线颜色（蓝）粗细形式
-        painter.setPen(QPen(Qt.blue, 4, Qt.SolidLine))
+        painter.setPen(QPen(Qt.blue, 4, Qt.SolidLine, Qt.RoundCap))
         # 开始绘画
         painter.begin(self)
         # 画线
@@ -845,7 +861,7 @@ class Mylabel_xunluoluxian(QLabel):
         painter.end()
 
         painter_p = QPainter(self.pixmap())
-        # 设置线颜色（蓝）粗细形式
+        # 设置点颜色形状
         painter_p.setPen(QPen(Qt.red, 10))
         # 开始绘画
         painter_p.begin(self)

@@ -1,60 +1,11 @@
 import sys
 import cv2
 from map import *
+
 from PyQt5.QtCore import Qt, QPoint, QRect
-from PyQt5.QtGui import QPainter, QPixmap, QIcon, QPen, QImage
-from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QHBoxLayout, QVBoxLayout, QLabel
+from PyQt5.QtGui import QPainter, QPixmap, QPen, QImage
+from PyQt5.QtWidgets import QApplication, QWidget, QLabel
 
-
-class Demo(QWidget):
-    def __init__(self):
-        super(Demo, self).__init__()
-        self.resize(600, 600)
-
-        self.begin_point = QPoint()
-        self.end_point = QPoint()
-
-        self.pix = QPixmap(600, 600)
-        self.pix.fill(Qt.white)
-
-        self.print_btn = QPushButton(self)              # 1
-        self.print_btn.setIcon(QIcon('printer.png'))
-
-        self.h_layout = QHBoxLayout()
-        self.v_layout = QVBoxLayout()
-        self.h_layout.addWidget(self.print_btn)
-        self.h_layout.addStretch(1)
-        self.v_layout.addLayout(self.h_layout)
-        self.v_layout.addStretch(1)
-
-        self.setLayout(self.v_layout)
-
-    def paintEvent(self, QPaintEvent):
-        painter = QPainter(self)
-        painter.drawPixmap(0, 0, self.pix)
-
-        if self.begin_point and self.end_point:
-            rect = QRect(self.begin_point, self.end_point)
-            painter.drawRect(rect)
-
-    def mousePressEvent(self, QMouseEvent):
-        if QMouseEvent.button() == Qt.LeftButton:
-            self.begin_point = QMouseEvent.pos()
-            self.end_point = self.begin_point
-            self.update()
-
-    def mouseMoveEvent(self, QMouseEvent):
-        if QMouseEvent.buttons() == Qt.LeftButton:
-            self.end_point = QMouseEvent.pos()
-            self.update()
-
-    def mouseReleaseEvent(self, QMouseEvent):
-        if QMouseEvent.button() == Qt.LeftButton:
-            painter = QPainter(self.pix)
-            rect = QRect(self.begin_point, self.end_point)
-            painter.drawRect(rect)
-            self.begin_point = self.end_point = QPoint()
-            self.update()
 
 class Ditu_xunluoluxian(QWidget, Ui_map):
     """地图操作窗口"""
@@ -118,6 +69,7 @@ class Mylabel_xunluoluxian(QLabel):
         self.begin_point = QPoint()
         self.end_point = QPoint()
         self.position_str = []
+        self.flag_click = False # 左键False 右键 True
         # global get_directory_path
         # read_info = configparser.ConfigParser()
         # read_info.read(get_directory_path + "/" + "info" + ".conf")
@@ -176,24 +128,57 @@ class Mylabel_xunluoluxian(QLabel):
         #     self.end_point = event.pos()
         if event.buttons() and Qt.LeftButton:
             self.endPoint = event.pos()
-            self.update()
+            # self.update()
     # 鼠标释放
     def mouseReleaseEvent(self, event):
+        painter = QPainter(self.pixmap())
         if event.button() == Qt.LeftButton:
             self.end_point = event.pos()
             if not self.begin_point:
                 self.begin_point = self.end_point
-                # self.begin_point = self.charge_point
-            # self.begin_point = self.end_point = QPoint()
-            # self.begin_point = self.end_point
+
             self.position_point.append(self.end_point)
+
+
+            painter.setPen(QPen(Qt.red, 10))
+
+            painter.drawPoint(self.position_point[-1])
+
+            self.flag_left = False
+
             print(self.position_point)
+            print(self.position_point[0].x())
+            self.flag_click = False
             self.update()
+
         elif event.button() == Qt.RightButton:
             if self.position_point:
-                del self.position_point[-1]
+
+                print("quxiao ")
+                painter.setPen(QPen(Qt.white, 10))
+                painter.drawPoint(self.position_point[-1])
+                self.flag_right = False
+                # del self.position_point[-1]
             print(self.position_point)
+            self.flag_click = True
+
             self.update()
+
+        if len(self.position_point) > 1 and event.button:
+            if not self.flag_click:
+                print(len(self.position_point),1)
+                painter.setPen(QPen(Qt.blue, 4, Qt.SolidLine))
+                painter.drawLine(self.position_point[-2], self.position_point[-1])
+                self.update()
+            if self.flag_click:
+                print(len(self.position_point),2)
+                painter.setPen(QPen(Qt.white, 4, Qt.SolidLine))
+                painter.drawLine(self.position_point[-2], self.position_point[-1])
+
+                del self.position_point[-1]
+
+                self.update()
+
 
     # 鼠标滚轮事件
     #滚轮滑动事件
@@ -260,36 +245,67 @@ class Mylabel_xunluoluxian(QLabel):
 
 
 
-        # 实例化QPainter
-        painter = QPainter(self.pixmap())
-        # 设置线颜色（蓝）粗细形式
-        painter.setPen(QPen(Qt.blue, 4, Qt.SolidLine))
-        # 开始绘画
-        painter.begin(self)
+        # # 实例化QPainter
+        # painter = QPainter(self.pixmap())
+        # # 设置线颜色（蓝）粗细形式
+        # # painter.setPen(QPen(Qt.blue, 4, Qt.SolidLine))
+        # # 开始绘画
+        # painter.begin(self)
         # 画线
+        # if event.button() == Qt.RightButton:
 
-        if len(self.position_point) == 1:
-            painter.drawLine(self.position_point[-1], self.position_point[-1])
+        # if len(self.position_point) == 1:
+        #     painter.drawLine(self.position_point[-1], self.position_point[-1])
 
-        elif len(self.position_point) > 1:
-            painter.drawLine(self.position_point[-2], self.position_point[-1])
+
+        # if len(self.position_point) > 1:
+        #     if not self.flag_click:
+        #         print(len(self.position_point),1)
+        #         painter.setPen(QPen(Qt.blue, 4, Qt.SolidLine))
+        #         painter.drawLine(self.position_point[-2], self.position_point[-1])
+        #
+        #     else:
+        #         print(len(self.position_point),2)
+        #         painter.setPen(QPen(Qt.white, 4, Qt.SolidLine))
+        #         painter.drawLine(self.position_point[-2], self.position_point[-1])
         # 将前一个点赋值给起点，保证连续画线
         # self.begin_point = self.end_point
         # 结束绘画
-        painter.end()
+        # painter.end()
 
 
 
-        painter_p = QPainter(self.pixmap())
-        # 设置点颜色形状
-        painter_p.setPen(QPen(Qt.red, 10))
-        # 开始绘画
-        painter_p.begin(self)
-        # 画点
-        if len(self.position_point) >= 1:
-            painter_p.drawPoint(self.position_point[-1])
-        # if len(self.position_point) == 1:
+        # painter_p = QPainter(self.pixmap())
+        # # 设置点颜色形状
+        # # painter_p.setPen(QPen(Qt.red, 10))
+        # # 开始绘画
+        # painter_p.begin(self)
+        # # 画点
+        # if len(self.position_point) >= 1:
+        #     print(len(self.position_point))
+        #     if self.flag_left:
+        #         print("tianjia")
+        #     # for i in range(len(self.position_point)):
+        # #     if event.button() == Qt.LeftButton:
+        # #     painter_p.drawPoint(self.position_point[-1])
+        #         painter_p.setPen(QPen(Qt.red, 10))
+        #         painter_p.drawPoint(self.position_point[-1])
+        #         self.flag_left = False
+            # elif self.flag_right:
+            #     print("quxiao ")
+            #     painter_p.setPen(QPen(Qt.white, 10))
+            #     painter_p.drawPoint(self.position_point[-1])
+            #     self.flag_right = False
+                # del self.position_point[-1]
+                # print(i)
+                # self.repaint()
+            # self.update()
+        #     elif event.button() == Qt.RightButton:
+        #         painter_p.
+        # if len(self.position_point) >= 1:
+        #     print(len(self.position_point))
         #     painter_p.drawPoint(self.self.position_point[-1])
+        #     print(len(self.position_point))
         # elif len(self.position_point) > 1:
         #     painter_p.drawPoint(self.self.position_point[-2])
         #     painter_p.drawPoint(self.self.position_point[-1])
@@ -297,7 +313,7 @@ class Mylabel_xunluoluxian(QLabel):
         # 将前一个点赋值给起点，保证连续画线
         # self.begin_point = self.end_point
         # 结束绘画
-        painter_p.end()
+        # painter_p.end()
 
         # # 实现双缓冲
         painter2 = QPainter(self)

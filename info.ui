@@ -14,53 +14,11 @@
    <string>创能机器人配置软件</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QLabel" name="right_eye">
-    <property name="geometry">
-     <rect>
-      <x>428</x>
-      <y>55</y>
-      <width>90</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>紫外传感器端口:</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="right_eye_port">
-    <property name="geometry">
-     <rect>
-      <x>637</x>
-      <y>55</y>
-      <width>133</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>COM13</string>
-    </property>
-    <property name="readOnly">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QLabel" name="left_eye">
-    <property name="geometry">
-     <rect>
-      <x>428</x>
-      <y>127</y>
-      <width>90</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>红外传感器端口:</string>
-    </property>
-   </widget>
    <widget class="QLabel" name="y">
     <property name="geometry">
      <rect>
-      <x>9</x>
-      <y>695</y>
+      <x>68</x>
+      <y>508</y>
       <width>16</width>
       <height>16</height>
      </rect>
@@ -75,8 +33,8 @@
    <widget class="QLabel" name="x">
     <property name="geometry">
      <rect>
-      <x>9</x>
-      <y>623</y>
+      <x>68</x>
+      <y>436</y>
       <width>16</width>
       <height>16</height>
      </rect>
@@ -91,8 +49,8 @@
    <widget class="QLabel" name="cameraip">
     <property name="geometry">
      <rect>
-      <x>9</x>
-      <y>487</y>
+      <x>500</x>
+      <y>380</y>
       <width>114</width>
       <height>16</height>
      </rect>
@@ -104,8 +62,8 @@
    <widget class="QLineEdit" name="camera_ip">
     <property name="geometry">
      <rect>
-      <x>218</x>
-      <y>487</y>
+      <x>709</x>
+      <y>380</y>
       <width>133</width>
       <height>20</height>
      </rect>
@@ -129,24 +87,11 @@
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QLabel" name="deluge_gun">
-    <property name="geometry">
-     <rect>
-      <x>428</x>
-      <y>199</y>
-      <width>78</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>水平转动端口:</string>
-    </property>
-   </widget>
    <widget class="QLabel" name="r_mac">
     <property name="geometry">
      <rect>
-      <x>9</x>
-      <y>199</y>
+      <x>68</x>
+      <y>239</y>
       <width>72</width>
       <height>16</height>
      </rect>
@@ -158,8 +103,8 @@
    <widget class="QLabel" name="mincharg">
     <property name="geometry">
      <rect>
-      <x>9</x>
-      <y>271</y>
+      <x>68</x>
+      <y>311</y>
       <width>102</width>
       <height>16</height>
      </rect>
@@ -171,21 +116,21 @@
    <widget class="QLabel" name="duojizhuban">
     <property name="geometry">
      <rect>
-      <x>428</x>
-      <y>415</y>
-      <width>90</width>
+      <x>499</x>
+      <y>165</y>
+      <width>121</width>
       <height>16</height>
      </rect>
     </property>
     <property name="text">
-     <string>舵机主控板端口:</string>
+     <string>工控机之间通讯端口:</string>
     </property>
    </widget>
    <widget class="QLabel" name="h_mac">
     <property name="geometry">
      <rect>
-      <x>9</x>
-      <y>127</y>
+      <x>68</x>
+      <y>167</y>
       <width>84</width>
       <height>16</height>
      </rect>
@@ -197,8 +142,8 @@
    <widget class="QLineEdit" name="duojizhuban_port">
     <property name="geometry">
      <rect>
-      <x>637</x>
-      <y>415</y>
+      <x>708</x>
+      <y>165</y>
       <width>133</width>
       <height>20</height>
      </rect>
@@ -213,31 +158,18 @@
    <widget class="QLineEdit" name="autocharge_x">
     <property name="geometry">
      <rect>
-      <x>218</x>
-      <y>623</y>
+      <x>277</x>
+      <y>436</y>
       <width>133</width>
       <height>20</height>
      </rect>
     </property>
    </widget>
-   <widget class="QLabel" name="yuanhongwai">
-    <property name="geometry">
-     <rect>
-      <x>428</x>
-      <y>343</y>
-      <width>102</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>远红外摄像头端口:</string>
-    </property>
-   </widget>
    <widget class="QLabel" name="autocharge_xyz">
     <property name="geometry">
      <rect>
-      <x>9</x>
-      <y>559</y>
+      <x>68</x>
+      <y>372</y>
       <width>132</width>
       <height>16</height>
      </rect>
@@ -261,8 +193,8 @@
    <widget class="QLineEdit" name="fenbushi_port">
     <property name="geometry">
      <rect>
-      <x>637</x>
-      <y>271</y>
+      <x>710</x>
+      <y>90</y>
       <width>133</width>
       <height>20</height>
      </rect>
@@ -277,8 +209,8 @@
    <widget class="QLineEdit" name="host_mac">
     <property name="geometry">
      <rect>
-      <x>218</x>
-      <y>127</y>
+      <x>277</x>
+      <y>167</y>
       <width>133</width>
       <height>20</height>
      </rect>
@@ -290,8 +222,8 @@
    <widget class="QLabel" name="app_ip">
     <property name="geometry">
      <rect>
-      <x>9</x>
-      <y>415</y>
+      <x>500</x>
+      <y>308</y>
       <width>150</width>
       <height>16</height>
      </rect>
@@ -300,21 +232,11 @@
      <string>手机端后台服务器的IP地址:</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="left_eye_port">
-    <property name="geometry">
-     <rect>
-      <x>637</x>
-      <y>127</y>
-      <width>133</width>
-      <height>20</height>
-     </rect>
-    </property>
-   </widget>
    <widget class="QLineEdit" name="mincharge">
     <property name="geometry">
      <rect>
-      <x>218</x>
-      <y>271</y>
+      <x>277</x>
+      <y>311</y>
       <width>133</width>
       <height>20</height>
      </rect>
@@ -329,8 +251,8 @@
    <widget class="QLabel" name="wddy">
     <property name="geometry">
      <rect>
-      <x>428</x>
-      <y>491</y>
+      <x>499</x>
+      <y>241</y>
       <width>78</width>
       <height>16</height>
      </rect>
@@ -348,8 +270,8 @@
    <widget class="QLineEdit" name="server_ip">
     <property name="geometry">
      <rect>
-      <x>218</x>
-      <y>55</y>
+      <x>277</x>
+      <y>95</y>
       <width>133</width>
       <height>20</height>
      </rect>
@@ -373,8 +295,8 @@
    <widget class="QLineEdit" name="autocharge_yaw">
     <property name="geometry">
      <rect>
-      <x>218</x>
-      <y>768</y>
+      <x>277</x>
+      <y>580</y>
       <width>133</width>
       <height>20</height>
      </rect>
@@ -383,8 +305,8 @@
    <widget class="QLabel" name="s_ip">
     <property name="geometry">
      <rect>
-      <x>9</x>
-      <y>55</y>
+      <x>68</x>
+      <y>95</y>
       <width>78</width>
       <height>16</height>
      </rect>
@@ -396,8 +318,8 @@
    <widget class="QLabel" name="yaw">
     <property name="geometry">
      <rect>
-      <x>9</x>
-      <y>767</y>
+      <x>68</x>
+      <y>580</y>
       <width>18</width>
       <height>16</height>
      </rect>
@@ -409,34 +331,11 @@
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QLabel" name="maxcharg">
-    <property name="geometry">
-     <rect>
-      <x>9</x>
-      <y>343</y>
-      <width>102</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>小车电量的最大值:</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="deluge_gun_port">
-    <property name="geometry">
-     <rect>
-      <x>637</x>
-      <y>199</y>
-      <width>133</width>
-      <height>20</height>
-     </rect>
-    </property>
-   </widget>
    <widget class="QLabel" name="fenbushi">
     <property name="geometry">
      <rect>
-      <x>428</x>
-      <y>271</y>
+      <x>501</x>
+      <y>90</y>
       <width>54</width>
       <height>16</height>
      </rect>
@@ -448,34 +347,18 @@
    <widget class="QLineEdit" name="autocharge_y">
     <property name="geometry">
      <rect>
-      <x>218</x>
-      <y>695</y>
+      <x>277</x>
+      <y>508</y>
       <width>133</width>
       <height>20</height>
      </rect>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="yuanhongwai_port">
-    <property name="geometry">
-     <rect>
-      <x>637</x>
-      <y>343</y>
-      <width>133</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>COM11</string>
-    </property>
-    <property name="readOnly">
-     <bool>true</bool>
     </property>
    </widget>
    <widget class="QLineEdit" name="appserverip">
     <property name="geometry">
      <rect>
-      <x>218</x>
-      <y>415</y>
+      <x>709</x>
+      <y>308</y>
       <width>133</width>
       <height>20</height>
      </rect>
@@ -484,8 +367,8 @@
    <widget class="QLineEdit" name="robot_mac">
     <property name="geometry">
      <rect>
-      <x>218</x>
-      <y>199</y>
+      <x>277</x>
+      <y>239</y>
       <width>133</width>
       <height>20</height>
      </rect>
@@ -494,27 +377,11 @@
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QLineEdit" name="maxcharge">
-    <property name="geometry">
-     <rect>
-      <x>218</x>
-      <y>343</y>
-      <width>133</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>100</string>
-    </property>
-    <property name="readOnly">
-     <bool>false</bool>
-    </property>
-   </widget>
    <widget class="QLineEdit" name="wddy_port">
     <property name="geometry">
      <rect>
-      <x>637</x>
-      <y>487</y>
+      <x>708</x>
+      <y>237</y>
       <width>133</width>
       <height>20</height>
      </rect>

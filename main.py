@@ -7,10 +7,12 @@
 
 import sys
 import configparser
+import os
+import re
 # import socket
 import cv2
 import uuid
-import pic_rc
+# import pic_rc
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import QPixmap, QImage, QPen, QPainter
 from PyQt5.QtCore import QRect, Qt, QPoint
@@ -62,9 +64,9 @@ class MainWin(QMainWindow, Ui_MainWindow):
 
 
         # # 图片路径
-        img_path = (":/image_sy.jpg")     # "image_sy.jpg"
+        img_path = ("./image_sy.jpg")     # "image_sy.jpg"
         # # 加载图片,并自定义图片展示尺寸
-        image = QtGui.QPixmap(img_path).scaled(400, 400)
+        image = QtGui.QPixmap(img_path).scaled(407, 591)
 
         # # 显示图片
         self.pic_show_label.setPixmap(image)
@@ -88,10 +90,41 @@ class info(QMainWindow, Ui_info):
         mac_address = uuid.UUID(int=uuid.getnode()).hex[-12:].upper()
         mac_address = ':'.join([mac_address[i:i + 2] for i in range(0, 11, 2)])
         print(mac_address)
+        # 设置host_mac
         self.host_mac.setText(mac_address)
         self.yiqueren.setVisible((False))
+        # 获取小车mac地址
+        self.result = self.arp_command('192.168.8.2')
+        result_upper = self.result.upper()
+        resuli_mid = result_upper.split('-')
+        print(resuli_mid)
+        self.mac_robot= ':'.join(resuli_mid)
+        print(self.mac_robot)
 
+        self.robot_mac.setText(self.mac_robot)
 
+    def output_cmd(self, command):
+        r = os.popen(command)
+        content = r.read()
+        r.close()
+        return content
+
+    def arp_command(self, ip_address):
+        ping_cmd = "ping " + ip_address + " -n 2 "
+        result = self.output_cmd(ping_cmd)
+        find_ttl = result.find("TTL")
+        if find_ttl != -1:
+            arp_cmd = "arp -a %s" % ip_address
+            arp_result = self.output_cmd(arp_cmd)
+            ip2 = ip_address + " [ ]+([\w-]+)"
+            ip2_mac = re.findall(ip2, arp_result)
+            if len(ip2_mac):
+                return ip2_mac[0]
+            else:
+                return 0
+        else:
+            result = u'机器人地盘未启动'
+        return result
 
     # 保存机器人基本信息的Button响应函数
     def save_info(self):
@@ -100,12 +133,12 @@ class info(QMainWindow, Ui_info):
         host_mac = self.host_mac.text()  # 工控机物理地址
         robot_mac = self.robot_mac.text()  # 小车物理地址
         mincharge = self.mincharge.text()  # 小车最低电量
-        maxcharge = self.maxcharge.text()  # 小车最大电量
-        right_eye_port = self.right_eye_port.text()  # 右侧传感器串口
-        left_eye_port = self.left_eye_port.text()  # 左侧传感器串口
-        deluge_gun_port = self.deluge_gun_port.text()  # 水平转动端口
+        # maxcharge = self.maxcharge.text()  # 小车最大电量
+        # right_eye_port = self.right_eye_port.text()  # 右侧传感器串口
+        # left_eye_port = self.left_eye_port.text()  # 左侧传感器串口
+        # deluge_gun_port = self.deluge_gun_port.text()  # 水平转动端口
         fenbushi_port = self.fenbushi_port.text()  # 分布式传感器串口
-        yuanhongwai_port = self.yuanhongwai_port.text()  # 远红外摄像头串口
+        # yuanhongwai_port = self.yuanhongwai_port.text()  # 远红外摄像头串口
         duojizhuban_port = self.duojizhuban_port.text()  # 舵机主板串口
         wddy_port = self.wddy_port.text()  # 温度电压串口
         appserverip = self.appserverip.text()  # 后台手机APP端IP
@@ -123,12 +156,12 @@ class info(QMainWindow, Ui_info):
         robot_info.write("# 工控机的网络物理地址:\n host_mac = " + host_mac + "\n")
         robot_info.write("# 小车的网络物理地址:\n  robot_mac = " + robot_mac + "\n")
         robot_info.write("# 小车电量的最小值:\n mincharge = " + mincharge + "\n")
-        robot_info.write("# 小车电量的最大值:\n maxcharge = " + maxcharge + "\n")
-        robot_info.write("# 右传感器的端口:\n right_eye_port = " + right_eye_port + "\n")
-        robot_info.write("# 左传感器的端口:\n left_eye_port = " + left_eye_port + "\n")
-        robot_info.write("# 水平转动的端口:\n deluge_gun_port = " + deluge_gun_port + "\n")
+        # robot_info.write("# 小车电量的最大值:\n maxcharge = " + maxcharge + "\n")
+        # robot_info.write("# 右传感器的端口:\n right_eye_port = " + right_eye_port + "\n")
+        # robot_info.write("# 左传感器的端口:\n left_eye_port = " + left_eye_port + "\n")
+        # robot_info.write("# 水平转动的端口:\n deluge_gun_port = " + deluge_gun_port + "\n")
         robot_info.write("# 分布式传感器的端口:\n fenbushi_port = " + fenbushi_port + "\n")
-        robot_info.write("# 远红外摄像头的端口:\n yuanhongwai_port = " + yuanhongwai_port + "\n")
+        # robot_info.write("# 远红外摄像头的端口:\n yuanhongwai_port = " + yuanhongwai_port + "\n")
         robot_info.write("# 舵机主控板的端口:\n duojizhuban_port = " + duojizhuban_port + "\n")
         robot_info.write("# 温度电压的端口:\n wddy_port = " + wddy_port + "\n")
         robot_info.write("# 手机端后台服务器的IP地址:\n appserverip = " + appserverip + "\n")
@@ -555,7 +588,8 @@ class Ditu_fenbushi(QWidget, Ui_map):
 
         self.map_position.setPixmap(self.pixmap)
 
-        self.map_position.setCursor(Qt.CrossCursor)
+        # CrossCursor 十字型 PointingHandCursor 手型 ArrowCursor 箭头型
+        self.map_position.setCursor(Qt.ArrowCursor)
 
 
         # self.show()
@@ -627,6 +661,121 @@ class Ditu_fenbushi(QWidget, Ui_map):
         else:
             e.ignore()
 
+# 重写新的Qlabel类-对应分布式地图展示
+class Mylabel_fenbushi(QLabel):
+    def __init__(self, parent=None):
+        super(Mylabel_fenbushi, self).__init__(parent)
+        self.position = []
+        self.begin_point = QPoint()
+        self.end_point = QPoint()
+        self.position_point = []
+        self.position_str = []
+        self.flag_click = None  # 左键False 右键 True
+        self.flag_left = False
+        self.flag_right = False
+        self.flag_mid = False
+
+        self.pen1 = QPen()
+        self.pen1.setColor(Qt.blue)
+        self.pen1.setWidth(10)
+        self.pen2 = QPen()
+        self.pen2.setColor(Qt.red)
+        self.pen2.setWidth(10)
+
+        # 创建一个Qlabal实现鼠标位置跟踪，展示转变后坐标
+        self.label = QLabel(self)
+        self.label.setText('')
+        # 设定初始位置
+        print(self.label.height())
+        self.label.move(300, 300)
+        # 背景色和字体大小设置
+        self.label.setStyleSheet('background:white;font-size:15px;')
+        # 开启鼠标位置跟踪
+        self.setMouseTracking(True)
+        print(self.width(), self.height())
+
+
+    def mousePressEvent(self, event):
+        if event.button() == Qt.LeftButton:
+            self.flag_left = True
+        elif event.button() == Qt.RightButton:
+            self.flag_right = True
+
+    # 鼠标移动
+    def mouseMoveEvent(self, event):
+        # # if event.buttons() == Qt.LeftButton:
+        # #     self.end_point = event.pos()
+        # if event.buttons() and Qt.LeftButton:
+        #     self.endPoint = event.pos()
+        #
+        #     # self.update()
+        x = event.localPos().x()
+        y = event.localPos().y()
+        self.label.move(x, y)
+        # 设置标签的显示
+        p_move = ",".join([str(i) for i in [int((x - self.width() / 2) * 0.05 * 1000) / 1000,
+                                            int((self.height() / 2 - y) * 0.05 * 1000) / 1000, 0]])
+        self.label.setText('(' + p_move + ')')
+        # 自适应大小：因为x的坐标可能是0，有可能是100，y同理，所以label长度需要自适应
+        self.label.adjustSize()
+        print(self.height(), self.width())
+        print("原先", x, y)
+        print("当前鼠标坐标:", p_move)
+
+    def mouseReleaseEvent(self, event):
+        painter_p = QPainter(self.pixmap())
+        self.end_point = event.pos()
+
+        if event.button() == Qt.LeftButton:
+            self.position_point.append(self.end_point)
+            print(int((self.position_point[-1].x()-self.width()/2)*0.05*1000)/1000,type((self.position_point[-1].x()-self.width()/2)*0.05))
+            # 将坐标点坐标转换为str类型
+            position_int_str =",".join( [str(i) for i in[int((self.position_point[-1].x()-self.width()/2)*0.05*1000)/1000, int((self.height()/2-self.position_point[-1].y())*0.05*1000)/1000, 0]])
+            # 各个坐标点写入列表
+            self.position_str.append(position_int_str)
+            # print(round(self.position_str[0],3))
+            self.fenbushi_poi = self.position_str[0]
+            # print(self.fenbushi_poi)
+            self.fenbushi_poilist = self.position_str[1:]
+            self.position= ";".join(self.fenbushi_poilist)
+            # print(self.height(), self.width())
+            # # self.position.append([(self.x0-self.map_position.width()/2)*0.05, (self.map_position.height()/2-self.y0)*0.05, 0])
+            print(self.position)
+
+            # 设置线颜色（蓝）粗细形式
+            if len(self.position_point) == 1:
+                painter_p.setPen(QPen(self.pen1))
+                painter_p.drawPoint(self.position_point[0])
+            else:
+                painter_p.setPen(QPen(self.pen2))
+                # 画点
+                # painter_p.drawPoint(self.begin_point)
+                painter_p.drawPoint(self.position_point[-1])
+        elif event.button() == Qt.RightButton and len(self.position_point) > 0:
+            painter_p.setPen(QPen(Qt.white, 10))
+            painter_p.drawPoint(self.position_point[-1])
+            del self.position_point[-1]
+            # 各个坐标点写入列表
+            del self.position_str[-1]
+            # print(round(self.position_str[0],3))
+            self.fenbushi_poi = self.position_str[0]
+            # print(self.fenbushi_poi)
+            self.fenbushi_poilist = self.position_str[1:]
+            self.position = ";".join(self.fenbushi_poilist)
+            # print(self.height(), self.width())
+            # # self.position.append([(self.x0-self.map_position.width()/2)*0.05, (self.map_position.height()/2-self.y0)*0.05, 0])
+            print(self.position)
+
+        self.update()
+
+
+
+    def paintEvent(self, event):
+        super().paintEvent(event)
+
+        # 实现双缓冲
+        painter2 = QPainter(self)
+        painter2.drawPixmap(0, 0, self.pixmap())
 
 # 创建巡逻路线地图类并传入Ui_map
 class Ditu_xunluoluxian(QWidget, Ui_map):
@@ -652,8 +801,8 @@ class Ditu_xunluoluxian(QWidget, Ui_map):
         self.pixmap = QPixmap.fromImage(QImg)
 
         self.map_position.setPixmap(self.pixmap)
-
-        self.map_position.setCursor(Qt.CrossCursor)
+        # CrossCursor 十字型 PointingHandCursor 手型 ArrowCursor 箭头型
+        self.map_position.setCursor(Qt.ArrowCursor)
 
         # self.show()
 
@@ -699,183 +848,207 @@ class Ditu_xunluoluxian(QWidget, Ui_map):
         else:
             e.ignore()
 
-
-# 重写新的Qlabel类-对应分布式地图展示
-class Mylabel_fenbushi(QLabel):
-    def __init__(self, parent=None):
-        super(Mylabel_fenbushi, self).__init__(parent)
-        self.x0 = 0
-        self.y0 = 0
-        self.flag = False
-        self.position = []
-        self.begin_point = QPoint()
-        self.end_point = QPoint()
-        self.position_str = []
-        self.pen1 = QPen()  # 1
-        self.pen1.setColor(Qt.blue)
-        self.pen1.setWidth(10)
-        self.pen2 = QPen()
-        self.pen2.setColor(Qt.red)
-        self.pen2.setWidth(10)
-
-
-    def mousePressEvent(self, event):
-            self.flag = True
-            self.x0 = event.x()
-            self.y0 = event.y()
-            # self.update()
-
-    def mouseReleaseEvent(self, event):
-        self.flag = False
-        self.end_point = event.pos()
-        if not self.begin_point:
-            self.begin_point = self.end_point
-            # self.fenbushi_loc = [(self.x0-self.width()/2)*0.05, (self.height()/2-self.y0)*0.05, 0]
-            # print(self.fenbushi_loc,111111)
-        print(int((self.x0-self.width()/2)*0.05*1000)/1000 ,type((self.x0-self.width()/2)*0.05))
-        # 将坐标点坐标转换为str类型
-        position_int_str =",".join( [str(i) for i in[int((self.x0-self.width()/2)*0.05*1000)/1000, int((self.height()/2-self.y0)*0.05*1000)/1000, 0]])
-        # 各个坐标点写入列表
-        self.position_str.append(position_int_str)
-        # print(round(self.position_str[0],3))
-        self.fenbushi_poi = self.position_str[0]
-        # print(self.fenbushi_poi)
-        self.fenbushi_poilist = self.position_str[1:]
-        self.position= ";".join(self.fenbushi_poilist)
-        # print(self.height(), self.width())
-        # # self.position.append([(self.x0-self.map_position.width()/2)*0.05, (self.map_position.height()/2-self.y0)*0.05, 0])
-        print(self.position)
-        # print(self.begin_point)
-        # print(self.end_point)
-
-        self.update()
-
-
-
-    def paintEvent(self, event):
-        super().paintEvent(event)
-        # 实例化QPainter
-        # painter = QPainter(self.pixmap())
-        # # 设置线颜色（蓝）粗细形式
-        # painter.setPen(QPen(Qt.blue, 4, Qt.SolidLine))
-        # # 开始绘画
-        # painter.begin(self)
-        # # 画线
-        # painter.drawLine(self.begin_point, self.end_point)
-        # # 将前一个点赋值给起点，保证连续画线
-        # self.begin_point = self.end_point
-        # # 结束绘画
-        # painter.end()
-
-        painter_p = QPainter(self.pixmap())
-        # 设置线颜色（蓝）粗细形式
-        if self.begin_point == self.end_point:
-
-            painter_p.setPen(QPen(self.pen1))
-            painter_p.drawPoint(self.begin_point)
-
-        else:
-            painter_p.setPen(QPen(self.pen2))
-            # 开始绘画
-            painter_p.begin(self)
-            # 画点
-            # painter_p.drawPoint(self.begin_point)
-            painter_p.drawPoint(self.end_point)
-            # 将前一个点赋值给起点，保证连续画线
-            self.begin_point = self.end_point
-            # 结束绘画
-            painter_p.end()
-
-        # 实现双缓冲
-        painter2 = QPainter(self)
-        painter2.drawPixmap(0, 0, self.pixmap())
-
-
 # 重写新的Qlabel类-对应巡逻路线地图展示
 class Mylabel_xunluoluxian(QLabel):
     def __init__(self, parent=None):
         super(Mylabel_xunluoluxian, self).__init__(parent)
+
         self.x0 = 0
         self.y0 = 0
-        self.flag = False
+        self.flag_left = False
+        self.flag_right = False
+        self.flag_mid = False
+        self.position_point = []
         self.position = []
         self.begin_point = QPoint()
         self.end_point = QPoint()
         self.position_str = []
-        # global get_directory_path
-        # read_info = configparser.ConfigParser()
-        # read_info.read(get_directory_path + "/" + "info" + ".conf")
-        # with open("./info.conf", 'r') as read_info:
-        #     x = read_info.read()
-        #     print(x,type(x))
-        # read_info = open("./info.conf", "r+")
-        # x = read_info.read()
-        # information = info()
-        # x=information.autocharge_x.text()
-        # print(x,type(x))
-        # self.charge_point = [float(information.x()) *0.05+self.width()/2, self.height()/2-float(information.y())*0.05, 0]
+        self.flag_click = None  # 左键False 右键 True
 
+
+        global get_directory_path
+        get_directory_path = "C:/Users/zxcwa/Desktop/info.conf"
+        read_info = configparser.ConfigParser()
+        read_info.read(get_directory_path )
+        sections = read_info.sections()
+        for i in sections:
+            self.x0 = float(read_info[i]["autocharge_x"])
+
+            self.y0 = float(read_info[i]["autocharge_y"])
+
+        # 创建一个Qlabal实现鼠标位置跟踪，展示转变后坐标
+        self.label = QLabel(self)
+        self.label.setText('')
+        # 设定初始位置
+        print(self.label.height())
+        self.label.move(300, 300)
+        # 背景色和字体大小设置
+        self.label.setStyleSheet('background:white;font-size:15px;')
+        # 开启鼠标位置跟踪
+        self.setMouseTracking(True)
+        print(self.width(), self.height())
+
+    # 鼠标点击未释放
     def mousePressEvent(self, event):
-        self.flag = True
-        self.x0 = event.x()
-        self.y0 = event.y()
-        # self.update()
+        if event.button() == Qt.LeftButton:
+            self.flag_left = True
+        elif event.button() == Qt.RightButton:
+            self.flag_right = True
 
+    #鼠标移动
+    def mouseMoveEvent(self, event):
+        x = event.localPos().x()
+        y = event.localPos().y()
+        self.label.move(x, y)
+        # 设置标签的显示
+        p_move = ",".join( [str(i) for i in[int((x-self.width()/2)*0.05*1000)/1000, int((self.height()/2-y)*0.05*1000)/1000, 0]])
+        self.label.setText('(' + p_move + ')')
+        # 自适应大小：因为x的坐标可能是0，有可能是100，y同理，所以label长度需要自适应
+        self.label.adjustSize()
+        print(self.height(),self.width())
+        print("原先", x, y)
+        print("当前鼠标坐标:", p_move)
+
+
+    # 鼠标释放
     def mouseReleaseEvent(self, event):
-        self.flag = False
-        self.end_point = event.pos()
-        # with open("./info.conf", 'r') as read_info:
-        #     x = read_info.read()
-        #     print(x,type(x))
-        if not self.begin_point:
-            self.begin_point = self.end_point
-            # self.begin_point = self.charge_point
-        # 将坐标点坐标转换为str类型
-        position_int_str =",".join( [str(i) for i in[int((self.x0-self.width()/2)*0.05*1000)/1000, int((self.height()/2-self.y0)*0.05*1000)/1000, 0]])
-        # 各个坐标点写入列表
-        self.position_str.append(position_int_str)
-        self.position= ";".join(self.position_str)
-        print(self.height(), self.width())
-        # self.position.append([(self.x0-self.map_position.width()/2)*0.05, (self.map_position.height()/2-self.y0)*0.05, 0])
-        print(self.position)
-        print(self.begin_point)
-        print(self.end_point)
+        # 实例化Qpainter对象
+        painter = QPainter(self.pixmap())
+        # 鼠标左键添加操作
+        if event.button() == Qt.LeftButton and not self.flag_mid:
+            # 获取点击位置信息
+            self.end_point = event.pos()
 
-        self.update()
+            # 依次存储点击位置信息
+            self.position_point.append(self.end_point)
+            # 充电点坐标转换
+            self.x0_tr = self.x0 / 0.05 + self.width() / 2
+            self.y0_tr = self.height() / 2 - self.y0 / 0.05
+            # print(self.x0, self.x0_tr, self.y0, self.y0_tr, self.width(), self.height())
+            # 设置充电点颜色大小
+            painter.setPen(QPen(Qt.green, 10))
+            # 画充电点
+
+            painter.drawPoint(int(self.x0_tr), int(self.y0_tr))
+
+            # 设置点颜色大小
+            painter.setPen(QPen(Qt.red, 10))
+            # 画点
+            painter.drawPoint(self.position_point[-1])
+            self.flag_left = False
+            print(self.position_point)
+            print(self.position_point[0].x())
+            # 鼠标点击flag改为False，代表左键
+            self.flag_click = False
+            # 将坐标点坐标转换为str类型
+            position_int_str = ",".join([str(i) for i in [int((self.position_point[-1].x() - self.width() / 2) * 0.05 * 1000) / 1000,
+                                                          int((self.height() / 2 - self.position_point[-1].y()) * 0.05 * 1000) / 1000, 0]])
+            # 各个坐标点写入列表
+            self.position_str.append(position_int_str)
+            self.position = ";".join(self.position_str)
+            print(self.height(), self.width())
+            # self.position.append([(self.x0-self.map_position.width()/2)*0.05, (self.map_position.height()/2-self.y0)*0.05, 0])
+            print(self.position)
+            print(self.begin_point)
+            print(self.end_point)
+
+            self.update()
+        # 鼠标右键撤销操作
+        elif event.button() == Qt.RightButton:
+            if self.position_point:
+                # 设置取消点颜色
+                if not self.flag_mid:
+                    painter.setPen(QPen(Qt.white, 10))
+                    painter.drawPoint(self.position_point[-1])
+            elif len(self.position_point) == 0:
+                print('xiaochu')
+                painter.setPen(QPen(Qt.white, 10))
+                painter.drawPoint(int(self.x0_tr), int(self.y0_tr))
+
+            self.flag_right = False
+
+            print(self.position_point)
+            # 鼠标点击flag改为True，代表右键
+            self.flag_click = True
+
+            self.update()
+
+        if len(self.position_point) >= 1 and event.button:
+            if not self.flag_click and not self.flag_mid:
+                print(len(self.position_point),1)
+                # 设置线颜色大小
+                painter.setPen(QPen(Qt.blue, 4, Qt.SolidLine))
+                if len(self.position_point) == 1 :
+                    painter.drawLine(int(self.x0_tr),int(self.y0_tr),int(self.position_point[0].x()),int(self.position_point[0].y()))
+                    # print(type(self.x0),self.y0,type(self.position_point[0].x()),self.position_point[0].y())
+                # painter.setPen(QPen(Qt.blue, 4, Qt.SolidLine))
+                else:
+                    painter.drawLine(self.position_point[-2], self.position_point[-1])
+                    # print(self.x0_tr, self.y0_tr, self.position_point[0].x(), self.position_point[0].y())
+                self.flag_click = None
+                self.update()
+
+            if event.button() == Qt.MidButton:
+                painter.setPen(QPen(Qt.blue, 4, Qt.SolidLine))
+                painter.drawLine(self.position_point[-1].x(), self.position_point[-1].y(), int(self.x0_tr),
+                                 int(self.y0_tr))
+                self.flag_mid = True
+
+            if self.flag_click :
+                print(len(self.position_point),2)
+                # 设置取消线颜色大小
+                painter.setPen(QPen(Qt.white, 4, Qt.SolidLine))
+                if self.flag_mid:
+                    painter.drawLine(self.position_point[-1].x(), self.position_point[-1].y(), int(self.x0_tr),
+                                     int(self.y0_tr))
+                    self.flag_mid = False
+                elif len(self.position_point) == 1:
+                    painter.drawLine(int(self.x0_tr), int(self.y0_tr), int(self.position_point[0].x()),
+                                     int(self.position_point[0].y()))
+                    if len(self.position_point) == 1:
+                        self.position_point = []
+                    self.position_str = []
+                    self.position = ";".join(self.position_str)
+                    print(self.height(), self.width())
+                    # self.position.append([(self.x0-self.map_position.width()/2)*0.05, (self.map_position.height()/2-self.y0)*0.05, 0])
+                    print(self.position)
+                    print(self.begin_point)
+                    print(self.end_point)
+                # elif len(self.position_point) == 0:
+                #     print('xiaochu')
+                #     painter.drawPoint(int(self.x0_tr), int(self.y0_tr))
+                else:
+                    painter.drawLine(self.position_point[-2], self.position_point[-1])
+                # 删除最后一个点
+
+                    del self.position_point[-1]
+                    del self.position_str[-1]
+                    self.position = ";".join(self.position_str)
+                    print(self.height(), self.width())
+                    # self.position.append([(self.x0-self.map_position.width()/2)*0.05, (self.map_position.height()/2-self.y0)*0.05, 0])
+                    print(self.position)
+                    print(self.begin_point)
+                    print(self.end_point)
+                    print(len(self.position_point))
+                self.update()
+            self.flag_click = None
+            self.update()
+
+    # 鼠标滚轮事件
+    #滚轮滑动事件
+
+    # def wheelEvent(self, event):
 
 
 
     def paintEvent(self, event):
         super().paintEvent(event)
-        # 实例化QPainter
-        painter = QPainter(self.pixmap())
-        # 设置线颜色（蓝）粗细形式
-        painter.setPen(QPen(Qt.blue, 4, Qt.SolidLine, Qt.RoundCap))
-        # 开始绘画
-        painter.begin(self)
-        # 画线
-        painter.drawLine(self.begin_point, self.end_point)
-        # 将前一个点赋值给起点，保证连续画线
-        self.begin_point = self.end_point
-        # 结束绘画
-        painter.end()
-
-        painter_p = QPainter(self.pixmap())
-        # 设置点颜色形状
-        painter_p.setPen(QPen(Qt.red, 10))
-        # 开始绘画
-        painter_p.begin(self)
-        # 画点
-        painter_p.drawPoint(self.begin_point)
-        painter_p.drawPoint(self.end_point)
-        # 将前一个点赋值给起点，保证连续画线
-        self.begin_point = self.end_point
-        # 结束绘画
-        painter_p.end()
-
-        # 实现双缓冲
+        # # 实现双缓冲
         painter2 = QPainter(self)
         painter2.drawPixmap(0, 0, self.pixmap())
+
+
+
 
 # 界面切换函数
 def menu_triggered(mwindow, info_m, planwork_m, fenbushi_m):
@@ -1062,7 +1235,7 @@ def main():
     map_x_10 = Ditu_xunluoluxian()
 
     xunluoluxian_w.xunluoluxian_button[0].clicked.connect(map_x_1.show)
-    xunluoluxian_w.xunluoluxian_button[0].clicked.connect(lambda :change_xunluoluxian_flag(1))
+    xunluoluxian_w.xunluoluxian_button[0].clicked.connect(lambda: change_xunluoluxian_flag(1))
 
     xunluoluxian_w.xunluoluxian_button[1].clicked.connect(map_x_2.show)
     xunluoluxian_w.xunluoluxian_button[1].clicked.connect(lambda: change_xunluoluxian_flag(2))
@@ -1090,15 +1263,6 @@ def main():
 
     xunluoluxian_w.xunluoluxian_button[9].clicked.connect(map_x_10.show)
     xunluoluxian_w.xunluoluxian_button[9].clicked.connect(lambda: change_xunluoluxian_flag(10))
-
-
-    # mwindow.sb.clicked.connect(map_w.show)
-    # fenbushi_m.fenbushi_editButton[0].clicked.connect(map_w.show)
-    # fenbushi_m.fenbushi_editButton[1].clicked.connect(map_m.show)
-    # for i in range(15):
-    #     exec("map_%s = Ditu()" % i)
-    #     # fenbushi_m.fenbushi_editButton[i].clicked.connect(map_w.show)
-
 
     sys.exit(app.exec_())
 

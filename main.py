@@ -12,6 +12,7 @@ import re
 # import socket
 import cv2
 import uuid
+import subprocess
 # import pic_rc
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import QPixmap, QImage, QPen, QPainter
@@ -27,6 +28,7 @@ from fenbushi import *
 from info import *
 from xunluoluxian import *
 from ditu import *
+from login import *
 # from setting import *
 # from map import *
 
@@ -47,6 +49,58 @@ xunluoluxian_list = [0 for i in range(0, 10)]
 fenbushi_flag = 0
 xunluoluxian_flag = 0
 
+
+# 创建登录窗口并传入Ui_login
+# class login(QWidget, Ui_login):
+#     """
+#     添加登录窗口类
+#     """
+#
+#     def __init__(self, parent=None):
+#         super(login, self).__init__(parent)
+#         self.setupUi(self)
+#         self.flag_login = False
+#         # self.login_user = self.lineEdit.text()
+#         # self.login_password = self.lineEdit_2.text()
+#         # print(self.login_user, self.login_password, 1)
+#         self.pushButton.clicked.connect(self.word_get)
+#         # login_w.pushButton.clicked.connect(login_w.close)
+#         # print(login_w.flag_login)
+#         # print(login_w.login_user, login_w.login_password, 2, type(login_w.login_password))
+#         # while login_w.flag_login:
+#         #     login_w.pushButton.clicked.connect(login_w.close)
+#     # 判断是否输入账号密码以及正确与否
+#     def word_get(self):
+#         self.login_user = self.lineEdit.text()
+#         self.login_password = self.lineEdit_2.text()
+#         print(self.login_user, self.login_password, 2, type(self.login_password))
+#
+#         if self.login_user is 'admin' and self.login_password is '123456':
+#             self.flag_login = True
+#             print(33)
+#             return self.flag_login
+#             print(self.flag_login)
+#         else:
+#             # # self.box = QMessageBox(QMessageBox.warning, "警告,用户名或密码错误！")
+#             # # qyes = self.box.addButton(self.tr("是"), QMessageBox.YesRole)
+#             # # # QMessageBox(QMessageBox.Warning, "系统提示信息", "是否完成配置并退出地图？")
+#             # self.box = QMessageBox(QMessageBox.Warning, "系统提示信息", "是否完成配置并退出地图？")
+#             # qyes = self.box.addButton(self.tr("是"), QMessageBox.YesRole)
+#             # qno = self.box.addButton(self.tr("否"), QMessageBox.NoRole)
+#             # # self.box.exec_()
+#             # if self.box.clickedButton() == qyes:
+#             #     self.box.exec_()
+#
+#
+#                 # sys.exit().accept()
+#
+#             # else:
+#             #     self.box.exec_()
+#             self.flag_login = False
+#             return self.flag_login
+#             print(self.flag_login)
+#             # self.lineEdit.setFocus()
+#         print(self.flag_login)
 
 
 # 创建mainWin类并传入Ui_MainWindow
@@ -71,6 +125,7 @@ class MainWin(QMainWindow, Ui_MainWindow):
         # # 显示图片
         self.pic_show_label.setPixmap(image)
 
+
     # 打开文件夹选择页面，选择生成文件保存路径
     def openFile(self):
         global get_directory_path
@@ -94,7 +149,7 @@ class info(QMainWindow, Ui_info):
         self.host_mac.setText(mac_address)
         self.yiqueren.setVisible((False))
         # 获取小车mac地址
-        self.result = self.arp_command('192.168.8.2')
+        self.result = self.arp_command('172.18.2.139')
         result_upper = self.result.upper()
         resuli_mid = result_upper.split('-')
         print(resuli_mid)
@@ -123,7 +178,7 @@ class info(QMainWindow, Ui_info):
             else:
                 return 0
         else:
-            result = u'机器人地盘未启动'
+            result = u'机器人底盘未启动'
         return result
 
     # 保存机器人基本信息的Button响应函数
@@ -293,8 +348,6 @@ class fenbushi(QMainWindow, Ui_fenbushi):
         robot_fenbushi.close()
 
         self.yiqueren.setVisible(True)
-
-
 
 
 # 创建planwork主窗口并传入Ui_planwork
@@ -1048,8 +1101,6 @@ class Mylabel_xunluoluxian(QLabel):
         painter2.drawPixmap(0, 0, self.pixmap())
 
 
-
-
 # 界面切换函数
 def menu_triggered(mwindow, info_m, planwork_m, fenbushi_m):
     # 主窗口菜单页面切换
@@ -1091,7 +1142,6 @@ def menu_triggered(mwindow, info_m, planwork_m, fenbushi_m):
     planwork_m.actionRobot_info.triggered.connect(planwork_m.close)
 
 
-
 def change_fenbushi_flag(n):
     global fenbushi_flag
     fenbushi_flag = n
@@ -1115,12 +1165,20 @@ def main():
     planwork_m = planwork()
     fenbushi_m = fenbushi()
     xunluoluxian_w = xunluoluxian()
-
+    # login_w = login()
     # map_m = Ditu()
     # 展示主窗口
-
     mwindow.show()
 
+    #
+    # login_w.show()
+
+    # login_w.pushButton.clicked.connect(login_w.word_get)
+    # # login_w.pushButton.clicked.connect(login_w.close)
+    # print(login_w.flag_login)
+    # print(login_w.login_user, login_w.login_password, 2, type(login_w.login_password))
+    # while login_w.flag_login:
+    #     login_w.pushButton.clicked.connect(login_w.close)
     #调用页面切换函数
     menu_triggered(mwindow, info_m, planwork_m, fenbushi_m)
 
